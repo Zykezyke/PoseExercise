@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#3C628F</color>
+    <color name="backgroundFill">#F1F1F1</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#C4C4C4</color>
+    <color name="blueButton">#5362F6</color>
+    <color name="textGray">#8C9092</color>
+    <color name="red">#FF0909</color>
+    <color name="orange">#FD812E</color>
+    <color name="yellow">#F9FD2E</color>
+    <color name="lightGreen">#95FD2E</color>
+    <color name="green">#00B312</color>
+
+    <color name="underweight">#2196F3</color>
+    <color name="normal">#4CAF50</color>
+    <color name="overweight">#FFC107</color>
+    <color name="obese">#F44336</color>
+    <color name="error">#B00020</color>
+
+    <color name="navy_blue">#3C628F</color>
+    <color name="light_blue">#B3C9E4</color>
+    <color name="NavyBlue">#28405C</color>
+    <color name="dark_light_blue">#6181a8</color>
+
+
+    <color name="texttitlelight">#28405C</color>
+    <color name="textsubtitlelight">#3C628F</color>
+    <color name="texttitledark">#86A4C8</color>
+    <color name="textsubtitledark">#4B83C5</color>
+
+    <color name="dayinput">#E5E5E5</color>
+    <color name="nightinput">#FFFFFF</color>
+</resources>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?background"
+    tools:context=".Profile">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="409dp"
+        android:layout_height="243dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="EMAIL"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextTextEmailAddress2"
+            android:layout_width="314dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_inputedit"
+            android:ems="10"
+            android:enabled="false"
+            android:fontFamily="sans-serif-condensed"
+            android:inputType="textEmailAddress"
+            android:text="email@gmail.com"
+            android:textAlignment="center"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="NAME"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextText2"
+            android:layout_width="313dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_inputedit"
+            android:ems="10"
+            android:enabled="false"
+            android:fontFamily="sans-serif-condensed"
+            android:inputType="text"
+            android:text="email"
+            android:textAlignment="center"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="PASSWORD"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextTextPassword2"
+            android:layout_width="312dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_inputedit"
+            android:ems="10"
+            android:enabled="false"
+            android:fontFamily="sans-serif-condensed"
+            android:inputType="textPassword"
+            android:text="something"
+            android:textAlignment="center"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/antonio"
+        android:text="Profile"
+        android:textColor="?android:subtitleTextAppearance"
+        android:textSize="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.206" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        android:fontFamily="@font/antonio"
+        android:text="Your"
+        android:textColor="?android:titleTextAppearance"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.156" />
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="47dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
+    <LinearLayout
+        android:layout_width="403dp"
+        android:layout_height="192dp"
+        android:layout_marginTop="92dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="#3C628F"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:text="EDIT"
+            android:textColor="?textAppearanceButton"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnStat"
+            android:layout_width="330dp"
+            android:layout_height="49dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="#3C628F"
+            android:fontFamily="sans-serif-condensed"
+            android:text="VIEW STATISTICS"
+            android:textColor="?textAppearanceButton"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnDeact"
+            android:layout_width="330dp"
+            android:layout_height="49dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="#3C628F"
+            android:fontFamily="sans-serif-condensed"
+            android:text="DEACTIVATE ACCOUNT"
+            android:textColor="?textAppearanceButton"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "437317577592",
+    "firebase_url": "https://formfix-221ea-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "formfix-221ea",
+    "storage_bucket": "formfix-221ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437317577592:android:f7bfdd00234607a8e8b68d",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUtJ7DI6iC4jS1BVOQ_xTfEVlpWO6mjI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437317577592:android:13ce68459effd500e8b68d",
+        "android_client_info": {
+          "package_name": "com.example.poseexercise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUtJ7DI6iC4jS1BVOQ_xTfEVlpWO6mjI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
