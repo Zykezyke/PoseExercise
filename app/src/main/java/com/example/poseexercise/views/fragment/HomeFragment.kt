@@ -75,15 +75,10 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Initialize RecyclerView and its adapter for recent activity
-        progressText = view.findViewById(R.id.exercise_left)
-        recyclerView = view.findViewById(R.id.today_plans)
         recentActivityRecyclerView = view.findViewById(R.id.recentActivityRecyclerView)
         recentActivityAdapter = RecentActivityAdapter(emptyList())
         recentActivityRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         recentActivityRecyclerView.adapter = recentActivityAdapter
-        noPlanTV = view.findViewById(R.id.no_plan)
-        progressBar = view.findViewById(R.id.progress_bar)
-        progressPercentage = view.findViewById(R.id.progress_text)
         // Initialize ViewModel
         resultViewModel = ResultViewModel(MyApplication.getInstance())
         lifecycleScope.launch {
@@ -119,9 +114,7 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         lifecycleScope.launch(Dispatchers.IO) {
             val result1 = homeViewModel.getPlanByDay(today)
             val result2 = homeViewModel.getNotCompletePlans(today)
-            withContext(Dispatchers.Main) {
-                updateResultFromDatabase(result1, result2)
-            }
+
         }
 
         // Handle back press to navigate to Home activity
@@ -137,45 +130,14 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
             }
         )
 
-        workoutButton = view.findViewById(R.id.workoutButton)
         goHomeButton = view.findViewById(R.id.goHomeButton)
 
-        workoutButton.setOnClickListener {
-            val intent = Intent(requireActivity(), WorkoutActivity::class.java)
-            startActivity(intent)
-        }
         goHomeButton.setOnClickListener {
             val intent = Intent(requireActivity(), Home::class.java)
             startActivity(intent)
         }
     }
 
-    private fun updateResultFromDatabase(plan: List<Plan>?, notCompleted: MutableList<Plan>?) {
-        planList = plan
-        notCompletePlanList = notCompleted
-        adapter = PlanAdapter(requireContext())
-        planList?.let {
-            if (it.isNotEmpty()) {
-                it.map { plan ->
-                    if (plan.timeCompleted?.let { it1 -> getDayFromTimestamp(it1) } != today) {
-                        lifecycleScope.launch {
-                        }
-                    }
-                }
-            } else {
-                Log.d(TAG, "plan list is empty")
-            }
-        }
-
-//        Display the not completed plans
-        val exerciseLeftString =
-            resources.getString(R.string.exercise_left, notCompletePlanList?.size ?: 0)
-        progressText.text = exerciseLeftString
-        recyclerView.adapter = adapter
-        adapter.setListener(this)
-        notCompletePlanList?.let { adapter.setPlans(it) }
-        updateEmptyPlan(notCompletePlanList)
-    }
 
 
     private fun loadDataAndSetupChart() {
@@ -183,39 +145,11 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
             // Fetch workout results asynchronously
             workoutResults = resultViewModel.getAllResult()
 
-            // Fetch plans for today
-            val todayExercisePlans = homeViewModel.getPlanByDay(today)
 
-            withContext(Dispatchers.Main) {
-                // Calculate progress and update UI
-                val totalPlannedRepetitions = todayExercisePlans?.sumOf { it.repeatCount } ?: 0
-                val totalCompletedRepetitions =
-                    workoutResults?.sumOf { it.repeatedCount } ?: 0
-                val progressPercentage = if (totalPlannedRepetitions != 0) {
-                    ((totalCompletedRepetitions.toDouble() / totalPlannedRepetitions) * 100).toInt()
-                } else {
-                    0
-                }
-                // Update the ProgressBar and TextView with the progress percentage
-                updateProgressViews(progressPercentage)
-            }
         }
     }
 
-    // Function to update progress views (ProgressBar and TextView)
-    private fun updateProgressViews(progress: Int) {
-        // Check if progressPercentage is greater than 0
-        if (progress > 0) {
-            // Update progress views (ProgressBar and TextView)
-            val cappedProgress = min(progress, 100)
-            progressBar.progress = cappedProgress
-            progressPercentage.text = String.format("%d%%", cappedProgress)
-        } else {
-            // If progressPercentage is 0 or less, hide the progress views
-            progressBar.visibility = View.GONE
-            progressText.visibility = View.GONE
-        }
-    }
+
 
     // Return true if the timestamp is today's date
     private fun isToday(s: Long, locale: Locale = Locale.getDefault()): Boolean {
