@@ -9,10 +9,13 @@ data class Exercise(
     val id: Long,
     val name: String,
     val image: Int?,
+    val muscleTargetImage: Int?, // New: Image showing targeted muscle groups
     val calorie: Double,
     val level: String,
     val steps: List<String>,
-    val targetMuscles: List<String>
+    val targetMuscles: List<String>,
+    val properFormGuide: List<String>, // New: Detailed guide on maintaining proper form
+    val commonMistakesToAvoid: List<String> // New: Typical errors to be mindful of
 )
 
 /**

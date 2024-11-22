@@ -349,6 +349,7 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun updatePasswordRequirements(password: String) {
+        val validateObject = ValidationClass()
         val requirements = StringBuilder()
         requirements.append("Password must:\n")
 
@@ -376,11 +377,10 @@ class SignUp : AppCompatActivity() {
             requirements.append("• Contain at least 1 number ✓\n")
         }
 
-        val special = Pattern.compile("[!@#$%&*()_+=|<>{}\\[\\]~-]")
-        if (!special.matcher(password).find()) {
-            requirements.append("• Contain at least 1 special character ❌")
+        if (!validateObject.containsAllowedSpecialChar(password)) {
+            requirements.append("• Contain at least 1 special character (^$*.[]{}()?\"!@#%&/\\,><':;|_~) ❌")
         } else {
-            requirements.append("• Contain at least 1 special character ✓")
+            requirements.append("• Contain at least 1 special character (^$*.[]{}()?\"!@#%&/\\,><':;|_~) ✓")
         }
 
         passwordRequirements = requirements.toString()

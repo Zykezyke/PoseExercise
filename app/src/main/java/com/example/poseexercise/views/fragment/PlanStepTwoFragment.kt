@@ -44,9 +44,12 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
         val repeatEditText = view.findViewById<EditText>(R.id.repeat_count)
         val addPlanButton = view.findViewById<Button>(R.id.button)
         val exerciseImage = view.findViewById<ImageView>(R.id.exercise_image)
+        val muscleTargetImage = view.findViewById<ImageView>(R.id.muscle_target_image)
         val exerciseDetails = view.findViewById<TextView>(R.id.exercise_details)
         val backBtn = view.findViewById<ImageView>(R.id.backBtn)
         val timeBtn = view.findViewById<Button>(R.id.timer_button)
+        val properFormGuide = view.findViewById<TextView>(R.id.proper_form_guide)
+        val commonMistakes = view.findViewById<TextView>(R.id.common_mistakes)
 
         // Set the default value for the exercise
         val exerciseNameText = view.findViewById<TextView>(R.id.exercise_name_header)
@@ -56,7 +59,10 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
         val exercise = Constants.getExerciseList().find { it.name == mExerciseName }
         exercise?.let {
             // Set exercise image
-            it.image?.let { it1 -> exerciseImage.setImageResource(it1) }
+            it.image?.let { imgRes -> exerciseImage.setImageResource(imgRes) }
+
+            // Set muscle target image
+            it.muscleTargetImage?.let { targetImgRes -> muscleTargetImage.setImageResource(targetImgRes) }
 
             // Build and set exercise details text
             val detailsBuilder = StringBuilder()
@@ -68,6 +74,16 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
                 detailsBuilder.append("${index + 1}. $step\n")
             }
             exerciseDetails.text = detailsBuilder.toString()
+
+            // Set proper form guide
+            properFormGuide.text = it.properFormGuide.mapIndexed { index, guide ->
+                "${index + 1}. $guide"
+            }.joinToString("\n")
+
+            // Set common mistakes to avoid
+            commonMistakes.text = it.commonMistakesToAvoid.mapIndexed { index, mistake ->
+                "${index + 1}. $mistake"
+            }.joinToString("\n")
         }
 
         // Set the min and max value for Repeat count

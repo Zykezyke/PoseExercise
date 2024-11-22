@@ -6,6 +6,17 @@ import javax.mail.Session
 import java.util.*
 
 class ValidationClass {
+
+    public fun containsAllowedSpecialChar(password: String): Boolean {
+        val allowedSpecialChars = setOf(
+            '^', '$', '*', '.', '[', ']', '{', '}',
+            '(', ')', '?', '"', '!', '@', '#', '%',
+            '&', '/', '\\', ',', '>', '<', '\'',
+            ':', ';', '|', '_', '~'
+        )
+        return password.any { it in allowedSpecialChars }
+    }
+
     public fun ValidatePassword(password: String): Boolean {
         try {
             // Check if the password length is between 5 and 12 characters
@@ -22,8 +33,7 @@ class ValidationClass {
                             val (isNumber, isNotNumber) = char_of_string.partition { it.isDigit() }
                             if (isNumber.isNotEmpty()) {
 
-                                val special: Pattern = Pattern.compile("[!@#$%&*()_+=|<>{}\\[\\]~-]")
-                                if (special.matcher(password).find()) {
+                                if (containsAllowedSpecialChar(password)) {
                                     return true
                                 }
                             }

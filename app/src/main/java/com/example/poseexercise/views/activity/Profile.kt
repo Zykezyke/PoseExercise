@@ -284,15 +284,16 @@ class Profile : AppCompatActivity() {
     private fun showPasswordRequirementsDialog() {
         AlertDialog.Builder(this)
             .setTitle("Password Requirements")
-            .setMessage("""
-                Password must:
-                • Be 6-12 characters long
-                • Contain at least 1 uppercase letter
-                • Contain at least 1 lowercase letter
-                • Contain at least 1 number
-                • Contain at least 1 special character
-            """.trimIndent())
-            .setPositiveButton("Got it") { dialog, _ -> dialog.dismiss() }
+            .setMessage("Password must:\n" +
+                    "• Be 6-12 characters long\n" +
+                    "• Contain at least 1 uppercase letter\n" +
+                    "• Contain at least 1 lowercase letter\n" +
+                    "• Contain at least 1 number\n" +
+                    "• Contain at least 1 special character from:\n" +
+                    "  ^ $ * . [ ] { } ( ) ? \" ! @ # % & / \\ , > < ' : ; | _ ~")
+            .setPositiveButton("Got it") { dialog, _ ->
+                dialog.dismiss()
+            }
             .show()
     }
 
