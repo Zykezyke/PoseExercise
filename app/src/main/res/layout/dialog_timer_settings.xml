@@ -5,49 +5,22 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <TextView
+        android:id="@+id/textView21"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:fontFamily="sans-serif-condensed"
+        android:text="Set Timer Duration"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="24sp"
+        android:textStyle="normal" />
 
-        <RadioButton
-            android:id="@+id/radioTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Time Based"
-            style="@style/CustomRadioButton"
-            android:textColor="?android:textColorSecondary" />
-
-        <RadioButton
-            android:id="@+id/radioReps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?android:textColorSecondary"
-            android:text="Reps Based" />
-    </RadioGroup>
-
-    <LinearLayout
+    <EditText
+        android:id="@+id/timeInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/timeInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="?android:textColorSecondary"
-            android:hint="Enter time in seconds"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/repsInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter number of reps"
-            android:textColor="?android:textColorSecondary"
-            android:inputType="number" />
-    </LinearLayout>
+        android:hint="Enter time in seconds"
+        android:textColor="?android:textColorSecondary"
+        android:inputType="number"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

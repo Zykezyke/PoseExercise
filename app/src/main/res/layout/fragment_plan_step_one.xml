@@ -5,7 +5,7 @@
     android:id="@+id/planStepOneFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundFill"
+    android:background="?background"
     tools:context=".views.fragment.PlanStepOneFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,11 +13,24 @@
         android:layout_height="match_parent">
 
         <!-- LinearLayout for grouping UI elements vertically -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="47dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.039"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,11 +42,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="35dp"
+                android:fontFamily="sans-serif-condensed"
                 android:text="@string/choose_exercise"
+                android:textColor="?android:titleTextAppearance"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
             <!-- ChipGroup for exercise difficulty levels -->
+
+            <!-- RecyclerView for displaying exercises -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group"
                 android:layout_width="wrap_content"
@@ -48,7 +65,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_small"
-                    android:text="@string/level_easy" />
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/level_easy"
+                    android:textColor="@android:color/white"
+                    app:chipBackgroundColor="@color/primaryColor"
+                    app:chipStrokeColor="@color/primaryColor" />
 
                 <!-- Chips for intermmediate levels -->
                 <com.google.android.material.chip.Chip
@@ -57,7 +78,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_small"
-                    android:text="@string/level_intermediate" />
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/level_intermediate"
+                    android:textColor="@android:color/white"
+                    app:chipBackgroundColor="@color/primaryColor"
+                    app:chipStrokeColor="@color/primaryColor" />
 
                 <!-- Chips for advance levels -->
                 <com.google.android.material.chip.Chip
@@ -66,17 +91,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_small"
-                    android:text="@string/level_advance" />
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/level_advance"
+                    android:textColor="@android:color/white"
+                    app:chipBackgroundColor="@color/primaryColor"
+                    app:chipStrokeColor="@color/primaryColor" />
 
             </com.google.android.material.chip.ChipGroup>
 
-            <!-- RecyclerView for displaying exercises -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin_xxlarge"
-                android:scrollbars="vertical"
+                android:paddingStart="20dp"
+
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

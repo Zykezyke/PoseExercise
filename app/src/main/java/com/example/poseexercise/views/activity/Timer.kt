@@ -15,6 +15,11 @@ import android.widget.RadioGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.card.MaterialCardView
+import android.os.Handler
+import android.os.Looper
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.net.Uri
 
 class Timer : AppCompatActivity() {
 
@@ -22,12 +27,9 @@ class Timer : AppCompatActivity() {
     private var timeLeftInMillis: Long = 20000 // Default 20 seconds
     private var isTimerRunning = false
     private var originalTime: Long = 20000
-    private var isCountingReps = false
-    private var targetReps = 20 // Default reps
 
     // View declarations
     private lateinit var btnBack: ImageView
-    private lateinit var btnSettings: ImageView
     private lateinit var exerciseTitle: TextView
     private lateinit var timerText: TextView
     private lateinit var changeDurationButton: MaterialCardView
@@ -61,7 +63,6 @@ class Timer : AppCompatActivity() {
 
     private fun initializeViews() {
         btnBack = findViewById(R.id.btnBack)
-        btnSettings = findViewById(R.id.btnSettings)
         exerciseTitle = findViewById(R.id.exerciseTitle)
         timerText = findViewById(R.id.timerText)
         changeDurationButton = findViewById(R.id.changeDurationButton)
@@ -87,69 +88,60 @@ class Timer : AppCompatActivity() {
             finish()
         }
 
-        btnSettings.setOnClickListener {
-            val intent = Intent(this, com.example.poseexercise.Settings::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun showDurationDialog() {
         val dialog = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_timer_settings, null)
-        val radioGroup = dialogView.findViewById<RadioGroup>(R.id.radioGroup)
         val timeInput = dialogView.findViewById<EditText>(R.id.timeInput)
-        val repsInput = dialogView.findViewById<EditText>(R.id.repsInput)
-
-        timeInput.isEnabled = true
-        repsInput.isEnabled = false
-
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.radioTime -> {
-                    timeInput.isEnabled = true
-                    repsInput.isEnabled = false
-                }
-                R.id.radioReps -> {
-                    timeInput.isEnabled = false
-                    repsInput.isEnabled = true
-                }
-            }
-        }
 
         dialog.setView(dialogView)
-            .setTitle("Set Timer Type")
             .setPositiveButton("OK") { _, _ ->
-                when (radioGroup.checkedRadioButtonId) {
-                    R.id.radioTime -> {
-                        isCountingReps = false
-                        val seconds = timeInput.text.toString().toIntOrNull() ?: 20
-                        originalTime = seconds * 1000L
-                        timeLeftInMillis = originalTime
-                        updateTimerText()
-                        pauseButton.isEnabled = true
-                        pauseButtonText .text = "START"
-                        countDownTimer?.cancel()
-                        isTimerRunning = false
-                    }
-                    R.id.radioReps -> {
-                        isCountingReps = true
-                        targetReps = repsInput.text.toString().toIntOrNull() ?: 20
-                        updateRepsDisplay()
-                        pauseButton.isEnabled = true
-                        pauseButtonText.text = "DONE"
-                        countDownTimer?.cancel()
-                        isTimerRunning = false
-                    }
-                }
+                val seconds = timeInput.text.toString().toIntOrNull() ?: 20
+                originalTime = seconds * 1000L
+                timeLeftInMillis = originalTime
+                updateTimerText()
+                pauseButton.isEnabled = true
+                pauseButtonText.text = "START"
+                countDownTimer?.cancel()
+                isTimerRunning = false
             }
             .setNegativeButton("Cancel", null)
             .show()
     }
 
-    private fun startTimer() {
-        if (isCountingReps) {
-            return
+    private fun playTimerFinishSound() {
+        val alarmUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val ringtone: Ringtone = RingtoneManager.getRingtone(applicationContext, alarmUri)
+
+        if (ringtone != null) {
+            ringtone.play()
+
+            // Stop the alarm after 5 seconds
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (ringtone.isPlaying) {
+                    ringtone.stop()
+                }
+            }, 5000)
+        } else {
+            // Fallback to notification sound if no alarm sound is set
+            val notificationUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val notificationRingtone: Ringtone = RingtoneManager.getRingtone(applicationContext, notificationUri)
+            if (notificationRingtone != null) {
+                notificationRingtone.play()
+
+                // Stop the notification sound after 5 seconds
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (notificationRingtone.isPlaying) {
+                        notificationRingtone.stop()
+                    }
+                }, 5000)
+            }
         }
+    }
+
+
+    private fun startTimer() {
 
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 10) {
             override fun onTick(millisUntilFinished: Long) {
@@ -162,8 +154,9 @@ class Timer : AppCompatActivity() {
                 pauseButtonText.text = "START"
                 timeLeftInMillis = originalTime
                 updateTimerText()
-                //playTimerFinishSound()
+                playTimerFinishSound()
             }
+
         }.start()
 
         isTimerRunning = true
@@ -171,9 +164,6 @@ class Timer : AppCompatActivity() {
     }
 
     private fun pauseTimer() {
-        if (isCountingReps) {
-            return
-        }
 
         countDownTimer?.cancel()
         isTimerRunning = false
@@ -181,19 +171,12 @@ class Timer : AppCompatActivity() {
     }
 
     private fun updateTimerText() {
-        if (isCountingReps) {
-            updateRepsDisplay()
-            return
-        }
 
         val minutes = ((timeLeftInMillis / 1000) / 60).toInt()
         val seconds = ((timeLeftInMillis / 1000) % 60).toInt()
         timerText.text = String.format("%02d:%02d", minutes, seconds)
     }
 
-    private fun updateRepsDisplay() {
-        timerText.text = "$targetReps"
-    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -5,19 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?background"
     tools:context=".Timer">
-
-    <ImageView
-        android:id="@+id/btnSettings"
-        android:layout_width="57dp"
-        android:layout_height="62dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.912"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039"
-        app:srcCompat="@drawable/baseline_settings_24" />
 
     <ImageView
         android:id="@+id/btnBack"
@@ -34,11 +23,12 @@
     <ImageView
         android:id="@+id/exerciseImage"
         android:layout_width="0dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:scaleType="centerCrop"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack" />
@@ -48,8 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed"
         android:text="Diamond Push Ups"
-        android:textColor="@color/black"
+        android:textColor="?android:textColorSecondary"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,21 +52,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:cardCornerRadius="24dp"
         app:cardBackgroundColor="@color/navy_blue"
+        app:cardCornerRadius="24dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exerciseTitle">
+        app:layout_constraintTop_toBottomOf="@id/exerciseTitle"
+        app:strokeWidth="0dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHANGE DURATION/REPS"
-            android:textStyle="bold"
-            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed"
             android:padding="12dp"
-            android:textColor="@color/white" />
+            android:text="CHANGE DURATION"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
@@ -83,8 +76,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-condensed"
         android:text="00:20"
-        android:textColor="@color/black"
+        android:textColor="?android:textColorSecondary"
         android:textSize="90sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,22 +90,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:cardCornerRadius="24dp"
         app:cardBackgroundColor="@color/navy_blue"
+        app:cardCornerRadius="24dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeWidth="0dp">
 
         <TextView
             android:id="@+id/pauseButtonText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PAUSE"
-            android:textStyle="bold"
-            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed"
             android:padding="12dp"
-            android:textColor="@color/white" />
+            android:text="PAUSE"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

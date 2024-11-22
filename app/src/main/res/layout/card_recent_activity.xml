@@ -26,6 +26,8 @@
             android:id="@+id/textViewExerciseType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif-condensed"
             android:text="@string/exercise_type"
             android:textSize="@dimen/text_label"
             android:textStyle="bold" />
@@ -34,6 +36,7 @@
             android:id="@+id/textViewReps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:layout_alignBaseline="@id/textViewExerciseType"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="@dimen/margin_small"

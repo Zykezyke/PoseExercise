@@ -113,7 +113,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
-                android:layout_width="401dp"
+                android:layout_width="0dp"
                 android:layout_height="203dp"
                 android:gravity="center"
                 android:orientation="vertical"

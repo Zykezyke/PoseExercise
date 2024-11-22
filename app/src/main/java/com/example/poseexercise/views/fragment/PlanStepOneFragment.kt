@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
@@ -24,6 +26,7 @@ import com.google.android.material.chip.ChipGroup
  */
 class PlanStepOneFragment : Fragment(), MemoryManagement {
     private val exerciseList = Constants.getExerciseList()
+    private lateinit var btnBack: ImageView
     private var searchQuery: CharSequence? = null
 
     override fun onCreateView(
@@ -39,6 +42,13 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         adapter.setExercises(exerciseList)
+
+        val btnBack = view.findViewById<ImageView>(R.id.btnBack)
+
+        // Set OnClickListener for back button
+        btnBack.setOnClickListener {
+            requireActivity().finish()
+        }
 
         // Set on click listener for chip
         levelGroup.isSingleSelection = true
