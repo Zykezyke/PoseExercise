@@ -210,27 +210,8 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="349dp"
-                        android:layout_height="48dp"
-                        android:backgroundTint="#3C628F"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="START WORKOUT"
-                        android:textColor="?textAppearanceButton"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView32"
-                    android:layout_width="142dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/antonio"
-                    android:paddingLeft="30dp"
-                    android:text="SUMMARY"
-                    android:textColor="?android:subtitleTextAppearance"
-                    android:textSize="28dp"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -364,6 +345,7 @@
                         android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/cardJournal"
                             android:layout_width="150dp"
                             android:layout_height="140dp"
                             android:layout_marginRight="40dp"

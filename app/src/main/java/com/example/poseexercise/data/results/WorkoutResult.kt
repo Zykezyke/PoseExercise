@@ -10,13 +10,13 @@ import java.util.Date
 data class WorkoutResult(
 
     val id: Int = 0,
-    val exerciseName: String,
-    val repeatedCount: Int,
-    var confidence: Float,
+    val exerciseName: String = "",
+    val repeatedCount: Int = 0,
+    var confidence: Float = 0f,
 
-    val timestamp: Long,
-    val calorie: Double,
-    val workoutTimeInMin: Double
+    val timestamp: Long = 0,
+    val calorie: Double = 0.0,
+    val workoutTimeInMin: Double = 0.0
     )
 
 

@@ -313,9 +313,15 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         cameraViewModel.processCameraProvider.observe(viewLifecycleOwner) { provider: ProcessCameraProvider? ->
             cameraProvider = provider
             //bindAllCameraUseCases()
-            notCompletedExercise?.let { bindAllCameraUseCases(it) } ?: bindAllCameraUseCases(
-                emptyList()
-            )
+            lifecycleScope.launch {
+                notCompletedExercise = withContext(Dispatchers.IO) { homeViewModel.getNotCompletePlans(today) }
+                if (notCompletedExercise.isNullOrEmpty()) {
+                    Log.d("WorkoutFragment", "No plans to process.")
+                } else {
+                    Log.d("WorkoutFragment", "Loaded plans: $notCompletedExercise")
+                }
+                bindAllCameraUseCases(notCompletedExercise ?: emptyList())
+            }
         }
 
         cameraFlipFAB.setOnClickListener {
@@ -689,6 +695,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         if (cameraProvider == null) {
             return
         }
+        Log.d("WorkoutFragment", "Processing plans for analysis: $notCompletedPlan")
         if (analysisUseCase != null) {
             cameraProvider?.unbind(analysisUseCase)
         }

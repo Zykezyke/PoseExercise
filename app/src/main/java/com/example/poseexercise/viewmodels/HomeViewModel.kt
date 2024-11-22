@@ -1,6 +1,7 @@
 package com.example.poseexercise.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -42,7 +43,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun getNotCompletePlans(day: String): MutableList<Plan> {
         return withContext(Dispatchers.IO) {
             val plansByDay = firebaseRepository.fetchPlansByDay(day)
-            plansByDay.filter { !it.completed }.toMutableList()
+            val notCompletedPlans = plansByDay.filter { !it.completed }.toMutableList()
+            Log.d("HomeFragment", "Not completed plans: $notCompletedPlans")
+            notCompletedPlans
         }
     }
 }
