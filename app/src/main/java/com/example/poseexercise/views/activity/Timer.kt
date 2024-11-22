@@ -46,6 +46,14 @@ class Timer : AppCompatActivity() {
 
         initializeViews()
         setupClickListeners()
+
+        val exerciseName = intent.getStringExtra("exercise_name") ?: "Exercise"
+        val exerciseImageRes = intent.getIntExtra("exercise_image", R.drawable.dref)
+
+        // Set data to views
+        exerciseTitle.text = exerciseName
+        findViewById<ImageView>(R.id.exerciseImage).setImageResource(exerciseImageRes)
+
         updateTimerText()
 
         pauseButtonText.text = "START"

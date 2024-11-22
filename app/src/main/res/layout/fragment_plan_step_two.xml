@@ -1,118 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/planStepTwoFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundFill"
-    android:fillViewport="true"
+    android:background="?background"
     tools:context=".views.fragment.PlanStepTwoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="47dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+    <!-- Header Section -->
+    <TextView
+        android:id="@+id/exercise_name_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:fontFamily="@font/antonio"
+        android:textColor="?android:titleTextAppearance"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Exercise Name" />
+
+    <!-- Exercise Image -->
+    <ImageView
+        android:id="@+id/exercise_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_name_header" />
+
+    <!-- Exercise Level and Details -->
+    <ScrollView
+        android:id="@+id/details_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_large"
+        app:layout_constraintBottom_toTopOf="@+id/repetitions_layout"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_image">
 
-        <LinearLayout
-            android:id="@+id/top_part"
+        <TextView
+            android:id="@+id/exercise_details"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="16sp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+    </ScrollView>
 
-                <!-- New Plan Header -->
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_xxlarge"
-                    android:text="@string/new_plan"
-                    android:textSize="@dimen/text_header"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/textField1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <!-- Repetitions Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/repetitions_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginBottom="@dimen/margin_xlarge"
+        android:hint="Add Rep Count For Form Tracking (1-100)"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toTopOf="@+id/buttons_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textField1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_xlarge"
-                    android:hint="@string/label_exercise_name"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView">
-
-                    <!-- Exercise Name TextInputLayout -->
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/exercise_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:enabled="false" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Repeat Count TextInputLayout -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textField2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_xlarge"
-                    android:hint="@string/label_rep"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textField1">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/repeat_count"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="3" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/third_part"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/repeat_count"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/top_part">
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="3" />
 
-            <!-- Create Plan button -->
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/primaryColor"
-                android:text="@string/create_button"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_normal" />
-        </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Buttons Container -->
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginBottom="@dimen/margin_xlarge"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <!-- Track Form Button -->
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#3C628F"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="@dimen/margin_large"
+            android:text="Track Form"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-</RelativeLayout>
+        <!-- Timer Button -->
+        <Button
+            android:id="@+id/timer_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#3C628F"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="@dimen/margin_large"
+            android:text="Timer"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
+    </LinearLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>
