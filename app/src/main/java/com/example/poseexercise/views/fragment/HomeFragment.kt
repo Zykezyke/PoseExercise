@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -122,6 +123,19 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
                 updateResultFromDatabase(result1, result2)
             }
         }
+
+        // Handle back press to navigate to Home activity
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val intent = Intent(requireActivity(), Home::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    requireActivity().finish() // Finish current activity
+                }
+            }
+        )
 
         workoutButton = view.findViewById(R.id.workoutButton)
         goHomeButton = view.findViewById(R.id.goHomeButton)

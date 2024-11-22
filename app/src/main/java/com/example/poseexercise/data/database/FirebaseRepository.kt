@@ -62,19 +62,31 @@ class FirebaseRepository(private val userId: String) {
         databaseReference.child("workoutResults").child(resultId).setValue(result)
     }
 
-    fun fetchAllWorkoutResults(callback: (List<WorkoutResult>) -> Unit) {
-        databaseReference.child("workoutResults").get().addOnSuccessListener { snapshot ->
-            val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
-            callback(results)
-        }
+    suspend fun fetchAllWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
+        databaseReference.child("workoutResults").get()
+            .addOnSuccessListener { snapshot ->
+                val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
+                cont.resume(results)
+            }
+            .addOnFailureListener { exception ->
+                cont.resumeWithException(exception)
+            }
     }
 
-    fun fetchRecentWorkoutResults(limit: Int, callback: (List<WorkoutResult>) -> Unit) {
-        fetchAllWorkoutResults { results ->
-            val recentResults = results.sortedByDescending { it.timestamp }.take(limit)
-            callback(recentResults)
-        }
+
+    suspend fun fetchRecentWorkoutResults(limit: Int): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
+        databaseReference.child("workoutResults").get()
+            .addOnSuccessListener { snapshot ->
+                val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
+                    .sortedByDescending { it.timestamp }
+                    .take(limit)
+                cont.resume(results)
+            }
+            .addOnFailureListener { exception ->
+                cont.resumeWithException(exception)
+            }
     }
+
 
     fun updateWorkoutField(resultId: String, fieldName: String, value: Any) {
         databaseReference.child("workoutResults").child(resultId).child(fieldName).setValue(value)

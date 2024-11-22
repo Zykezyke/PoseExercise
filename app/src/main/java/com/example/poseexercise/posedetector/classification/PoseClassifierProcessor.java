@@ -262,10 +262,12 @@ public class PoseClassifierProcessor {
                     float confidence = classification.getClassConfidence(maxsConfidenceClass) / poseClassifier.confidenceRange();
                     confidence = Math.min(confidence, 1.0f); // Cap confidence at 1.0
 
+                    float finalConfidence = Math.min(confidence + 0.25f, 1.0f);
+
                     Objects.requireNonNull(postureResults.get(maxsConfidenceClass))
                             .setConfidence(confidence);
                     // Add result to map
-                    postureResults.put(repCounter.getClassName(), new PostureResult(repsAfter, confidence + 0.25f, repCounter.getClassName()));
+                    postureResults.put(repCounter.getClassName(), new PostureResult(repsAfter, finalConfidence, repCounter.getClassName()));
                     break;
                 }
             }

@@ -12,7 +12,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.example.poseexercise.Login
 import com.example.poseexercise.R
+import com.example.poseexercise.views.activity.JournalActivity
 import com.example.poseexercise.views.activity.PlannerActivity
+import com.example.poseexercise.views.fragment.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,6 +27,7 @@ class Home : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var activityTracker: Notification
     private lateinit var cardWorkout: CardView
+    private lateinit var cardJournal: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +81,12 @@ class Home : AppCompatActivity() {
             startActivity(intent)
         }
 
+        cardJournal = findViewById(R.id.cardJournal)
+
+        cardJournal.setOnClickListener {
+            val intent = Intent(this, JournalActivity::class.java)
+            startActivity(intent)
+        }
 
         if (auth.currentUser == null) {
             // Redirect to Login if user is not logged in

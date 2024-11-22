@@ -364,6 +364,7 @@
                         android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/cardJournal"
                             android:layout_width="150dp"
                             android:layout_height="140dp"
                             android:layout_marginRight="40dp"

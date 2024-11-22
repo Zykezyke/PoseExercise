@@ -28,22 +28,14 @@ class ResultViewModel(application: Application) : AndroidViewModel(application) 
     /** Get all workout results */
     suspend fun getAllResult(): List<WorkoutResult>? {
         return withContext(Dispatchers.IO) {
-            val result = mutableListOf<WorkoutResult>()
-            firebaseRepository.fetchAllWorkoutResults { results ->
-                result.addAll(results)
-            }
-            result
+            firebaseRepository.fetchAllWorkoutResults()
         }
     }
 
     /** Get the most recent workout results */
     suspend fun getRecentWorkout(limit: Int): List<WorkoutResult>? {
         return withContext(Dispatchers.IO) {
-            val result = mutableListOf<WorkoutResult>()
-            firebaseRepository.fetchRecentWorkoutResults(limit) { results ->
-                result.addAll(results)
-            }
-            result
+            firebaseRepository.fetchRecentWorkoutResults(limit)
         }
     }
 }
