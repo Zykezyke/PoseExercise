@@ -99,6 +99,8 @@ public class PoseClassifierProcessor {
         if (plan != null) {
             Log.d("pose_classifier_processor: ", plan.toString());
             Log.d("pose_classifier_processor: ", mapExercisesToFiles(plan).toString());
+        }else {
+            Log.w("PoseClassifierProcessor", "No exercise plan provided");
         }
 
         //loadPoseSamples(context);
@@ -157,18 +159,16 @@ public class PoseClassifierProcessor {
         if (exercises != null) {
             for (String exercise : exercises) {
                 switch (exercise) {
-                    case "Squat" -> {
+                    case "Squat" ->
                         addUniqueFile(files, uniqueFileNames, SQUAT_FILE);
-                        addUniqueFile(files, uniqueFileNames, NEUTRAL_STANDING_FILE);
-                        addUniqueFile(files, uniqueFileNames, LUNGE_FILE);
-                    }
+
+
                     case "Push up" -> addUniqueFile(files, uniqueFileNames, PUSH_UP_FILE);
                     case "Sit up" -> addUniqueFile(files, uniqueFileNames, SIT_UP_FILE);
-                    case "Lunge" -> {
+                    case "Lunge" ->
                         addUniqueFile(files, uniqueFileNames, LUNGE_FILE);
-                        addUniqueFile(files, uniqueFileNames, NEUTRAL_STANDING_FILE);
-                        addUniqueFile(files, uniqueFileNames, SQUAT_FILE);
-                    }
+
+
                     case "Chest press" -> addUniqueFile(files, uniqueFileNames, CHEST_PRESS_FILE);
                     case "Dead lift" -> addUniqueFile(files, uniqueFileNames, DEAD_LIFT_FILE);
                     case "Shoulder press" ->
@@ -184,9 +184,9 @@ public class PoseClassifierProcessor {
         }
 
         // Exercise by Default
-        addUniqueFile(files, uniqueFileNames, LUNGE_FILE);
+
         addUniqueFile(files, uniqueFileNames, NEUTRAL_STANDING_FILE);
-        addUniqueFile(files, uniqueFileNames, SQUAT_FILE);
+
 
         return files;
     }

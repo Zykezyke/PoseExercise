@@ -45,7 +45,7 @@ class PoseDetectorProcessor(
     private val runClassification: Boolean,
     private val isStreamMode: Boolean,
     private var cameraXViewModel: CameraXViewModel? = null,
-    notCompletedExercise: List<Plan>
+    private val notCompletedExercise: List<Plan>
 ) : VisionProcessorBase<PoseDetectorProcessor.PoseWithClassification>(context) {
 
     private val detector: PoseDetector
@@ -71,8 +71,10 @@ class PoseDetectorProcessor(
     init {
         detector = PoseDetection.getClient(options)
         classificationExecutor = Executors.newSingleThreadExecutor()
+        Log.d("PoseDetectorProcessor", "Received exercises: $notCompletedExercise")
         if (notCompletedExercise.isNotEmpty()) {
             exercisesToDetect = notCompletedExercise.map { plan -> plan.exercise }
+            Log.d("PoseDetectorProcessor", "Mapped exercises: $exercisesToDetect")
         }
     }
 
@@ -97,7 +99,7 @@ class PoseDetectorProcessor(
                             PoseClassifierProcessor(
                                 context,
                                 isStreamMode,
-                                exercisesToDetect
+                                notCompletedExercise.map { it.exercise }
                             )
                     }
                     classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
@@ -121,7 +123,7 @@ class PoseDetectorProcessor(
                             PoseClassifierProcessor(
                                 context,
                                 isStreamMode,
-                                exercisesToDetect
+                                notCompletedExercise.map { it.exercise }
                             )
                     }
                     classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
