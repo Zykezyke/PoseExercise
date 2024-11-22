@@ -331,6 +331,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
             // get not completed exercise from database using coroutine
             notCompletedExercise =
                 withContext(Dispatchers.IO) { homeViewModel.getNotCompletePlans(today) }
+            Log.d("WorkoutFragment", "Loaded plans: ${notCompletedExercise}")
 
             // Create a set to track unique exercises
             val uniqueExercises = mutableSetOf<String>()
@@ -369,7 +370,9 @@ class WorkOutFragment : Fragment(), MemoryManagement {
                 val exercisePlan =
                     ExercisePlan(
                         item.id,
-                        databaseNameToClassification(item.exercise),
+                        databaseNameToClassification(item.exercise).also {
+                            Log.d("WorkoutFragment", "Mapped ${item.exercise} to $it")
+                        },
                         item.repeatCount
                     )
                 val existingExercisePlan =
@@ -467,7 +470,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
                                     addPlanViewModel.updateComplete(
                                         true,
                                         System.currentTimeMillis(),
-                                        data.planId
+                                        data.planId.toString()
                                     )
                                 }
                             }

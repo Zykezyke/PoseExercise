@@ -1,14 +1,17 @@
 package com.example.poseexercise.views.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.poseexercise.Home
 import com.example.poseexercise.R
 import com.example.poseexercise.adapters.ExerciseAdapter
 import com.example.poseexercise.data.plan.Constants
@@ -51,6 +54,19 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
                 adapter.setExercises(exerciseList)
             }
         }
+
+        // Handle back press to navigate to Home activity
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val intent = Intent(requireActivity(), Home::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    requireActivity().finish() // Finish current activity
+                }
+            }
+        )
         // Inflate the layout for this fragment
         return view
     }

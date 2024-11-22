@@ -22,7 +22,7 @@ import com.example.poseexercise.Home
 import com.example.poseexercise.R
 import com.example.poseexercise.adapters.PlanAdapter
 import com.example.poseexercise.adapters.RecentActivityAdapter
-import com.example.poseexercise.data.database.AppRepository
+import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.data.plan.Plan
 import com.example.poseexercise.data.results.RecentActivityItem
 import com.example.poseexercise.data.results.WorkoutResult
@@ -61,7 +61,6 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
     private lateinit var progressBar: ProgressBar
     private lateinit var progressPercentage: TextView
     private var workoutResults: List<WorkoutResult>? = null
-    private lateinit var appRepository: AppRepository
     private lateinit var adapter: PlanAdapter
 
     override fun onCreateView(
@@ -84,11 +83,10 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         noPlanTV = view.findViewById(R.id.no_plan)
         progressBar = view.findViewById(R.id.progress_bar)
         progressPercentage = view.findViewById(R.id.progress_text)
-        appRepository = AppRepository(requireActivity().application)
         // Initialize ViewModel
         resultViewModel = ResultViewModel(MyApplication.getInstance())
         lifecycleScope.launch {
-            val workoutResults = resultViewModel.getRecentWorkout()
+            val workoutResults = resultViewModel.getRecentWorkout(10)
             // Call the function to load data and set up the chart
             loadDataAndSetupChart()
             // Transform WorkoutResult objects into RecentActivityItem objects
@@ -118,8 +116,8 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // get the list of plans from database
         lifecycleScope.launch(Dispatchers.IO) {
-            val result1 = withContext(Dispatchers.IO) { homeViewModel.getPlanByDay(today) }
-            val result2 = withContext(Dispatchers.IO) { homeViewModel.getNotCompletePlans(today) }
+            val result1 = homeViewModel.getPlanByDay(today)
+            val result2 = homeViewModel.getNotCompletePlans(today)
             withContext(Dispatchers.Main) {
                 updateResultFromDatabase(result1, result2)
             }
@@ -170,28 +168,22 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         lifecycleScope.launch(Dispatchers.IO) {
             // Fetch workout results asynchronously
             workoutResults = resultViewModel.getAllResult()
-            // Filter workout results for today
-            val todayWorkoutResults = workoutResults?.filter {
-                isToday(it.timestamp)
-            }
-            // Observe exercise plans from the database
+
+            // Fetch plans for today
+            val todayExercisePlans = homeViewModel.getPlanByDay(today)
+
             withContext(Dispatchers.Main) {
-                appRepository.allPlans.observe(viewLifecycleOwner) { exercisePlans ->
-                    // Filter exercise plans for today
-                    val todayExercisePlans =
-                        exercisePlans?.filter { it.selectedDays.contains(today) }
-                    // Calculate progress and update UI
-                    val totalPlannedRepetitions = todayExercisePlans?.sumOf { it.repeatCount } ?: 0
-                    val totalCompletedRepetitions =
-                        todayWorkoutResults?.sumOf { it.repeatedCount } ?: 0
-                    val progressPercentage = if (totalPlannedRepetitions != 0) {
-                        ((totalCompletedRepetitions.toDouble() / totalPlannedRepetitions) * 100).toInt()
-                    } else {
-                        0
-                    }
-                    // Update the ProgressBar and TextView with the progress percentage
-                    updateProgressViews(progressPercentage)
+                // Calculate progress and update UI
+                val totalPlannedRepetitions = todayExercisePlans?.sumOf { it.repeatCount } ?: 0
+                val totalCompletedRepetitions =
+                    workoutResults?.sumOf { it.repeatedCount } ?: 0
+                val progressPercentage = if (totalPlannedRepetitions != 0) {
+                    ((totalCompletedRepetitions.toDouble() / totalPlannedRepetitions) * 100).toInt()
+                } else {
+                    0
                 }
+                // Update the ProgressBar and TextView with the progress percentage
+                updateProgressViews(progressPercentage)
             }
         }
     }
@@ -235,24 +227,25 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
     }
 
     // Delete the plan when user click on delete icon
-    override fun onItemClicked(planId: Int, position: Int) {
+    override fun onItemClicked(planId: String, position: Int) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-        // Show a dialog for user to confirm the choice
         builder
             .setMessage("Are you sure you want to delete the plan?")
             .setTitle("Delete plan")
             .setPositiveButton("Delete") { dialog, _ ->
-                // Delete the plan from database
-                lifecycleScope.launch {
-
+                // Use AddPlanViewModel to delete the plan
+                val planToDelete = notCompletePlanList?.get(position)
+                planToDelete?.let {
+                    val addPlanViewModel = ViewModelProvider(this)[AddPlanViewModel::class.java]
+                    addPlanViewModel.deletePlan(planToDelete.id.toString())
                 }
+
                 notCompletePlanList?.removeAt(position)
                 adapter.notifyItemRemoved(position)
                 updateEmptyPlan(notCompletePlanList)
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
-                // Cancel the action
                 dialog.dismiss()
             }
         val dialog: AlertDialog = builder.create()

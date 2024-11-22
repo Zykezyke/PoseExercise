@@ -14,8 +14,8 @@ class MyUtils {
                 "chestpress_down" -> "Chest press"
                 "deadlift_down" -> "Dead lift"
                 "shoulderpress_down" -> "Shoulder press"
-                "warrior" -> "Warrior Yoga"
-                "tree_pose" -> "Tree Yoga"
+                "jumpingjacks_up" -> "Jumping jacks"
+                "planks" -> "Planking"
                 // Add more cases as needed
                 else -> variableName // Default to the original name if not matched
             }
@@ -58,8 +58,8 @@ class MyUtils {
                 "Chest press" -> "chestpress_down"
                 "Dead lift" -> "deadlift_down"
                 "Shoulder press" -> "shoulderpress_down"
-                "Warrior Yoga" -> "warrior"
-                "Tree Yoga" -> "tree_pose"
+                "Jumping jacks" -> "jumpingjacks_up"
+                "Planking" ->   "planks"
                 // Add more cases as needed
                 else -> variableName // Default to the original name if not matched
             }

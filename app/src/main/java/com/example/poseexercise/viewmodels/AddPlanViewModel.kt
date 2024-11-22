@@ -23,7 +23,7 @@ class AddPlanViewModel(application: Application) : AndroidViewModel(application)
 
     /** Insert a plan */
     fun insert(plan: Plan) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             firebaseRepository.savePlan(plan)
         }
     }
@@ -36,9 +36,9 @@ class AddPlanViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /** Update only complete state and timeCompleted of a plan */
-    fun updateComplete(planId: String, completedState: Boolean, timeComplete: Long?) {
+    fun updateComplete(completedState: Boolean, timeComplete: Long?, planId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            firebaseRepository.updatePlanCompletion(planId, completedState, timeComplete)
+            firebaseRepository.updatePlanCompletion(completedState, timeComplete, planId)
         }
     }
 

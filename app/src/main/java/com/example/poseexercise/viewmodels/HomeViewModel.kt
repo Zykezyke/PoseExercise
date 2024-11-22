@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.data.plan.Plan
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,24 +24,25 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /** Fetch all plans */
-    fun fetchAllPlans() {
-        firebaseRepository.fetchPlans { plans ->
-            _plans.postValue(plans)
+    suspend fun fetchAllPlans() {
+        withContext(Dispatchers.IO) {
+            val allPlans = firebaseRepository.fetchPlans()
+            _plans.postValue(allPlans)
         }
     }
 
-    /** Get plans for a specific day */
-    fun getPlanByDay(day: String) {
-        firebaseRepository.fetchPlansByDay(day) { plans ->
-            _plans.postValue(plans)
+    // Fetch all plans for the current day
+    suspend fun getPlanByDay(day: String): List<Plan> {
+        return withContext(Dispatchers.IO) {
+            firebaseRepository.fetchPlansByDay(day)
         }
     }
 
-    /** Get incomplete plans for a specific day */
-    fun getNotCompletePlans(day: String) {
-        firebaseRepository.fetchPlansByDay(day) { plans ->
-            val notCompleted = plans.filter { !it.completed }
-            _plans.postValue(notCompleted)
+    // Fetch not completed plans for the current day
+    suspend fun getNotCompletePlans(day: String): MutableList<Plan> {
+        return withContext(Dispatchers.IO) {
+            val plansByDay = firebaseRepository.fetchPlansByDay(day)
+            plansByDay.filter { !it.completed }.toMutableList()
         }
     }
 }

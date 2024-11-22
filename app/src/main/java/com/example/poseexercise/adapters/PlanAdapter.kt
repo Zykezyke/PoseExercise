@@ -69,7 +69,7 @@ class PlanAdapter internal constructor(context: Context) :
 
     // Interface for item click events
     interface ItemListener {
-        fun onItemClicked(planId: Int, position: Int)
+        fun onItemClicked(planId: String, position: Int)
     }
 
     // Set the listener for item click events

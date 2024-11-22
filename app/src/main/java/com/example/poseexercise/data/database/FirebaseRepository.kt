@@ -4,6 +4,9 @@ import com.example.poseexercise.data.plan.Plan
 import com.example.poseexercise.data.results.WorkoutResult
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class FirebaseRepository(private val userId: String) {
 
@@ -11,37 +14,47 @@ class FirebaseRepository(private val userId: String) {
         .getReference("UserAccounts")
         .child(userId)
 
-    fun savePlan(plan: Plan) {
-        val planId = databaseReference.child("plans").push().key ?: return
+    fun savePlan(plan: Plan): String {
+        val planId = databaseReference.child("plans").push().key ?: return ""
+        plan.id = planId // Set the ID before saving
         databaseReference.child("plans").child(planId).setValue(plan)
+        return planId
     }
 
-    fun fetchPlans(callback: (List<Plan>) -> Unit) {
-        databaseReference.child("plans").get().addOnSuccessListener { snapshot ->
-            val plans = snapshot.children.mapNotNull { it.getValue(Plan::class.java) }
-            callback(plans)
-        }
+    suspend fun fetchPlans(): List<Plan> = suspendCancellableCoroutine { cont ->
+        databaseReference.child("plans").get()
+            .addOnSuccessListener { snapshot ->
+                val plans = snapshot.children.mapNotNull { it.getValue(Plan::class.java) }
+                cont.resume(plans)
+            }
+            .addOnFailureListener { exception ->
+                cont.resumeWithException(exception)
+            }
     }
 
-    fun deletePlan(planId: String) {
+    suspend fun deletePlan(planId: String) = suspendCancellableCoroutine<Unit> { cont ->
         databaseReference.child("plans").child(planId).removeValue()
+            .addOnSuccessListener { cont.resume(Unit) }
+            .addOnFailureListener { cont.resumeWithException(it) }
     }
 
-    fun fetchPlansByDay(day: String, callback: (List<Plan>) -> Unit) {
-        fetchPlans { plans ->
-            val filteredPlans = plans.filter { it.selectedDays.contains(day) }
-            callback(filteredPlans)
-        }
+    suspend fun fetchPlansByDay(day: String): List<Plan> {
+        val allPlans = fetchPlans()
+        return allPlans.filter { it.selectedDays.contains(day) }
     }
 
-    fun updatePlan(planId: String, updatedPlan: Plan) {
+    suspend fun updatePlan(planId: String, updatedPlan: Plan) = suspendCancellableCoroutine<Unit> { cont ->
         databaseReference.child("plans").child(planId).setValue(updatedPlan)
+            .addOnSuccessListener { cont.resume(Unit) }
+            .addOnFailureListener { cont.resumeWithException(it) }
     }
 
 
-    fun updatePlanCompletion(planId: String, completed: Boolean, time: Long?) {
+    suspend fun updatePlanCompletion(completed: Boolean, time: Long?, planId: String) = suspendCancellableCoroutine<Unit> { cont ->
         val updates = mapOf("completed" to completed, "timeCompleted" to time)
         databaseReference.child("plans").child(planId).updateChildren(updates)
+            .addOnSuccessListener { cont.resume(Unit) }
+            .addOnFailureListener { cont.resumeWithException(it) }
     }
 
     fun saveWorkoutResult(result: WorkoutResult) {

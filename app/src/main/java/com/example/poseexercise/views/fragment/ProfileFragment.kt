@@ -2,6 +2,7 @@ package com.example.poseexercise.views.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.poseexercise.R
-import com.example.poseexercise.data.database.AppRepository
+import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.data.results.WorkoutResult
 import com.example.poseexercise.util.MemoryManagement
 import com.example.poseexercise.util.MyApplication
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,7 +43,7 @@ class ProfileFragment : Fragment(), MemoryManagement {
     private lateinit var chart: BarChart
     private var workoutResults: List<WorkoutResult>? = null
     private lateinit var workOutTime: TextView
-    private lateinit var appRepository: AppRepository
+    private var totalPlannedRepetitions = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,51 +57,72 @@ class ProfileFragment : Fragment(), MemoryManagement {
         resultViewModel = ResultViewModel(MyApplication.getInstance())
         chart = view.findViewById(R.id.chart)
         workOutTime = view.findViewById(R.id.total_time)
-        appRepository = AppRepository(requireActivity().application)
         // Load data and set up the chart
+        initializePlannedRepetitions()
         loadDataAndSetupChart()
     }
+
+    private fun initializePlannedRepetitions() {
+        // Get current user's plans and calculate total planned repetitions
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val firebaseRepository = FirebaseRepository(userId)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val plans = firebaseRepository.fetchPlans()
+                totalPlannedRepetitions = plans.sumOf { it.repeatCount }
+
+                // Optionally update the UI with the results
+                withContext(Dispatchers.Main) {
+                    // Update any relevant views or logs
+                    Log.d("ProfileFragment", "Total planned repetitions: $totalPlannedRepetitions")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
 
     private fun loadDataAndSetupChart() {
         lifecycleScope.launch(Dispatchers.IO) {
             // Fetch workout results asynchronously
             workoutResults = resultViewModel.getAllResult()
+
             // Filter workout results for the current week
             val currentWeek = getCurrentCalendarWeek()
             workoutResults = workoutResults?.filter {
                 getCalendarWeek(it.timestamp) == currentWeek
             }
+
             val decimalFormat = DecimalFormat("#.##")
             val totalWorkoutTimeForCurrentWeek =
                 workoutResults?.let { calculateTotalWorkoutTimeForWeek(it, currentWeek) }
             val formattedWorkoutTime = decimalFormat.format(totalWorkoutTimeForCurrentWeek)
 
-            // Observe exercise plans from the database
             withContext(Dispatchers.Main) {
-                appRepository.allPlans.observe(viewLifecycleOwner) { exercisePlans ->
-                    // Calculate progress and update UI
-                    val totalPlannedRepetitions = exercisePlans.sumOf { it.repeatCount }
-                    val totalCompletedRepetitions = workoutResults?.sumOf { it.repeatedCount } ?: 0
-                    val progressPercentage =
-                        if (totalPlannedRepetitions != 0) {
-                            (totalCompletedRepetitions.toDouble() / totalPlannedRepetitions) * 100
-                        } else {
-                            0.0
-                        }
-
-                    // Update the TextView with the formatted workout time
-                    workOutTime.text = formattedWorkoutTime
-
-                    val totalCaloriesPerDay =
-                        workoutResults?.let { calculateTotalCaloriesPerDay(it) }
-                    if (totalCaloriesPerDay != null) {
-                        // Update the chart with total calories per day
-                        updateChart(totalCaloriesPerDay, workoutResults)
+                // Calculate progress and update UI
+                val totalCompletedRepetitions = workoutResults?.sumOf { it.repeatedCount } ?: 0
+                val progressPercentage =
+                    if (totalPlannedRepetitions != 0) {
+                        (totalCompletedRepetitions.toDouble() / totalPlannedRepetitions) * 100
+                    } else {
+                        0.0
                     }
 
-                    // Update the ProgressBar and TextView with the progress percentage
-                    updateProgressViews(progressPercentage)
+                // Update the TextView with the formatted workout time
+                workOutTime.text = formattedWorkoutTime
+
+                val totalCaloriesPerDay =
+                    workoutResults?.let { calculateTotalCaloriesPerDay(it) }
+                if (totalCaloriesPerDay != null) {
+                    // Update the chart with total calories per day
+                    updateChart(totalCaloriesPerDay, workoutResults)
                 }
+
+                // Update the ProgressBar and TextView with the progress percentage
+                updateProgressViews(progressPercentage)
             }
         }
     }

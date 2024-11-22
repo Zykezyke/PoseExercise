@@ -77,7 +77,13 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
                 for (i in selectedDays) {
                     days += "$i "
                 }
-                val newPlan = Plan(0, mExerciseName, mKcal, repeatCount.toInt(), days)
+                val newPlan = Plan(
+                    id = "",
+                    exercise = mExerciseName,
+                    calories = mKcal,
+                    repeatCount = repeatCount.toInt(),
+                    selectedDays = days
+                )
                 lifecycleScope.launch {
                     addPlanViewModel.insert(newPlan)
                 }

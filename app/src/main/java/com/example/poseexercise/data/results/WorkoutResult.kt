@@ -6,14 +6,14 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import java.util.Date
 
-@Entity(tableName = "workout_results")
+
 data class WorkoutResult(
-    @PrimaryKey(autoGenerate = true)
+
     val id: Int = 0,
     val exerciseName: String,
     val repeatedCount: Int,
     var confidence: Float,
-    @TypeConverters(DateConverters::class)
+
     val timestamp: Long,
     val calorie: Double,
     val workoutTimeInMin: Double

@@ -18,7 +18,7 @@ data class Exercise(
  * Data class representing exercise data for a workout
  */
 data class ExerciseData(
-    val planId: Int? = null,
+    val planId: String?,
     val exerciseName: String,
     val repetitions: Int,
     val confidence: Float,
@@ -34,7 +34,7 @@ class ExerciseLog {
 
     // Add exercise data to the log
     fun addExercise(
-        planId: Int?,
+        planId: String?,
         exerciseName: String,
         repetitions: Int,
         confidence: Float,
@@ -66,4 +66,4 @@ class ExerciseLog {
 /**
  * Data class representing an exercise plan
  */
-data class ExercisePlan(val planId: Int?, val exerciseName: String, var repetitions: Int)
+data class ExercisePlan(val planId: String?, val exerciseName: String, var repetitions: Int)
