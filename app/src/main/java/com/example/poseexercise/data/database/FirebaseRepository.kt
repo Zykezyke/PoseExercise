@@ -107,6 +107,22 @@ class FirebaseRepository(private val userId: String) {
             }
     }
 
+    suspend fun fetchLastTwoWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -14) // Go back 14 days
+        val startTime = calendar.timeInMillis
+
+        databaseReference.child("workoutResults").get()
+            .addOnSuccessListener { snapshot ->
+                val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
+                    .filter { it.timestamp >= startTime } // Filter for the last 14 days
+                cont.resume(results)
+            }
+            .addOnFailureListener { exception ->
+                cont.resumeWithException(exception)
+            }
+    }
+
 
     fun updateWorkoutField(resultId: String, fieldName: String, value: Any) {
         databaseReference.child("workoutResults").child(resultId).child(fieldName).setValue(value)
