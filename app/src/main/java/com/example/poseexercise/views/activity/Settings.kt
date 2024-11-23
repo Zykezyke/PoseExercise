@@ -2,6 +2,7 @@ package com.example.poseexercise
 
 import android.content.SharedPreferences
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -41,14 +42,11 @@ class Settings : AppCompatActivity() {
         //darkmode
         val toggleDarkMode = findViewById<Switch>(R.id.darkModeSwitch)
 
-
         sharedPreferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE)
 
-        val isNightMode = sharedPreferences.getBoolean("isNightMode", false)
+// Get the saved preference, defaulting to system theme if not set
+        val isNightMode = sharedPreferences.getBoolean("isNightMode", isSystemInNightMode())
         toggleDarkMode.isChecked = isNightMode
-        AppCompatDelegate.setDefaultNightMode(
-            if (isNightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        )
 
         toggleDarkMode.setOnCheckedChangeListener { _, isChecked ->
             val mode = if (isChecked) {
@@ -58,9 +56,7 @@ class Settings : AppCompatActivity() {
             }
 
             AppCompatDelegate.setDefaultNightMode(mode)
-
             saveThemeState(isChecked)
-
             overridePendingTransition(0, 0)
         }
 
@@ -124,6 +120,13 @@ class Settings : AppCompatActivity() {
         }
         startActivity(intent)
         Toast.makeText(this, "Go to Permissions to enable the required permissions", Toast.LENGTH_LONG).show()
+    }
+
+    private fun isSystemInNightMode(): Boolean {
+        return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
     }
 
 }
