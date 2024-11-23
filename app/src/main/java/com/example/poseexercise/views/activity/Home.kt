@@ -155,7 +155,7 @@ class Home : AppCompatActivity() {
                 calendar.add(Calendar.DAY_OF_YEAR, -7) // Go back 7 days
                 val startTime = calendar.timeInMillis
 
-                val results = repository.fetchLastTwoWeeksWorkoutResults()
+                val results = repository.fetchWithTimerWorkoutResults()
                     .filter { it.timestamp >= startTime }
 
                 if (results.isEmpty()) {

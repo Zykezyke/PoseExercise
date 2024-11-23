@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.poseexercise.data.results.WorkoutResult
 import com.example.poseexercise.viewmodels.ResultViewModel
+import com.example.poseexercise.util.MyUtils
 import kotlinx.coroutines.launch
 
 class Timer : AppCompatActivity() {
@@ -35,6 +36,7 @@ class Timer : AppCompatActivity() {
     private var originalTime: Long = 20000
     private lateinit var resultViewModel: ResultViewModel
     private var exerciseName: String = "Exercise"
+    private var classificationName: String = "Exercise" // Added to store the classification name
 
     // View declarations
     private lateinit var btnBack: ImageView
@@ -62,6 +64,10 @@ class Timer : AppCompatActivity() {
 
         exerciseName = intent.getStringExtra("exercise_name") ?: "Exercise"
         exerciseTitle.text = exerciseName
+        // Convert the display name to classification name when receiving it
+        classificationName = MyUtils.databaseNameToClassification(exerciseName)
+
+
         val exerciseImageRes = intent.getIntExtra("exercise_image", R.drawable.dref)
         val isGif = intent.getBooleanExtra("is_gif", false)
 
@@ -118,7 +124,7 @@ class Timer : AppCompatActivity() {
         dialog.setView(dialogView)
             .setPositiveButton("OK") { _, _ ->
                 val seconds = timeInput.text.toString().toIntOrNull() ?: 20
-                val maxseconds = Math.min (seconds, 3600)
+                val maxseconds = Math.min(seconds, 3600)
                 originalTime = maxseconds * 1000L
                 timeLeftInMillis = originalTime
                 updateTimerText()
@@ -191,7 +197,7 @@ class Timer : AppCompatActivity() {
 
         val workoutResult = WorkoutResult(
             id = 0, // Default value
-            exerciseName = exerciseName,
+            exerciseName = classificationName, // Use the classification name instead of display name
             repeatedCount = 0, // Default value
             confidence = 0f, // Default value
             timestamp = System.currentTimeMillis(),

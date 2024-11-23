@@ -129,6 +129,25 @@ class FirebaseRepository(private val userId: String) {
             }
     }
 
+    suspend fun fetchWithTimerWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
+        val calendar = Calendar.getInstance()
+        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.add(Calendar.DAY_OF_YEAR, -14) // Go back 14 days
+        val startTime = calendar.timeInMillis
+
+        databaseReference.child("workoutResults").get()
+            .addOnSuccessListener { snapshot ->
+                val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
+                    .filter {
+                        it.timestamp >= startTime // Filter out zero results
+                    }
+                cont.resume(results)
+            }
+            .addOnFailureListener { exception ->
+                cont.resumeWithException(exception)
+            }
+    }
+
     private fun isZeroResult(workoutResult: WorkoutResult): Boolean {
         return workoutResult.calorie == 0.0 && workoutResult.repeatedCount == 0 && workoutResult.confidence == 0f
     }
