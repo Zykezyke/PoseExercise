@@ -39,43 +39,68 @@
     <!-- Scrollable Content -->
     <ScrollView
         android:id="@+id/main_scroll_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/exercise_name_header"
-        app:layout_constraintBottom_toTopOf="@id/repetitions_layout">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:fadingEdgeLength="150dp"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/repetitions_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exercise_name_header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="30dp">
 
             <!-- Exercise Image -->
-            <ImageView
-                android:id="@+id/exercise_image"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                tools:src="@drawable/push_up" />
+                android:layout_height="match_parent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="5dp">
+
+                <ImageView
+                    android:id="@+id/exercise_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:elevation="5dp"
+                    android:scaleType="fitCenter"
+                    tools:src="@drawable/push_up" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="5dp">
+
+                <ImageView
+                    android:id="@+id/muscle_target_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    tools:src="@drawable/push_up_muscle_target" />
+            </androidx.cardview.widget.CardView>
 
             <!-- Muscle Target Image -->
-            <ImageView
-                android:id="@+id/muscle_target_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                tools:src="@drawable/push_up_muscle_target" />
 
             <!-- Exercise Details Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardElevation="4dp"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,10 +111,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="Exercise Details"
-                        android:textStyle="bold"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="18sp"
-                        android:layout_marginBottom="8dp"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/exercise_details"
@@ -107,8 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardElevation="4dp"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,10 +145,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="Proper Form Guide"
-                        android:textStyle="bold"
                         android:textSize="18sp"
-                        android:layout_marginBottom="8dp"/>
+                        android:textColor="?android:textColorSecondary"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/proper_form_guide"
@@ -140,8 +167,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardElevation="4dp"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -152,10 +179,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="Common Mistakes to Avoid"
-                        android:textStyle="bold"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="18sp"
-                        android:layout_marginBottom="8dp"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/common_mistakes"
@@ -171,13 +199,16 @@
     </ScrollView>
 
     <!-- Repetitions Input -->
+
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/repetitions_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_xlarge"
         android:layout_marginBottom="@dimen/margin_xlarge"
-        android:hint="Add Rep Count For Form Tracking (1-100)"
+        android:hint="Add Rep Count For Form Tracking  (1-100)"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toTopOf="@+id/buttons_container"
         app:layout_constraintEnd_toEndOf="parent"
@@ -189,6 +220,8 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:maxLength="3"
+            android:text=""
+            android:padding="12dp"
             android:textColor="?android:textColorSecondary" />
 
     </com.google.android.material.textfield.TextInputLayout>

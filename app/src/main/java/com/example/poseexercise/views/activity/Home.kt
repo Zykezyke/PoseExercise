@@ -3,6 +3,7 @@ package com.example.poseexercise
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Typeface
 import android.media.Image
 import android.os.Build
 import android.os.Bundle
@@ -30,6 +31,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -145,6 +148,8 @@ class Home : AppCompatActivity() {
         }
     }
 
+
+
     private fun setupWorkoutDurationChart() {
         val barChart = findViewById<BarChart>(R.id.barChart)
 
@@ -195,12 +200,17 @@ class Home : AppCompatActivity() {
                     )
                 }
 
-                val dataSet = BarDataSet(entries, "") // Empty string to hide legend
-                dataSet.color = Color.BLUE
-                dataSet.valueTextColor = Color.BLACK
-                dataSet.valueTextSize = 12f
+                val customTypeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
 
-                // Format the bar values to show whole minutes
+                val dataSet = BarDataSet(entries, "")
+                dataSet.color = Color.parseColor("#3C628F")
+                dataSet.valueTextColor = Color.WHITE
+                dataSet.valueTextSize = 10f
+                dataSet.valueTypeface = customTypeface
+
+
+                dataSet.setDrawValues(false)
+
                 dataSet.valueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
                         return "${value.toInt()}min"
@@ -211,39 +221,64 @@ class Home : AppCompatActivity() {
                 barChart.data = barData
 
                 // Calculate the appropriate y-axis maximum
-                // Find the next multiple of 10 above the maximum duration
                 val yMax = if (maxDuration > 0) {
                     (ceil(maxDuration / 10f) * 10f).coerceAtLeast(10f)
                 } else {
-                    10f // Minimum scale of 10 minutes when no data or all zeros
+                    10f
                 }
 
                 // Customize the chart
                 barChart.apply {
-                    description.text = "" // Remove description
+                    description.text = ""
                     xAxis.apply {
                         position = XAxis.XAxisPosition.BOTTOM
                         valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+                        typeface = customTypeface
+                        textColor = Color.WHITE
                         granularity = 1f
-                        labelRotationAngle = 0f // Straight labels
+                        labelRotationAngle = 0f
                         setDrawGridLines(false)
                     }
                     axisRight.isEnabled = false
                     axisLeft.apply {
                         axisMinimum = 0f
                         axisMaximum = yMax
-                        granularity = 10f // Increment by 10
+                        granularity = 5f
                         valueFormatter = object : ValueFormatter() {
                             override fun getFormattedValue(value: Float): String {
                                 return "${value.toInt()}min"
                             }
                         }
+                        typeface = customTypeface
+                        textColor = Color.WHITE
                         setDrawGridLines(true)
                     }
-                    legend.isEnabled = false // Hide legend
+                    legend.isEnabled = false
                     animateY(1000)
+
+
+                    setScaleEnabled(false)
+                    setDoubleTapToZoomEnabled(false)
+
                     invalidate()
                 }
+
+
+                barChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        if (e?.y != 0f) {
+                            dataSet.setDrawValues(true)
+                        } else {
+                            dataSet.setDrawValues(false)
+                        }
+                        barChart.invalidate()
+                    }
+
+                    override fun onNothingSelected() {
+                        dataSet.setDrawValues(false)
+                        barChart.invalidate()
+                    }
+                })
 
             } catch (e: Exception) {
                 Log.e("ChartError", "Error setting up workout duration chart", e)
@@ -252,7 +287,6 @@ class Home : AppCompatActivity() {
             }
         }
     }
-
 
 
 

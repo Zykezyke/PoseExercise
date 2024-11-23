@@ -30,8 +30,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button4"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -105,7 +106,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin_xxlarge"
                 android:paddingStart="20dp"
-
+                android:fadingEdgeLength="20dp"
+                android:orientation="vertical"
+                android:requiresFadingEdge="vertical"
                 android:paddingTop="10dp"
                 android:paddingEnd="20dp"
                 android:scrollbars="none"
@@ -114,7 +117,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                 tools:listitem="@layout/card_exercise_type" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="35dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="WORKOUT"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:backgroundTint="#3C628F"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

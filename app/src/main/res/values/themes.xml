@@ -6,7 +6,6 @@
         <item name="colorPrimaryContainer">@color/light_blue</item>
         <item name="android:textColorSecondary">@color/black</item>
         <item name="textAppearanceButton">@color/white</item>
-
         <item name="android:titleTextAppearance">@color/texttitlelight</item>
         <item name="android:subtitleTextAppearance">@color/textsubtitlelight</item>
 
