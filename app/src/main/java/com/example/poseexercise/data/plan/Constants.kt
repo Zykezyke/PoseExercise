@@ -14,7 +14,7 @@ object Constants {
                 id = 1,
                 name = "Push up",
                 image = R.drawable.push_up,
-                muscleTargetImage = R.drawable.push_up_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.push_up_muscle, // Add a muscle targeting diagram
                 calorie = 3.2,
                 level = "Intermediate",
                 steps = listOf(
@@ -37,13 +37,14 @@ object Constants {
                     "Rushing through repetitions",
                     "Not going low enough to engage full muscle range",
                     "Holding breath during the exercise"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 2,
                 name = "Lunge",
                 image = R.drawable.reverse_lunges,
-                muscleTargetImage = R.drawable.lunge_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.lunge_muscle, // Add a muscle targeting diagram
                 calorie = 3.0,
                 level = "Beginner",
                 steps = listOf(
@@ -66,13 +67,14 @@ object Constants {
                     "Leaning too far forward or backward",
                     "Lifting the back heel off the ground",
                     "Holding breath during repetitions"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 3,
                 name = "Squat",
                 image = R.drawable.squat,
-                muscleTargetImage = R.drawable.squat_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.squat_muscle, // Add a muscle targeting diagram
                 calorie = 3.8,
                 level = "Beginner",
                 steps = listOf(
@@ -95,13 +97,14 @@ object Constants {
                     "Rounding your back",
                     "Not lowering enough to parallel",
                     "Using momentum instead of controlled movement"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 4,
                 name = "Sit up",
                 image = R.drawable.sit_ups,
-                muscleTargetImage = R.drawable.sit_up_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.situp_muscle, // Add a muscle targeting diagram
                 calorie = 5.0,
                 level = "Advance",
                 steps = listOf(
@@ -122,13 +125,14 @@ object Constants {
                     "Using momentum to lift your upper body",
                     "Arching your back excessively",
                     "Failing to engage your core muscles"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 5,
                 name = "Chest press",
                 image = R.drawable.chest_press,
-                muscleTargetImage = R.drawable.chest_press_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.chest_muscle, // Add a muscle targeting diagram
                 calorie = 7.0,
                 level = "Advance",
                 steps = listOf(
@@ -151,13 +155,14 @@ object Constants {
                     "Rushing through the motion",
                     "Dropping weights too quickly",
                     "Failing to engage chest muscles"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 6,
                 name = "Dead lift",
                 image = R.drawable.dead_lift,
-                muscleTargetImage = R.drawable.dead_lift_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.deadlift_muscle, // Add a muscle targeting diagram
                 calorie = 10.0,
                 level = "Advance",
                 steps = listOf(
@@ -181,13 +186,14 @@ object Constants {
                     "Jerking the bar off the ground",
                     "Letting the bar drift away from your body",
                     "Failing to lock hips at the top"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 7,
                 name = "Shoulder press",
                 image = R.drawable.shoulder_press,
-                muscleTargetImage = R.drawable.shoulder_press_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.shoulder_muscle, // Add a muscle targeting diagram
                 calorie = 9.0,
                 level = "Advance",
                 steps = listOf(
@@ -208,13 +214,14 @@ object Constants {
                     "Using momentum instead of controlled movements",
                     "Letting the elbows flare out too much",
                     "Failing to engage the core"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 8,
                 name = "Jumping jacks",
                 image = R.drawable.jumping_jacks,
-                muscleTargetImage = R.drawable.jumping_jacks_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.jacks_muscle, // Add a muscle targeting diagram
                 calorie = 9.0,
                 level = "Beginner",
                 steps = listOf(
@@ -235,13 +242,14 @@ object Constants {
                     "Failing to fully extend arms or legs",
                     "Losing rhythm and balance",
                     "Leaning forward excessively"
-                )
+                ),
+                isGif = true,
             ),
             Exercise(
                 id = 9,
                 name = "Planking",
                 image = R.drawable.planking,
-                muscleTargetImage = R.drawable.planking_muscle_target, // Add a muscle targeting diagram
+                muscleTargetImage = R.drawable.plank_muscle, // Add a muscle targeting diagram
                 calorie = 9.0,
                 level = "Intermediate",
                 steps = listOf(
@@ -262,7 +270,8 @@ object Constants {
                     "Holding your breath",
                     "Failing to engage the core and glutes",
                     "Straining the neck by looking forward"
-                )
+                ),
+                isGif = true,
             )
         )
     }

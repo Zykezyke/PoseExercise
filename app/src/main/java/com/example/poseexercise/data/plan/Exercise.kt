@@ -15,7 +15,8 @@ data class Exercise(
     val steps: List<String>,
     val targetMuscles: List<String>,
     val properFormGuide: List<String>, // New: Detailed guide on maintaining proper form
-    val commonMistakesToAvoid: List<String> // New: Typical errors to be mindful of
+    val commonMistakesToAvoid: List<String>, // New: Typical errors to be mindful of
+    val isGif: Boolean = false
 )
 
 /**

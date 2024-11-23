@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.poseexercise.R
 import com.example.poseexercise.Timer
 import com.example.poseexercise.data.plan.Plan
@@ -62,7 +63,16 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
             it.image?.let { imgRes -> exerciseImage.setImageResource(imgRes) }
 
             // Set muscle target image
-            it.muscleTargetImage?.let { targetImgRes -> muscleTargetImage.setImageResource(targetImgRes) }
+            if (it.isGif) {
+                // Load GIF using Glide from raw resource
+                Glide.with(requireContext())
+                    .asGif()
+                    .load(it.muscleTargetImage) // Resource ID from R.raw
+                    .into(muscleTargetImage)
+            } else {
+                // Load regular image resource
+                it.muscleTargetImage?.let { it1 -> muscleTargetImage.setImageResource(it1) }
+            }
 
             // Build and set exercise details text
             val detailsBuilder = StringBuilder()
@@ -126,8 +136,10 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
             // Pass data to the Timer activity
             intent.putExtra("exercise_name", mExerciseName)
             val exercise = Constants.getExerciseList().find { it.name == mExerciseName }
-            exercise?.image?.let {
-                intent.putExtra("exercise_image", it)
+            exercise?.let {
+                // For GIF images, we need to pass the correct resource ID
+                intent.putExtra("exercise_image", it.muscleTargetImage)
+                intent.putExtra("is_gif", it.isGif)
             }
 
             startActivity(intent)

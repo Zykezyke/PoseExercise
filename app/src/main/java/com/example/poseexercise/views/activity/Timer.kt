@@ -20,6 +20,7 @@ import android.os.Looper
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
+import com.bumptech.glide.Glide
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.poseexercise.data.results.WorkoutResult
@@ -42,6 +43,7 @@ class Timer : AppCompatActivity() {
     private lateinit var changeDurationButton: MaterialCardView
     private lateinit var pauseButton: MaterialCardView
     private lateinit var pauseButtonText: TextView
+    private lateinit var exerciseImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +61,19 @@ class Timer : AppCompatActivity() {
         setupClickListeners()
 
         exerciseName = intent.getStringExtra("exercise_name") ?: "Exercise"
+        exerciseTitle.text = exerciseName
         val exerciseImageRes = intent.getIntExtra("exercise_image", R.drawable.dref)
+        val isGif = intent.getBooleanExtra("is_gif", false)
 
         // Set data to views
-        exerciseTitle.text = exerciseName
-        findViewById<ImageView>(R.id.exerciseImage).setImageResource(exerciseImageRes)
+        if (isGif) {
+            Glide.with(this)
+                .asGif()
+                .load(exerciseImageRes)
+                .into(exerciseImage)
+        } else {
+            exerciseImage.setImageResource(exerciseImageRes)
+        }
 
         updateTimerText()
 
@@ -77,6 +87,7 @@ class Timer : AppCompatActivity() {
         changeDurationButton = findViewById(R.id.changeDurationButton)
         pauseButton = findViewById(R.id.pauseButton)
         pauseButtonText = findViewById(R.id.pauseButtonText)
+        exerciseImage = findViewById(R.id.exerciseImage)
     }
 
     private fun setupClickListeners() {
