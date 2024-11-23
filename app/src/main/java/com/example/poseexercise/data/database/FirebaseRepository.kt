@@ -91,7 +91,7 @@ class FirebaseRepository(private val userId: String) {
     suspend fun fetchThisWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
         calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
-        calendar.set(Calendar.DAY_OF_WEEK -1, calendar.firstDayOfWeek)
+        calendar.set(Calendar.DAY_OF_WEEK - 1, calendar.firstDayOfWeek)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
@@ -100,7 +100,9 @@ class FirebaseRepository(private val userId: String) {
         databaseReference.child("workoutResults").get()
             .addOnSuccessListener { snapshot ->
                 val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
-                    .filter { it.timestamp >= startOfWeek }
+                    .filter {
+                        it.timestamp >= startOfWeek && !isZeroResult(it)
+                    }
                 cont.resume(results)
             }
             .addOnFailureListener { exception ->
@@ -117,12 +119,18 @@ class FirebaseRepository(private val userId: String) {
         databaseReference.child("workoutResults").get()
             .addOnSuccessListener { snapshot ->
                 val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
-                    .filter { it.timestamp >= startTime } // Filter for the last 14 days
+                    .filter {
+                        it.timestamp >= startTime && !isZeroResult(it) // Filter out zero results
+                    }
                 cont.resume(results)
             }
             .addOnFailureListener { exception ->
                 cont.resumeWithException(exception)
             }
+    }
+
+    private fun isZeroResult(workoutResult: WorkoutResult): Boolean {
+        return workoutResult.calorie == 0.0 && workoutResult.repeatedCount == 0 && workoutResult.confidence == 0f
     }
 
 

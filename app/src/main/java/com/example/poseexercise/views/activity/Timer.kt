@@ -20,6 +20,11 @@ import android.os.Looper
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.poseexercise.data.results.WorkoutResult
+import com.example.poseexercise.viewmodels.ResultViewModel
+import kotlinx.coroutines.launch
 
 class Timer : AppCompatActivity() {
 
@@ -27,6 +32,8 @@ class Timer : AppCompatActivity() {
     private var timeLeftInMillis: Long = 20000 // Default 20 seconds
     private var isTimerRunning = false
     private var originalTime: Long = 20000
+    private lateinit var resultViewModel: ResultViewModel
+    private var exerciseName: String = "Exercise"
 
     // View declarations
     private lateinit var btnBack: ImageView
@@ -46,10 +53,12 @@ class Timer : AppCompatActivity() {
             insets
         }
 
+        resultViewModel = ViewModelProvider(this).get(ResultViewModel::class.java)
+
         initializeViews()
         setupClickListeners()
 
-        val exerciseName = intent.getStringExtra("exercise_name") ?: "Exercise"
+        exerciseName = intent.getStringExtra("exercise_name") ?: "Exercise"
         val exerciseImageRes = intent.getIntExtra("exercise_image", R.drawable.dref)
 
         // Set data to views
@@ -98,7 +107,8 @@ class Timer : AppCompatActivity() {
         dialog.setView(dialogView)
             .setPositiveButton("OK") { _, _ ->
                 val seconds = timeInput.text.toString().toIntOrNull() ?: 20
-                originalTime = seconds * 1000L
+                val maxseconds = Math.min (seconds, 3600)
+                originalTime = maxseconds * 1000L
                 timeLeftInMillis = originalTime
                 updateTimerText()
                 pauseButton.isEnabled = true
@@ -155,12 +165,32 @@ class Timer : AppCompatActivity() {
                 timeLeftInMillis = originalTime
                 updateTimerText()
                 playTimerFinishSound()
+                saveWorkoutResult()
             }
 
         }.start()
 
         isTimerRunning = true
         pauseButtonText.text = "PAUSE"
+    }
+
+    private fun saveWorkoutResult() {
+        // Calculate workout time in minutes from the original time (converting from milliseconds)
+        val workoutTimeInMin = originalTime / (1000.0 * 60.0)
+
+        val workoutResult = WorkoutResult(
+            id = 0, // Default value
+            exerciseName = exerciseName,
+            repeatedCount = 0, // Default value
+            confidence = 0f, // Default value
+            timestamp = System.currentTimeMillis(),
+            calorie = 0.0, // Default value
+            workoutTimeInMin = workoutTimeInMin
+        )
+
+        lifecycleScope.launch {
+            resultViewModel.insert(workoutResult)
+        }
     }
 
     private fun pauseTimer() {
