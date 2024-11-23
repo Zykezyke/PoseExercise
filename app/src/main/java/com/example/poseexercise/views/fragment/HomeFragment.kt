@@ -53,14 +53,9 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
     private lateinit var recentActivityAdapter: RecentActivityAdapter
     private var planList: List<Plan>? = emptyList()
     private var notCompletePlanList: MutableList<Plan>? = Collections.emptyList()
-    private var today: String = DateFormat.format("EEEE", Date()) as String
-    private lateinit var progressText: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var noPlanTV: TextView
-    private lateinit var workoutButton: Button
     private lateinit var goHomeButton: Button
-    private lateinit var progressBar: ProgressBar
-    private lateinit var progressPercentage: TextView
     private var workoutResults: List<WorkoutResult>? = null
     private lateinit var adapter: PlanAdapter
 
@@ -74,6 +69,9 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val totalRepsTextView = view.findViewById<TextView>(R.id.totalReps)
+        val totalDurationTextView = view.findViewById<TextView>(R.id.totalDuration)
         // Initialize RecyclerView and its adapter for recent activity
         recentActivityRecyclerView = view.findViewById(R.id.recentActivityRecyclerView)
         recentActivityAdapter = RecentActivityAdapter(emptyList())
@@ -82,7 +80,13 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         // Initialize ViewModel
         resultViewModel = ResultViewModel(MyApplication.getInstance())
         lifecycleScope.launch {
-            val workoutResults = resultViewModel.getRecentWorkout(10)
+            val workoutResults = resultViewModel.getRecentWorkout(20)
+            val totalReps = workoutResults?.sumOf { it.repeatedCount } ?: 0
+            totalRepsTextView.text = "Total Reps: ${totalReps.toString()}"
+
+            val totalMinutes = workoutResults?.sumOf { it.workoutTimeInMin } ?: 0.0
+            val totalDuration = formatToHHMMSS(totalMinutes)
+            totalDurationTextView.text = "Total Duration: $totalDuration"
             // Call the function to load data and set up the chart
             loadDataAndSetupChart()
             // Transform WorkoutResult objects into RecentActivityItem objects
@@ -92,7 +96,9 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
                 RecentActivityItem(
                     imageResId = imageResources[index % imageResources.size],
                     exerciseType = MyUtils.exerciseNameToDisplay(it.exerciseName),
-                    reps = "${it.repeatedCount} reps"
+                    reps = "${it.repeatedCount} reps",
+                    date = "Date: ${formatDate(it.timestamp)}",
+                    duration = "Duration: ${formatToMMSS(it.workoutTimeInMin)}"
                 )
             }
             // Update the adapter with the transformed data
@@ -111,11 +117,7 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         // Initialize home view model, RecyclerView and its adapter for today's plans
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // get the list of plans from database
-        lifecycleScope.launch(Dispatchers.IO) {
-            val result1 = homeViewModel.getPlanByDay(today)
-            val result2 = homeViewModel.getNotCompletePlans(today)
 
-        }
 
         // Handle back press to navigate to Home activity
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -147,6 +149,24 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
 
 
         }
+    }
+
+    private fun formatToHHMMSS(totalMinutes: Double): String {
+        val hours = totalMinutes.toInt() / 60
+        val minutes = totalMinutes.toInt() % 60
+        val seconds = ((totalMinutes - totalMinutes.toInt()) * 60).toInt()
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    private fun formatDate(timestamp: Long): String {
+        val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        return sdf.format(Date(timestamp))
+    }
+
+    private fun formatToMMSS(workoutTimeInMin: Double): String {
+        val minutes = workoutTimeInMin.toInt()
+        val seconds = ((workoutTimeInMin - minutes) * 60).toInt()
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
 

@@ -52,7 +52,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView22"
+                        android:id="@+id/textViewDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/textViewExerciseType"
@@ -91,7 +91,7 @@
                         android:textSize="@dimen/text_normal" />
 
                     <TextView
-                        android:id="@+id/textView24"
+                        android:id="@+id/textViewDura"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

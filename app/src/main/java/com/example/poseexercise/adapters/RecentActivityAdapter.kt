@@ -28,6 +28,8 @@ class RecentActivityAdapter(private var recentActivityList: List<RecentActivityI
         holder.exerciseImage.setImageResource(currentItem.imageResId)
         holder.exerciseType.text = currentItem.exerciseType
         holder.reps.text = currentItem.reps
+        holder.date.text = currentItem.date // New field for formatted date
+        holder.duration.text = currentItem.duration
     }
 
     // Returns the number of items in the RecyclerView
@@ -40,6 +42,8 @@ class RecentActivityAdapter(private var recentActivityList: List<RecentActivityI
         val exerciseImage: ImageView = itemView.findViewById(R.id.imageView)
         val exerciseType: TextView = itemView.findViewById(R.id.textViewExerciseType)
         val reps: TextView = itemView.findViewById(R.id.textViewReps)
+        val date: TextView = itemView.findViewById(R.id.textViewDate)
+        val duration: TextView = itemView.findViewById(R.id.textViewDura)
     }
 
     // Method to update the data in the adapter
