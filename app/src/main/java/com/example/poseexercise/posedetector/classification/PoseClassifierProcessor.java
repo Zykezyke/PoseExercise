@@ -252,16 +252,24 @@ public class PoseClassifierProcessor {
                     // Play a fun beep when rep counter updates.
                     ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
                     tg.startTone(ToneGenerator.TONE_PROP_BEEP);
-                    String maxsConfidenceClass = classification.getMaxConfidenceClass();
+
+                    String maxConfidenceClass = classification.getMaxConfidenceClass();
 
                     // Calculate confidence and limit it to a maximum of 1.0
-                    float confidence = classification.getClassConfidence(maxsConfidenceClass) / poseClassifier.confidenceRange();
+                    float confidence = classification.getClassConfidence(maxConfidenceClass) / poseClassifier.confidenceRange();
                     confidence = Math.min(confidence, 1.0f); // Cap confidence at 1.0
 
                     float finalConfidence = Math.min(confidence + 0.25f, 1.0f);
 
-                    Objects.requireNonNull(postureResults.get(maxsConfidenceClass))
-                            .setConfidence(confidence);
+                    // Update postureResults map with confidence
+                    postureResults.putIfAbsent(maxConfidenceClass, new PostureResult(0, 0, maxConfidenceClass));
+                    PostureResult result = postureResults.get(maxConfidenceClass);
+                    if (result != null) {
+                        result.setConfidence(finalConfidence);
+                    } else {
+                        Log.e("PoseClassifier", "Failed to update confidence for " + maxConfidenceClass);
+                    }
+
                     // Add result to map
                     postureResults.put(repCounter.getClassName(), new PostureResult(repsAfter, finalConfidence, repCounter.getClassName()));
                     break;
@@ -273,8 +281,7 @@ public class PoseClassifierProcessor {
         if (!pose.getAllPoseLandmarks().isEmpty()) {
             String maxConfidenceClass = classification.getMaxConfidenceClass();
 
-            // find the key from the map -> if it exists, update the confidence value, otherwise add a new entry
-
+            // Find the key from the map -> if it exists, update the confidence value, otherwise add a new entry
             if (!postureResults.containsKey(maxConfidenceClass)) {
                 postureResults.put(maxConfidenceClass, new PostureResult(0, 0, maxConfidenceClass));
             } else {
@@ -285,4 +292,5 @@ public class PoseClassifierProcessor {
 
         return postureResults;
     }
+
 }
