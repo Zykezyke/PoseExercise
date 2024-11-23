@@ -19,10 +19,17 @@ import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.views.activity.JournalActivity
 import com.example.poseexercise.views.activity.PlannerActivity
 import com.example.poseexercise.views.fragment.HomeFragment
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,7 +37,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
+import kotlin.math.ceil
 
 class Home : AppCompatActivity() {
 
@@ -82,7 +93,7 @@ class Home : AppCompatActivity() {
             })
 
             repository = FirebaseRepository(user.uid)
-            setupConfidenceChart()
+            setupWorkoutDurationChart()
             updateWeeklyStats()
         }
 
@@ -134,69 +145,110 @@ class Home : AppCompatActivity() {
         }
     }
 
-    private fun setupConfidenceChart() {
-        val lineChart = findViewById<LineChart>(R.id.lineChart)
+    private fun setupWorkoutDurationChart() {
+        val barChart = findViewById<BarChart>(R.id.barChart)
 
         lifecycleScope.launch {
             try {
+                val calendar = Calendar.getInstance()
+                calendar.timeZone = TimeZone.getTimeZone("UTC+8")
+                calendar.add(Calendar.DAY_OF_YEAR, -7) // Go back 7 days
+                val startTime = calendar.timeInMillis
+
                 val results = repository.fetchLastTwoWeeksWorkoutResults()
-                Log.d("WorkoutResults", "Fetched results: $results")
+                    .filter { it.timestamp >= startTime }
 
                 if (results.isEmpty()) {
-                    lineChart.clear()
-                    lineChart.setNoDataText("No confidence data available for the last 14 days.")
+                    barChart.clear()
+                    barChart.setNoDataText("No workout data available for the last week.")
                     return@launch
                 }
 
-                val calendar = Calendar.getInstance()
-                calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
-                val today = calendar.get(Calendar.DAY_OF_YEAR - 1)
-
-                val dailyConfidence = mutableMapOf<Int, Double>()
-                for (i in 0..13) {
-                    dailyConfidence[today - i] = 0.0
+                // Group workouts by day and sum their durations
+                val dailyDurations = results.groupBy { result ->
+                    val date = Calendar.getInstance()
+                    date.timeZone = TimeZone.getTimeZone("UTC+8")
+                    date.timeInMillis = result.timestamp
+                    date.get(Calendar.DAY_OF_YEAR)
+                }.mapValues { (_, dailyResults) ->
+                    dailyResults.sumOf { (it.workoutTimeInMin * 10) }
                 }
 
-                results.groupBy {
-                    val date = java.util.Calendar.getInstance()
-                    date.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
-                    date.timeInMillis = it.timestamp
-                    date.get(Calendar.DAY_OF_YEAR - 1)
-                }.forEach { (day, dailyResults) ->
-                    dailyConfidence[day] = dailyResults.map { it.confidence }.average()
+                // Create entries for each day of the last week
+                val entries = mutableListOf<BarEntry>()
+                val xAxisLabels = mutableListOf<String>()
+                var maxDuration = 0f
+
+                for (i in 6 downTo 0) {
+                    calendar.timeInMillis = System.currentTimeMillis()
+                    calendar.add(Calendar.DAY_OF_YEAR, -i)
+                    val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
+                    val duration = dailyDurations[dayOfYear] ?: 0.0
+                    maxDuration = maxOf(maxDuration, duration.toFloat())
+
+                    entries.add(BarEntry((6 - i).toFloat(), duration.toFloat()))
+                    xAxisLabels.add(
+                        SimpleDateFormat(
+                            "EEE",
+                            Locale.getDefault()
+                        ).format(calendar.time)
+                    )
                 }
 
-                val sortedConfidence = dailyConfidence.toList().sortedBy { it.first }
-                Log.d("DailyConfidence", "Confidence data: $sortedConfidence")
-
-                val entries = sortedConfidence.map { (day, avgConfidence) ->
-                    Entry(day.toFloat(), avgConfidence.toFloat())
-                }
-
-                val dataSet = LineDataSet(entries, "User Confidence")
+                val dataSet = BarDataSet(entries, "") // Empty string to hide legend
                 dataSet.color = Color.BLUE
                 dataSet.valueTextColor = Color.BLACK
                 dataSet.valueTextSize = 12f
-                dataSet.setCircleColor(Color.RED)
-                dataSet.circleRadius = 5f
-                dataSet.lineWidth = 2f
-                dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-                dataSet.setDrawFilled(true)
-                dataSet.fillColor = Color.LTGRAY
 
-                val lineData = LineData(dataSet)
-                lineChart.data = lineData
+                // Format the bar values to show whole minutes
+                dataSet.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return "${value.toInt()}min"
+                    }
+                }
 
-                lineChart.description.text = "Daily Average Confidence"
-                lineChart.setNoDataText("No data available for the last 14 days.")
-                lineChart.axisRight.isEnabled = false
-                lineChart.xAxis.granularity = 1f
-                lineChart.invalidate()
+                val barData = BarData(dataSet)
+                barChart.data = barData
+
+                // Calculate the appropriate y-axis maximum
+                // Find the next multiple of 10 above the maximum duration
+                val yMax = if (maxDuration > 0) {
+                    (ceil(maxDuration / 10f) * 10f).coerceAtLeast(10f)
+                } else {
+                    10f // Minimum scale of 10 minutes when no data or all zeros
+                }
+
+                // Customize the chart
+                barChart.apply {
+                    description.text = "" // Remove description
+                    xAxis.apply {
+                        position = XAxis.XAxisPosition.BOTTOM
+                        valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+                        granularity = 1f
+                        labelRotationAngle = 0f // Straight labels
+                        setDrawGridLines(false)
+                    }
+                    axisRight.isEnabled = false
+                    axisLeft.apply {
+                        axisMinimum = 0f
+                        axisMaximum = yMax
+                        granularity = 10f // Increment by 10
+                        valueFormatter = object : ValueFormatter() {
+                            override fun getFormattedValue(value: Float): String {
+                                return "${value.toInt()}min"
+                            }
+                        }
+                        setDrawGridLines(true)
+                    }
+                    legend.isEnabled = false // Hide legend
+                    animateY(1000)
+                    invalidate()
+                }
 
             } catch (e: Exception) {
-                Log.e("ChartError", "Error setting up chart", e)
-                lineChart.clear()
-                lineChart.setNoDataText("Error loading data.")
+                Log.e("ChartError", "Error setting up workout duration chart", e)
+                barChart.clear()
+                barChart.setNoDataText("Error loading data.")
             }
         }
     }
