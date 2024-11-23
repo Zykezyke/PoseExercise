@@ -188,6 +188,7 @@ class ProfileFragment : Fragment(), MemoryManagement {
     // Function to get the start of the day
     private fun getStartOfDay(timestamp: Long): Long {
         val calendar = Calendar.getInstance()
+        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
         calendar.timeInMillis = timestamp
 
         // Set the calendar to the start of the day

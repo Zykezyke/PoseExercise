@@ -90,7 +90,8 @@ class FirebaseRepository(private val userId: String) {
 
     suspend fun fetchThisWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.set(Calendar.DAY_OF_WEEK -1, calendar.firstDayOfWeek)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
@@ -109,6 +110,7 @@ class FirebaseRepository(private val userId: String) {
 
     suspend fun fetchLastTwoWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
+        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
         calendar.add(Calendar.DAY_OF_YEAR, -14) // Go back 14 days
         val startTime = calendar.timeInMillis
 
@@ -128,6 +130,13 @@ class FirebaseRepository(private val userId: String) {
         databaseReference.child("workoutResults").child(resultId).child(fieldName).setValue(value)
     }
 
-
+    suspend fun deleteAllPlans() {
+        val plans = fetchPlans()
+        println("Plans fetched for deletion: $plans") // Log the fetched plans
+        plans.forEach {
+            println("Deleting plan with ID: ${it.id}") // Log each plan ID
+            deletePlan(it.id)
+        }
+    }
 }
 

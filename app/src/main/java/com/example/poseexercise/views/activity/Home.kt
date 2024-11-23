@@ -149,7 +149,8 @@ class Home : AppCompatActivity() {
                 }
 
                 val calendar = Calendar.getInstance()
-                val today = calendar.get(Calendar.DAY_OF_YEAR)
+                calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+                val today = calendar.get(Calendar.DAY_OF_YEAR - 1)
 
                 val dailyConfidence = mutableMapOf<Int, Double>()
                 for (i in 0..13) {
@@ -157,9 +158,10 @@ class Home : AppCompatActivity() {
                 }
 
                 results.groupBy {
-                    val date = Calendar.getInstance()
+                    val date = java.util.Calendar.getInstance()
+                    date.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
                     date.timeInMillis = it.timestamp
-                    date.get(Calendar.DAY_OF_YEAR)
+                    date.get(Calendar.DAY_OF_YEAR - 1)
                 }.forEach { (day, dailyResults) ->
                     dailyConfidence[day] = dailyResults.map { it.confidence }.average()
                 }

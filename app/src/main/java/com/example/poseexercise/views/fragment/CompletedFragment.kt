@@ -8,13 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.ai.client.generativeai.GenerativeModel
 import com.example.poseexercise.Home
 import com.example.poseexercise.R
+import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.data.results.WorkoutResult
 import com.example.poseexercise.views.activity.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +34,7 @@ class CompletedFragment : Fragment() {
     private lateinit var navigateToHomeButton: Button
     private lateinit var generativeModel: GenerativeModel
     private lateinit var aiFeedbackText: TextView
+    private lateinit var repository: FirebaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,11 @@ class CompletedFragment : Fragment() {
             modelName = "gemini-pro",
             apiKey = BuildConfig.GEMINI_API_KEY
         )
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("User not logged in")
+        repository = FirebaseRepository(userId)
+
     }
 
     override fun onCreateView(
@@ -51,9 +61,36 @@ class CompletedFragment : Fragment() {
         aiFeedbackText = view.findViewById(R.id.textView5)
 
         navigateToHomeButton.setOnClickListener {
-            val intent = Intent(requireActivity(), Home::class.java)
-            startActivity(intent)
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    repository.deleteAllPlans()
+                    println("All plans deleted successfully")
+                } catch (e: Exception) {
+                    println("Failed to delete plans: $e")
+                } finally {
+                    navigateToHome()
+                }
+            }
         }
+
+        // Handle back press to navigate to Home activity
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        try {
+                            repository.deleteAllPlans()
+                            println("All plans deleted successfully")
+                        } catch (e: Exception) {
+                            println("Failed to delete plans: $e")
+                        } finally {
+                            navigateToHome()
+                        }
+                    }
+                }
+            }
+        )
 
         return view
     }
@@ -147,6 +184,25 @@ class CompletedFragment : Fragment() {
                 workoutTimeInMin = 0.0
             )
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteAllPlans()
+                println("All plans deleted successfully")
+            } catch (e: Exception) {
+                println("Failed to delete plans: $e")
+            }
+        }
+    }
+
+    private fun navigateToHome() {
+        val intent = Intent(requireActivity(), Home::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        requireActivity().finish()
     }
 
 }

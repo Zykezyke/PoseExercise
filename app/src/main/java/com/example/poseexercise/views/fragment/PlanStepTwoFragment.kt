@@ -91,7 +91,9 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
 
         // Automatically select the current day
         val calendar = java.util.Calendar.getInstance()
-        val currentDay = resources.getStringArray(R.array.days)[calendar.get(java.util.Calendar.DAY_OF_WEEK) - 2]
+        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+
+        val currentDay = resources.getStringArray(R.array.days)[calendar.get(java.util.Calendar.DAY_OF_WEEK) - 1]
         selectedDays.add(currentDay)
 
 
