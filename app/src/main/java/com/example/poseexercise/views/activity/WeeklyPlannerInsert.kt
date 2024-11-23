@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.poseexercise.views.activity.Exercises
@@ -105,6 +106,9 @@ class WeeklyPlannerInsert : AppCompatActivity() {
 
                     exRecyclerView.visibility = View.VISIBLE
                 } else {
+                    val noActivityMessage = findViewById<TextView>(R.id.no_activity_message)
+                    noActivityMessage.text = getString(R.string.no_activities_yet)
+                    noActivityMessage.isVisible = true
                     // No data exists, hide RecyclerView
                     exRecyclerView.visibility = View.GONE
                 }

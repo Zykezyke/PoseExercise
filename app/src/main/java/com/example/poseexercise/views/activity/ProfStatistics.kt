@@ -15,15 +15,10 @@ class ProfStatistics : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_prof_statistics)
-        val settingsButton = findViewById<ImageView>(R.id.btnSettings)
         val backButton = findViewById<ImageView>(R.id.btnBack)
-        settingsButton.setOnClickListener{
-            val intent = Intent(this, Settings::class.java)
-            startActivity(intent)
-        }
+
         backButton.setOnClickListener{
-            val intent = Intent(this, Profile::class.java)
-            startActivity(intent)
+            finish()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

@@ -116,6 +116,7 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/clock_icon"
                             android:gravity="center"
+                            android:text="10:00"
                             android:padding="@dimen/padding_small"
                             android:textColor="@color/white"
                             android:textStyle="bold"
@@ -127,12 +128,16 @@
                             android:id="@+id/workoutResult_textView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:lineSpacingExtra="4dp"
                             android:maxLines="10"
                             android:padding="10dp"
                             android:singleLine="false"
+                            android:text=""
+                            android:textAlignment="textStart"
+
+
                             android:textColor="@color/white"
-                            />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -142,10 +147,12 @@
                     android:id="@+id/goToHomeFromComplete"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/primaryColor"
                     android:layout_marginTop="@dimen/margin_large"
+                    android:backgroundTint="@color/primaryColor"
+                    android:fontFamily="sans-serif-condensed"
                     android:text="@string/home_button"
                     android:textColor="@color/white"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/cardView"
                     app:layout_constraintStart_toStartOf="@+id/cardView"

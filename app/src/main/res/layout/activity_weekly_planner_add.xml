@@ -62,7 +62,7 @@
                 android:maxLength="20"
                 android:text=""
                 android:textAlignment="center"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/txtReps"
@@ -82,7 +82,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/custom_input"
                 android:textAlignment="center"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/txtSets"
@@ -104,7 +104,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/custom_input"
                 android:textAlignment="center"
-                android:textColor="@android:color/holo_red_light" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <TextView

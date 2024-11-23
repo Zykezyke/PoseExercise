@@ -23,36 +23,42 @@
             android:padding="20dp">
 
             <!-- Exercise Name on the left -->
-            <TextView
-                android:id="@+id/txtViewExName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/antonio"
-                android:text="Exercise Name"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/layoutSetsReps"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Sets and Reps grouped on the right -->
+
+            <TextView
+                android:id="@+id/txtViewExName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Exercise Name"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/layoutSetsReps"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutSetsReps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0">
 
                 <TextView
                     android:id="@+id/txtSetsC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/antonio"
+                    android:fontFamily="sans-serif-condensed"
                     android:text="Sets: 0"
                     android:textColor="?android:textColorSecondary"
-                    android:textSize="23sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,10 +67,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/antonio"
+                    android:fontFamily="sans-serif-condensed"
                     android:text="Reps: 0"
                     android:textColor="?android:textColorSecondary"
-                    android:textSize="23sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/txtSetsC"
                     app:layout_constraintTop_toTopOf="@+id/txtSetsC" />
             </androidx.constraintlayout.widget.ConstraintLayout>

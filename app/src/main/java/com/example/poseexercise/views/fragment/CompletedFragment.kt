@@ -112,6 +112,11 @@ class CompletedFragment : Fragment() {
             CoroutineScope(Dispatchers.Main).launch {
                 aiFeedbackText.text = "Generating personalized feedback..."
                 val workoutResult = parseWorkoutResult(it)
+                workoutResultText.text = """
+                    Exercise Name: ${workoutResult.exerciseName}
+                    Repetitions: ${workoutResult.repeatedCount}
+                    Confidence Level: ${String.format("%.1f%%", workoutResult.confidence)}
+                """.trimIndent()
                 val feedback = generateWorkoutFeedback(workoutResult)
                 aiFeedbackText.text = feedback
             }

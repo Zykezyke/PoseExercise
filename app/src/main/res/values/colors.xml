@@ -32,4 +32,6 @@
 
     <color name="dayinput">#E5E5E5</color>
     <color name="nightinput">#FFFFFF</color>
+
+    <color name="m3_dark_hint_foreground">#BABABA</color>
 </resources>
