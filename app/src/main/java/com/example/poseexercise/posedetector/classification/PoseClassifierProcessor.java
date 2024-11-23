@@ -61,8 +61,6 @@ public class PoseClassifierProcessor {
     private static final String JUMPING_JACKS_FILE = "pose/jumpingjacks.csv";
     private static final String PLANKS_FILE = "pose/planks.csv";
 
-
-
     // The class name for all the exercise
     public static final String PUSHUPS_CLASS = "pushups_down";
     public static final String SQUATS_CLASS = "squats";
@@ -85,10 +83,8 @@ public class PoseClassifierProcessor {
     private PoseClassifier poseClassifier;
     private final Map<String, PostureResult> postureResults = new HashMap<>();
 
-
     @WorkerThread
     public PoseClassifierProcessor(Context context, boolean isStreamMode, List<String> plan) {
-
         Preconditions.checkState(Looper.myLooper() != Looper.getMainLooper());
         this.isStreamMode = isStreamMode;
         if (isStreamMode) {
@@ -278,11 +274,12 @@ public class PoseClassifierProcessor {
             String maxConfidenceClass = classification.getMaxConfidenceClass();
 
             // find the key from the map -> if it exists, update the confidence value, otherwise add a new entry
-            if (postureResults.containsKey(maxConfidenceClass)) {
+
+            if (!postureResults.containsKey(maxConfidenceClass)) {
+                postureResults.put(maxConfidenceClass, new PostureResult(0, 0, maxConfidenceClass));
+            } else {
                 Objects.requireNonNull(postureResults.get(maxConfidenceClass))
                         .setConfidence(classification.getClassConfidence(maxConfidenceClass) / poseClassifier.confidenceRange());
-            } else {
-                postureResults.put(maxConfidenceClass, new PostureResult(0, classification.getClassConfidence(maxConfidenceClass) / poseClassifier.confidenceRange(), maxConfidenceClass));
             }
         }
 
