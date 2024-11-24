@@ -3,6 +3,7 @@ package com.example.poseexercise.views.fragment
 import android.content.Intent
 import com.example.poseexercise.BuildConfig
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 /**
  * CompletedFragment: A fragment displayed when a workout is successfully completed.
@@ -35,9 +37,13 @@ class CompletedFragment : Fragment() {
     private lateinit var generativeModel: GenerativeModel
     private lateinit var aiFeedbackText: TextView
     private lateinit var repository: FirebaseRepository
+    private lateinit var textToSpeech: TextToSpeech
+    private var isTtsReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initTextToSpeech()
 
         // Initialize the generative AI model
         generativeModel = GenerativeModel(
@@ -110,12 +116,17 @@ class CompletedFragment : Fragment() {
                 val workoutResults = parseWorkoutResults(it)
                 workoutResultText.text = workoutResults.joinToString("\n") { result ->
                     """
-                Exercise Name: ${result.exerciseName}
-                Repetitions: ${result.repeatedCount}
-                Confidence Level: ${String.format("%.1f%%", (result.confidence* 100))}
-                """.trimIndent()
+                    Exercise Name: ${result.exerciseName}
+                    Repetitions: ${result.repeatedCount}
+                    Confidence Level: ${String.format("%.1f%%", (result.confidence * 100))}
+                    """.trimIndent()
                 }
-                aiFeedbackText.text = generateWorkoutFeedback(workoutResults)
+                val feedback = generateWorkoutFeedback(workoutResults)
+                aiFeedbackText.text = feedback
+                // Speak the feedback once it's generated
+                if (isTtsReady) {
+                    synthesizeSpeech(feedback)
+                }
             }
         } ?: run {
             workoutResultText.text = getString(R.string.noWorkoutResultDisplay)
@@ -186,6 +197,24 @@ class CompletedFragment : Fragment() {
         return workoutResults
     }
 
+    private fun initTextToSpeech() {
+        textToSpeech = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                isTtsReady = true
+                textToSpeech.language = Locale.US
+                textToSpeech.setSpeechRate(1.0f)
+            }
+        }
+    }
+
+    private fun synthesizeSpeech(text: String) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (isTtsReady) {
+                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -201,6 +230,10 @@ class CompletedFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (::textToSpeech.isInitialized) {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 repository.deleteAllPlans()

@@ -221,7 +221,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
                     android:layout_width="270dp"
-                    android:layout_height="180dp"
+                    android:layout_height="200dp"
                     app:cardBackgroundColor="#B3C9E4"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp"
@@ -230,10 +230,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13">
 
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="166dp"
+                        android:layout_height="25dp"
+                        android:fontFamily="@font/antonio"
+                        android:text="YOUR FAVORITE WORKOUT"
+                        android:textColor="#5081BB"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                       />
+
                     <ImageView
                         android:id="@+id/imageView3"
                         android:layout_width="match_parent"
-                        android:layout_height="182dp"
+                        android:layout_height="match_parent"
+                        android:paddingTop="40dp"
                         android:src="@drawable/pushup"
                         app:shapeAppearanceOverlay="@style/RoundedCorner" />
                 </androidx.cardview.widget.CardView>

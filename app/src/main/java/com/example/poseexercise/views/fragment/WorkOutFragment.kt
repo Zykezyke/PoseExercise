@@ -268,7 +268,6 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         val jumpingJack = Postures.jumpingjacks
 
         buttonCompleteExercise.setOnClickListener {
-            synthesizeSpeech("Workout Complete")
             cameraViewModel.postureLiveData.value?.let {
                 //val builder = StringBuilder()
                 for ((_, value) in it) {

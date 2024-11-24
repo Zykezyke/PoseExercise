@@ -6,13 +6,18 @@ import android.provider.Settings
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.poseexercise.adapters.WorkoutStatsAdapter
 import com.example.poseexercise.data.database.FirebaseRepository
+import com.example.poseexercise.data.results.GroupedWorkoutStats
+import com.example.poseexercise.util.MyUtils.Companion.exerciseNameToDisplay
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,6 +34,8 @@ class ProfStatistics : AppCompatActivity() {
     private lateinit var tvReps: TextView
     private lateinit var tvForm: TextView
     private lateinit var overallActivityRecyclerView: RecyclerView
+    private lateinit var favoriteWorkoutText: TextView
+    private lateinit var favoriteWorkoutImage: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +51,8 @@ class ProfStatistics : AppCompatActivity() {
         tvWorkouts = findViewById(R.id.textView93)
         tvReps = findViewById(R.id.textView9)
         tvForm = findViewById(R.id.textView92)
+        favoriteWorkoutText = findViewById(R.id.textView23)
+        favoriteWorkoutImage = findViewById(R.id.imageView3)
 
         //workout total reps and performed
         overallActivityRecyclerView = findViewById(R.id.overallActivityRecyclerView)
@@ -59,6 +68,7 @@ class ProfStatistics : AppCompatActivity() {
 
             repository = FirebaseRepository(user.uid)
             updateOverallStats()
+            setupWorkoutStatsList()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -94,6 +104,54 @@ class ProfStatistics : AppCompatActivity() {
                 tvWorkouts.text = "0"
                 tvReps.text = "0"
                 tvForm.text = "0%"
+            }
+        }
+    }
+
+    private fun setupWorkoutStatsList() {
+        lifecycleScope.launch {
+            try {
+                val workoutResults = repository.fetchOverallWorkoutResults()
+
+                // Group results by exercise name
+                val groupedStats = workoutResults
+                    .groupBy { it.exerciseName }
+                    .map { (name, results) ->
+                        GroupedWorkoutStats(
+                            exerciseName = name,
+                            totalReps = results.sumOf { it.repeatedCount },
+                            timesPerformed = results.size
+                        )
+                    }
+                    .sortedByDescending { it.timesPerformed }
+
+                // Set up RecyclerView
+                val adapter = WorkoutStatsAdapter(groupedStats)
+                overallActivityRecyclerView.adapter = adapter
+                overallActivityRecyclerView.layoutManager = LinearLayoutManager(this@ProfStatistics)
+
+                // Update favorite workout
+                groupedStats.maxByOrNull { it.timesPerformed }?.let { mostCommon ->
+                    favoriteWorkoutText.text = exerciseNameToDisplay(mostCommon.exerciseName)
+                    // Set the appropriate image based on the exercise name
+                    val imageResource = when(mostCommon.exerciseName) {
+                        "Push up" -> R.drawable.pushup
+                        "Lunge" -> R.drawable.reverse_lunges
+                        "Squat" -> R.drawable.squat
+                        "Sit up" -> R.drawable.sit_ups
+                        "Chest press" -> R.drawable.chest_press
+                        "Dead lift" -> R.drawable.dead_lift
+                        "Shoulder press" -> R.drawable.shoulder_press
+                        "Jumping jacks" -> R.drawable.jumping_jacks
+                        "Planking" -> R.drawable.planking
+                        else -> R.drawable.pushup // default image
+                    }
+                    favoriteWorkoutImage.setImageResource(imageResource)
+                }
+
+            } catch (e: Exception) {
+                // Handle error case
+                Toast.makeText(this@ProfStatistics, "Error loading workout stats", Toast.LENGTH_SHORT).show()
             }
         }
     }
