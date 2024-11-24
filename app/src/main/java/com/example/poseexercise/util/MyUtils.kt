@@ -11,11 +11,7 @@ class MyUtils {
                 "pushups_down" -> "Push up"
                 "lunges" -> "Lunge"
                 "situp_up" -> "Sit up"
-                "chestpress_down" -> "Chest press"
-                "deadlift_down" -> "Dead lift"
-                "shoulderpress_down" -> "Shoulder press"
                 "jumpingjacks_up" -> "Jumping jacks"
-                "planks" -> "Planking"
                 // Add more cases as needed
                 else -> variableName // Default to the original name if not matched
             }
@@ -55,11 +51,7 @@ class MyUtils {
                 "Lunge" -> "lunges"
                 "Squat" -> "squats"
                 "Sit up" -> "situp_up"
-                "Chest press" -> "chestpress_down"
-                "Dead lift" -> "deadlift_down"
-                "Shoulder press" -> "shoulderpress_down"
                 "Jumping jacks" -> "jumpingjacks_up"
-                "Planking" ->   "planks"
                 // Add more cases as needed
                 else -> variableName // Default to the original name if not matched
             }

@@ -49,14 +49,10 @@ import com.example.poseexercise.data.plan.ExercisePlan
 import com.example.poseexercise.data.plan.Plan
 import com.example.poseexercise.data.results.WorkoutResult
 import com.example.poseexercise.posedetector.PoseDetectorProcessor
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.CHEST_PRESS_CLASS
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.DEAD_LIFT_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.JUMPING_JACKS_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.LUNGES_CLASS
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.PLANKS_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.POSE_CLASSES
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.PUSHUPS_CLASS
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.SHOULDER_PRESS_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.SITUP_UP_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.SQUATS_CLASS
 import com.example.poseexercise.util.MemoryManagement
@@ -112,12 +108,8 @@ class WorkOutFragment : Fragment(), MemoryManagement {
             PUSHUPS_CLASS,
             LUNGES_CLASS,
             SITUP_UP_CLASS,
-            CHEST_PRESS_CLASS,
-            DEAD_LIFT_CLASS,
-            SHOULDER_PRESS_CLASS,
             JUMPING_JACKS_CLASS
         )
-    private val onlyPose: List<String> = listOf(PLANKS_CLASS)
     private var notCompletedExercise: List<Plan>? = null
 
     // late init properties---
@@ -262,9 +254,6 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         val pushUp = Postures.pushup
         val lunge = Postures.lunge
         val squat = Postures.squat
-        val chestPress = Postures.chestpress
-        val deadLift = Postures.deadlift
-        val shoulderPress = Postures.shoulderpress
         val jumpingJack = Postures.jumpingjacks
 
         buttonCompleteExercise.setOnClickListener {
@@ -278,9 +267,6 @@ class WorkOutFragment : Fragment(), MemoryManagement {
                                 pushUp.type -> pushUp.value / 10
                                 lunge.type -> lunge.value / 10
                                 squat.type -> squat.value / 10
-                                chestPress.type -> chestPress.value / 10
-                                deadLift.type -> deadLift.value / 10
-                                shoulderPress.type -> shoulderPress.value / 10
                                 jumpingJack.type -> jumpingJack.value / 10
                                 else -> 0.0
                             }
@@ -320,7 +306,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
                 for ((key, value) in it) {
                     if (value.repetition != 0 && key in onlyExercise) {
                         builder.append("${exerciseNameToDisplay(value.postureType)},${value.repetition},${value.confidence}\n")
-                    } else if (key in onlyPose) {
+                    } else {
                         builder.append("${exerciseNameToDisplay(value.postureType)}\n")
                     }
                 }
@@ -534,27 +520,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
                         workoutRecyclerView.adapter = workoutAdapter
                         previousKey = key
                         previousConfidence = value.confidence
-                    } else if (key in onlyPose && value.confidence > 0.5) {
 
-                        if (key !== previousKey || value.confidence !== previousConfidence) {
-                            // Implementation of pose confidence
-                            displayConfidence(key, value.confidence)
-                            workoutRecyclerView.visibility = View.GONE
-                            completeAllExercise.visibility = View.GONE
-                            currentExerciseTextView.visibility = View.VISIBLE
-                            currentRepetitionTextView.visibility = View.GONE
-                            confidenceTextView.visibility = View.VISIBLE
-                            currentExerciseTextView.text = exerciseNameToDisplay(key)
-                            confidenceTextView.text = getString(
-                                R.string.confidence_percentage,
-                                (value.confidence * 100).toInt()
-                            )
-
-
-                            // Update previous values
-                            previousKey = key
-                            previousConfidence = value.confidence
-                        }
                     } else if (key == previousKey && value.confidence < 0.6) {
                         hideIndicatorRunnable = Runnable {
                             confIndicatorView.visibility = View.INVISIBLE
@@ -590,11 +556,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
             exerciseNameToDisplay(LUNGES_CLASS) -> R.drawable.lunge
             exerciseNameToDisplay(SQUATS_CLASS) -> R.drawable.squats
             exerciseNameToDisplay(SITUP_UP_CLASS) -> R.drawable.situp
-            exerciseNameToDisplay(CHEST_PRESS_CLASS) -> R.drawable.chest_press_gif
-            exerciseNameToDisplay(DEAD_LIFT_CLASS) -> R.drawable.dead_lift_gif
-            exerciseNameToDisplay(SHOULDER_PRESS_CLASS) -> R.drawable.shoulder_press_gif
             exerciseNameToDisplay(JUMPING_JACKS_CLASS) -> R.drawable.jumping_jack_gif
-            exerciseNameToDisplay(PLANKS_CLASS) -> R.drawable.planks_gif
             else -> R.drawable.warrior_yoga_gif
         }
     }
@@ -1094,11 +1056,8 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         val lunge = TypedConstant(LUNGES_CLASS, 3.0)
         val squat = TypedConstant(SQUATS_CLASS, 3.8)
         val situp = TypedConstant(SITUP_UP_CLASS, 5.0)
-        val chestpress = TypedConstant(CHEST_PRESS_CLASS, 7.0)
-        val deadlift = TypedConstant(DEAD_LIFT_CLASS, 10.0)
-        val shoulderpress = TypedConstant(SHOULDER_PRESS_CLASS, 9.0)
         val jumpingjacks = TypedConstant(JUMPING_JACKS_CLASS, 9.0)
-        val planks = TypedConstant(PLANKS_CLASS, 9.0)
+
 
     }
 }

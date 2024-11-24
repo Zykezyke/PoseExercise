@@ -130,95 +130,6 @@ object Constants {
             ),
             Exercise(
                 id = 5,
-                name = "Chest press",
-                image = R.drawable.chest_press,
-                muscleTargetImage = R.drawable.chest_muscle, // Add a muscle targeting diagram
-                calorie = 7.0,
-                level = "Advance",
-                steps = listOf(
-                    "Lie on bench with feet flat on ground",
-                    "Hold weights at chest level",
-                    "Press weights up until arms are straight",
-                    "Lower weights back to chest with control"
-                ),
-                targetMuscles = listOf("Chest", "Shoulders", "Triceps"),
-                properFormGuide = listOf(
-                    "Maintain a natural arch in your lower back",
-                    "Keep wrists aligned with forearms",
-                    "Lower weights slowly to control movement",
-                    "Avoid locking elbows at the top",
-                    "Breathe out as you press, breathe in as you lower"
-                ),
-                commonMistakesToAvoid = listOf(
-                    "Overarching your lower back",
-                    "Allowing wrists to bend",
-                    "Rushing through the motion",
-                    "Dropping weights too quickly",
-                    "Failing to engage chest muscles"
-                ),
-                isGif = true,
-            ),
-            Exercise(
-                id = 6,
-                name = "Dead lift",
-                image = R.drawable.dead_lift,
-                muscleTargetImage = R.drawable.deadlift_muscle, // Add a muscle targeting diagram
-                calorie = 10.0,
-                level = "Advance",
-                steps = listOf(
-                    "Stand with feet hip-width apart",
-                    "Hinge at hips to grab the bar",
-                    "Keep back straight and chest up",
-                    "Stand up by driving hips forward",
-                    "Lower bar back down with control"
-                ),
-                targetMuscles = listOf("Lower Back", "Hamstrings", "Glutes", "Core"),
-                properFormGuide = listOf(
-                    "Keep your spine neutral and avoid rounding",
-                    "Engage your core before lifting",
-                    "Drive through your heels and not your toes",
-                    "Lower the bar with control",
-                    "Maintain a tight grip on the bar"
-                ),
-                commonMistakesToAvoid = listOf(
-                    "Rounding the lower back",
-                    "Pulling with arms instead of engaging legs",
-                    "Jerking the bar off the ground",
-                    "Letting the bar drift away from your body",
-                    "Failing to lock hips at the top"
-                ),
-                isGif = true,
-            ),
-            Exercise(
-                id = 7,
-                name = "Shoulder press",
-                image = R.drawable.shoulder_press,
-                muscleTargetImage = R.drawable.shoulder_muscle, // Add a muscle targeting diagram
-                calorie = 9.0,
-                level = "Advance",
-                steps = listOf(
-                    "Hold weights at shoulder level",
-                    "Keep core tight and back straight",
-                    "Press weights overhead until arms lock",
-                    "Lower weights back to shoulders"
-                ),
-                targetMuscles = listOf("Shoulders", "Triceps", "Upper Back"),
-                properFormGuide = listOf(
-                    "Keep your back straight and avoid arching",
-                    "Engage your core throughout the movement",
-                    "Do not lock your elbows forcefully at the top",
-                    "Lower the weights slowly with control"
-                ),
-                commonMistakesToAvoid = listOf(
-                    "Arching the lower back excessively",
-                    "Using momentum instead of controlled movements",
-                    "Letting the elbows flare out too much",
-                    "Failing to engage the core"
-                ),
-                isGif = true,
-            ),
-            Exercise(
-                id = 8,
                 name = "Jumping jacks",
                 image = R.drawable.jumping_jacks,
                 muscleTargetImage = R.drawable.jacks_muscle, // Add a muscle targeting diagram
@@ -245,34 +156,6 @@ object Constants {
                 ),
                 isGif = true,
             ),
-            Exercise(
-                id = 9,
-                name = "Planking",
-                image = R.drawable.planking,
-                muscleTargetImage = R.drawable.plank_muscle, // Add a muscle targeting diagram
-                calorie = 9.0,
-                level = "Intermediate",
-                steps = listOf(
-                    "Place forearms on ground, elbows under shoulders",
-                    "Extend legs behind you",
-                    "Keep body in straight line from head to heels",
-                    "Hold position while breathing steadily"
-                ),
-                targetMuscles = listOf("Core", "Shoulders", "Back", "Glutes"),
-                properFormGuide = listOf(
-                    "Ensure your body forms a straight line",
-                    "Engage your glutes and core for stability",
-                    "Keep your neck neutral to avoid strain",
-                    "Breathe steadily throughout the hold"
-                ),
-                commonMistakesToAvoid = listOf(
-                    "Letting hips sag or rise too high",
-                    "Holding your breath",
-                    "Failing to engage the core and glutes",
-                    "Straining the neck by looking forward"
-                ),
-                isGif = true,
-            )
         )
     }
 }

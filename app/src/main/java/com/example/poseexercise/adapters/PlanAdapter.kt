@@ -12,13 +12,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.poseexercise.R
 import com.example.poseexercise.data.plan.Plan
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.CHEST_PRESS_CLASS
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.DEAD_LIFT_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.JUMPING_JACKS_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.LUNGES_CLASS
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.PLANKS_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.PUSHUPS_CLASS
-import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.SHOULDER_PRESS_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.SITUP_UP_CLASS
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor.SQUATS_CLASS
 import com.example.poseexercise.util.MyUtils.Companion.databaseNameToClassification
@@ -92,11 +88,7 @@ class PlanAdapter internal constructor(context: Context) :
         LUNGES_CLASS to R.drawable.reverse_lunges,
         SITUP_UP_CLASS to R.drawable.sit_ups,
         PUSHUPS_CLASS to R.drawable.push_up,
-        CHEST_PRESS_CLASS to R.drawable.chest_press,
-        DEAD_LIFT_CLASS to R.drawable.dead_lift,
-        SHOULDER_PRESS_CLASS to R.drawable.shoulder_press,
         JUMPING_JACKS_CLASS to R.drawable.jumping_jacks,
-        PLANKS_CLASS to R.drawable.planking
     )
 
     private fun getDrawableResourceIdExercise(exerciseKey: String): Int {

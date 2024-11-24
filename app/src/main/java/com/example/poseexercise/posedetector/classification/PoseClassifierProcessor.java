@@ -55,26 +55,17 @@ public class PoseClassifierProcessor {
     private static final String LUNGE_FILE = "pose/lunges.csv";
     private static final String NEUTRAL_STANDING_FILE = "pose/neutral_standing.csv";
     private static final String SIT_UP_FILE = "pose/situps.csv";
-    private static final String CHEST_PRESS_FILE = "pose/chestpress.csv";
-    private static final String DEAD_LIFT_FILE = "pose/deadlift.csv";
-    private static final String SHOULDER_PRESS_FILE = "pose/shoulderpress.csv";
     private static final String JUMPING_JACKS_FILE = "pose/jumpingjacks.csv";
-    private static final String PLANKS_FILE = "pose/planks.csv";
 
     // The class name for all the exercise
     public static final String PUSHUPS_CLASS = "pushups_down";
     public static final String SQUATS_CLASS = "squats";
     public static final String LUNGES_CLASS = "lunges";
     public static final String SITUP_UP_CLASS = "situp_up";
-    public static final String CHEST_PRESS_CLASS = "chestpress_down";
-    public static final String DEAD_LIFT_CLASS = "deadlift_down";
-    public static final String SHOULDER_PRESS_CLASS = "shoulderpress_down";
     public static final String JUMPING_JACKS_CLASS = "jumpingjacks_up";
-    public static final String PLANKS_CLASS = "planks";
 
     public static final String[] POSE_CLASSES = {
-            PUSHUPS_CLASS, SQUATS_CLASS, LUNGES_CLASS, SITUP_UP_CLASS, CHEST_PRESS_CLASS, DEAD_LIFT_CLASS,
-            SHOULDER_PRESS_CLASS, JUMPING_JACKS_CLASS, PLANKS_CLASS
+            PUSHUPS_CLASS, SQUATS_CLASS, LUNGES_CLASS, SITUP_UP_CLASS, JUMPING_JACKS_CLASS,
     };
 
     private final boolean isStreamMode;
@@ -164,13 +155,7 @@ public class PoseClassifierProcessor {
                     case "Lunge" ->
                         addUniqueFile(files, uniqueFileNames, LUNGE_FILE);
 
-
-                    case "Chest press" -> addUniqueFile(files, uniqueFileNames, CHEST_PRESS_FILE);
-                    case "Dead lift" -> addUniqueFile(files, uniqueFileNames, DEAD_LIFT_FILE);
-                    case "Shoulder press" ->
-                            addUniqueFile(files, uniqueFileNames, SHOULDER_PRESS_FILE);
                     case "Jumping jacks" -> addUniqueFile(files, uniqueFileNames, JUMPING_JACKS_FILE);
-                    case "Planks" -> addUniqueFile(files, uniqueFileNames, PLANKS_FILE);
 
                     // Add more cases for other exercises if needed
                     default -> {
