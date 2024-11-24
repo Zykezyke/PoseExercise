@@ -24,7 +24,6 @@ class WeeklyPlannerAdd : AppCompatActivity() {
     private lateinit var backBtn : ImageView
     private lateinit var edtExName : EditText
     private lateinit var repsSpin : Spinner
-    private lateinit var setsSpin : Spinner
     private lateinit var saveButton : Button
     private lateinit var selectedDay: String
 
@@ -37,7 +36,6 @@ class WeeklyPlannerAdd : AppCompatActivity() {
         backBtn = findViewById(R.id.backBtn3)
         edtExName = findViewById(R.id.edtExName)
         repsSpin = findViewById(R.id.repsSpin)
-        setsSpin = findViewById(R.id.setsSpin)
         saveButton = findViewById(R.id.saveBtn)
         Log.d("WeeklyPlanner", "Add - Received selected day: $selectedDay")
 
@@ -65,7 +63,6 @@ class WeeklyPlannerAdd : AppCompatActivity() {
         adapterSets.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         repsSpin.adapter = adapterReps
-        setsSpin.adapter = adapterSets
 
         backBtn.setOnClickListener {
             val intent = Intent(this, WeeklyPlannerInsert::class.java)
@@ -86,10 +83,9 @@ class WeeklyPlannerAdd : AppCompatActivity() {
         // Get Values
         val exerciseName = edtExName.text.toString()
         val reps = repsSpin.selectedItemPosition.inc()
-        val sets = setsSpin.selectedItemPosition.inc()
 
         val exId = databaseReference.push().key!!
-        val exercise = Exercises(exId, exerciseName, reps.toString(), sets.toString())
+        val exercise = Exercises(exId, exerciseName, reps.toString())
 
         Log.d("exId", "Generated ID: $exId")
         Toast.makeText(this, "Saving Exercise...", Toast.LENGTH_SHORT).show()

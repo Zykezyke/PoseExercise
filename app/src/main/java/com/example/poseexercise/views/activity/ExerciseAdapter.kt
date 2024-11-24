@@ -28,7 +28,6 @@ class ExerciseAdapter (private val dataList: ArrayList<Exercises>) :
                 val currentItem = dataList[position]
                 holder.rvExName.text = currentItem.exName
                 holder.rvExReps.text = "Reps: ${currentItem.exReps.toString()}"
-                holder.rvExSets.text = "Sets: ${currentItem.exSets.toString()}"
         }
 
         override fun getItemCount(): Int {
@@ -38,7 +37,6 @@ class ExerciseAdapter (private val dataList: ArrayList<Exercises>) :
         class ViewHolder(itemView: View, clickListener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
                 val rvExName : TextView = itemView.findViewById(R.id.txtViewExName)
                 val rvExReps : TextView = itemView.findViewById(R.id.txtRepsC)
-                val rvExSets : TextView = itemView.findViewById(R.id.txtSetsC)
                 init {
                         itemView.setOnClickListener{
                                 clickListener.onItemClick(adapterPosition)

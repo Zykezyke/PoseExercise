@@ -14,7 +14,6 @@ class WeeklyPlannerView : AppCompatActivity() {
 
     private lateinit var tvExName: TextView
     private lateinit var tvReps: TextView
-    private lateinit var tvSets: TextView
     private lateinit var btnUpdate: Button
     private lateinit var btnDelete: Button
     private lateinit var btnBack: ImageView
@@ -41,7 +40,6 @@ class WeeklyPlannerView : AppCompatActivity() {
         btnDelete = findViewById(R.id.btnDelete)
         tvExName = findViewById(R.id.tvExName)
         tvReps = findViewById(R.id.tvReps)
-        tvSets = findViewById(R.id.tvSets)
         tvDay = findViewById(R.id.txtDay)
     }
 
@@ -87,7 +85,6 @@ class WeeklyPlannerView : AppCompatActivity() {
     private fun setValuesToView() {
         tvExName.text = intent.getStringExtra("exName")
         tvReps.text = intent.getStringExtra("exReps")
-        tvSets.text = intent.getStringExtra("exSets")
     }
 
     private fun openUpdateDialog(exId: String, exName: String) {
@@ -97,32 +94,24 @@ class WeeklyPlannerView : AppCompatActivity() {
         // Initialize views from dialog
         val edtExName = dialogView.findViewById<EditText>(R.id.edtExNameUpd)
         val spinnerReps = dialogView.findViewById<Spinner>(R.id.repsSpinUpd)
-        val spinnerSets = dialogView.findViewById<Spinner>(R.id.setsSpinUpd)
         val btnSave = dialogView.findViewById<Button>(R.id.saveBtnUpd)
         val btnBack = dialogView.findViewById<ImageView>(R.id.backBtnUpd)
 
         // Setup spinners
         val repsArray = (1..30).map { it.toString() }
-        val setsArray = (1..30).map { it.toString() }
 
         val repsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, repsArray)
-        val setsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, setsArray)
 
         repsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        setsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
         spinnerReps.adapter = repsAdapter
-        spinnerSets.adapter = setsAdapter
 
         // Set current values
         edtExName.setText(intent.getStringExtra("exName"))
 
         // Convert string to int and subtract 1 for 0-based index
         val currentReps = intent.getStringExtra("exReps")?.toIntOrNull() ?: 1
-        val currentSets = intent.getStringExtra("exSets")?.toIntOrNull() ?: 1
 
         spinnerReps.setSelection(currentReps - 1)
-        spinnerSets.setSelection(currentSets - 1)
 
         dialog.setView(dialogView)
         val alertDialog = dialog.create()
@@ -133,8 +122,7 @@ class WeeklyPlannerView : AppCompatActivity() {
             val updatedExercise = mapOf(
                 "exId" to exId,
                 "exName" to edtExName.text.toString(),
-                "exReps" to spinnerReps.selectedItem.toString(),
-                "exSets" to spinnerSets.selectedItem.toString()
+                "exReps" to spinnerReps.selectedItem.toString()
             )
 
             updateExerciseData(exId, updatedExercise)
@@ -161,7 +149,6 @@ class WeeklyPlannerView : AppCompatActivity() {
                     // Update the UI
                     tvExName.text = exerciseData["exName"]
                     tvReps.text = exerciseData["exReps"]
-                    tvSets.text = exerciseData["exSets"]
                 }
                 .addOnFailureListener { error ->
                     Toast.makeText(this, "Error updating exercise: ${error.message}", Toast.LENGTH_SHORT).show()

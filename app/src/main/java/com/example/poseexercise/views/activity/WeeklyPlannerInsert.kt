@@ -98,7 +98,6 @@ class WeeklyPlannerInsert : AppCompatActivity() {
                             intent.putExtra("exId", dataList[position].exId)
                             intent.putExtra("exName", dataList[position].exName)
                             intent.putExtra("exReps", dataList[position].exReps)
-                            intent.putExtra("exSets", dataList[position].exSets)
                             intent.putExtra("SELECTED_DAY", selectedDay)
                             startActivity(intent)
                         }
