@@ -137,6 +137,7 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         goHomeButton.setOnClickListener {
             val intent = Intent(requireActivity(), Home::class.java)
             startActivity(intent)
+            requireActivity().finish()
         }
     }
 
