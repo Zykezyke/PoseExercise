@@ -59,6 +59,8 @@
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="115dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -68,7 +70,6 @@
                     android:layout_width="108dp"
                     android:layout_height="108dp"
                     android:layout_marginTop="0dp"
-                    android:layout_marginRight="15dp"
                     app:cardBackgroundColor="?colorPrimaryContainer"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp">
@@ -105,12 +106,17 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView3"
                     android:layout_width="108dp"
                     android:layout_height="108dp"
                     android:layout_marginTop="0dp"
-                    android:layout_marginRight="15dp"
                     app:cardBackgroundColor="?colorPrimaryContainer"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp">
@@ -146,6 +152,12 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
