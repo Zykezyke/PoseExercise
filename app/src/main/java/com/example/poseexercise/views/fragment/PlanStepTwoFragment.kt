@@ -101,7 +101,7 @@ class PlanStepTwoFragment : Fragment(), MemoryManagement {
 
         // Automatically select the current day
         val calendar = java.util.Calendar.getInstance()
-        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.timeZone = java.util.TimeZone.getTimeZone("Asia/Singapore")
 
         val daysOfWeek = resources.getStringArray(R.array.days)
         val dayOfWeekIndex = (calendar.get(java.util.Calendar.DAY_OF_WEEK) + 5) % 7 // Shift days to start from Monday

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
@@ -30,6 +31,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -135,6 +137,10 @@ class WorkOutFragment : Fragment(), MemoryManagement {
     private lateinit var skipButton: Button
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var repository: FirebaseRepository
+    private lateinit var countdownTimer: TextView
+    private var countDownTimer: CountDownTimer? = null
+    private lateinit var dimOverlay: View
+    private lateinit var timerContainer: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,6 +186,9 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         skipButton = view.findViewById(R.id.skipButton)
         workoutRecyclerView = view.findViewById(R.id.workoutRecycleViewArea)
         workoutRecyclerView.layoutManager = LinearLayoutManager(activity)
+        countdownTimer = view.findViewById(R.id.countdownTimer)
+        dimOverlay = view.findViewById(R.id.dimOverlay)
+        timerContainer = view.findViewById(R.id.timerContainer)
         return view
     }
 
@@ -217,21 +226,29 @@ class WorkOutFragment : Fragment(), MemoryManagement {
 
         // start exercise button
         startButton.setOnClickListener {
-            // showing loading AI pose detection Model information to user
-            loadingTV.visibility = View.GONE
-            loadProgress.visibility = View.GONE
-            // Set the screenOn flag to true, preventing the screen from turning off
-            screenOn = true
-            // Add the FLAG_KEEP_SCREEN_ON flag to the activity's window, keeping the screen on
-            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            // Show countdown timer
             cameraFlipFAB.visibility = View.GONE
-            gifContainer.visibility = View.VISIBLE
-            buttonCancelExercise.visibility = View.VISIBLE
-            buttonCompleteExercise.visibility = View.VISIBLE
             startButton.visibility = View.GONE
-            // To disable screen timeout
-            //window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-            cameraViewModel.triggerClassification.value = true
+            countdownTimer.visibility = View.VISIBLE
+            dimOverlay.visibility = View.VISIBLE
+            timerContainer.visibility = View.VISIBLE
+            gifContainer.visibility = View.GONE
+            startCountdown {
+                // This block will execute after countdown finishes
+                countdownTimer.visibility = View.GONE
+
+                // Original start button logic
+                loadingTV.visibility = View.GONE
+                loadProgress.visibility = View.GONE
+                screenOn = true
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                cameraFlipFAB.visibility = View.GONE
+                gifContainer.visibility = View.GONE
+                buttonCancelExercise.visibility = View.VISIBLE
+                buttonCompleteExercise.visibility = View.VISIBLE
+                startButton.visibility = View.GONE
+                cameraViewModel.triggerClassification.value = true
+            }
         }
 
         // Cancel the exercise
@@ -807,6 +824,25 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         return false
     }
 
+    private fun startCountdown(onFinished: () -> Unit) {
+        countDownTimer?.cancel() // Cancel any existing timer
+
+        countDownTimer = object : CountDownTimer(3000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val secondsRemaining = (millisUntilFinished / 1000 + 1).toInt()
+                countdownTimer.text = secondsRemaining.toString()
+
+                // Optional: Add a voice countdown
+                synthesizeSpeech(secondsRemaining.toString())
+            }
+
+            override fun onFinish() {
+                synthesizeSpeech("Start")
+                onFinished()
+            }
+        }.start()
+    }
+
     /**
      * Request runtime permissions
      */
@@ -1012,6 +1048,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
                 println("Failed to delete plans: $e")
             }
         }
+        countDownTimer?.cancel()
     }
 
     override fun onDestroy() {
