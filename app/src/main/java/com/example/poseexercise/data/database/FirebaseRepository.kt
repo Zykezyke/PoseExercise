@@ -90,7 +90,7 @@ class FirebaseRepository(private val userId: String) {
 
     suspend fun fetchThisWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
-        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.timeZone = java.util.TimeZone.getTimeZone("Asia/Singapore")
         calendar.set(Calendar.DAY_OF_WEEK - 1, calendar.firstDayOfWeek)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
@@ -112,7 +112,7 @@ class FirebaseRepository(private val userId: String) {
 
     suspend fun fetchThisWeeksWorkoutResultsWithZero(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
-        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.timeZone = java.util.TimeZone.getTimeZone("Asia/Singapore")
         calendar.set(Calendar.DAY_OF_WEEK - 1, calendar.firstDayOfWeek)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
@@ -148,7 +148,7 @@ class FirebaseRepository(private val userId: String) {
 
     suspend fun fetchLastTwoWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
-        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.timeZone = java.util.TimeZone.getTimeZone("Asia/Singapore")
         calendar.add(Calendar.DAY_OF_YEAR, -14) // Go back 14 days
         val startTime = calendar.timeInMillis
 
@@ -167,7 +167,7 @@ class FirebaseRepository(private val userId: String) {
 
     suspend fun fetchWithTimerWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
-        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        calendar.timeZone = java.util.TimeZone.getTimeZone("Asia/Singapore")
         calendar.add(Calendar.DAY_OF_YEAR, -14) // Go back 14 days
         val startTime = calendar.timeInMillis
 

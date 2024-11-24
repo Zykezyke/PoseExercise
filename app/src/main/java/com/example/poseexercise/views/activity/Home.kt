@@ -153,7 +153,7 @@ class Home : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val calendar = Calendar.getInstance()
-                calendar.timeZone = TimeZone.getTimeZone("UTC+8")
+                calendar.timeZone = TimeZone.getTimeZone("Asia/Singapore")
                 calendar.add(Calendar.DAY_OF_YEAR, -7) // Go back 7 days
                 val startTime = calendar.timeInMillis
 
@@ -171,7 +171,7 @@ class Home : AppCompatActivity() {
                 // Group workouts by day and sum their durations
                 val dailyDurations = results.groupBy { result ->
                     val date = Calendar.getInstance()
-                    date.timeZone = TimeZone.getTimeZone("UTC+8")
+                    date.timeZone = TimeZone.getTimeZone("Asia/Singapore")
                     date.timeInMillis = result.timestamp
                     date.get(Calendar.DAY_OF_YEAR)
 
