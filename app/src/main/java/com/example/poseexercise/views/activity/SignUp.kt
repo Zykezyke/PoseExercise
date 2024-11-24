@@ -278,7 +278,7 @@ class SignUp : AppCompatActivity() {
         <b>9. Termination of Use</b><br>
         We reserve the right to suspend or terminate your access to FormFix at any time, particularly if these Terms and Conditions are violated.<br><br>
         <b>10. Contact Us</b><br>
-        For questions or concerns regarding these Terms and Conditions, please contact us at [support email address].<br><br>
+        For questions or concerns regarding these Terms and Conditions, please contact us at formfixteam@gmail.com<br><br>
         By using FormFix, you acknowledge that you have read, understood, and agreed to these Terms and Conditions. Thank you for choosing FormFix to improve your workouts!
     """.trimIndent()
 
