@@ -174,8 +174,9 @@ class Home : AppCompatActivity() {
                     date.timeZone = TimeZone.getTimeZone("UTC+8")
                     date.timeInMillis = result.timestamp
                     date.get(Calendar.DAY_OF_YEAR)
+
                 }.mapValues { (_, dailyResults) ->
-                    dailyResults.sumOf { (it.workoutTimeInMin * 100) / 60 }
+                    dailyResults.sumOf { (it.workoutTimeInMin % 60)}
                 }
 
                 // Create entries for each day of the last week
@@ -295,7 +296,7 @@ class Home : AppCompatActivity() {
                 val weeklyResults = repository.fetchThisWeeksWorkoutResults()
 
                 // Calculate total workouts
-                val totalWorkouts = weeklyResults.size
+                val totalWorkouts = repository.fetchThisWeeksWorkoutResultsWithZero().size
                 tvWorkouts.text = totalWorkouts.toString()
 
                 // Calculate total reps

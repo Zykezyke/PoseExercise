@@ -100,7 +100,7 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
                     date = "Date: ${formatDate(it.timestamp)}",
                     duration = "Duration: ${formatToMMSS(it.workoutTimeInMin)}"
                 )
-            }
+            }?.reversed()
             // Update the adapter with the transformed data
             recentActivityAdapter.updateData(recentActivityItems ?: emptyList())
             // Check if the recentActivityItems list is empty
