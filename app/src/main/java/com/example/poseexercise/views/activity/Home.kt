@@ -159,10 +159,12 @@ class Home : AppCompatActivity() {
 
                 val results = repository.fetchWithTimerWorkoutResults()
                     .filter { it.timestamp >= startTime }
-
+                val customTypeTxt = Typeface.create("sans-serif-condensed", Typeface.BOLD)
                 if (results.isEmpty()) {
                     barChart.clear()
                     barChart.setNoDataText("No workout data available for the last week.")
+                    barChart.setNoDataTextColor(Color.WHITE)
+                    barChart.setNoDataTextTypeface(customTypeTxt)
                     return@launch
                 }
 
