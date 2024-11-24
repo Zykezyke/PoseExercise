@@ -23,6 +23,7 @@
         android:background="@drawable/custom_input"
         android:hint="Enter time in seconds"
         android:inputType="number"
+        android:maxLength="4"
         android:padding="12dp"
         android:textAlignment="center"
         android:textColor="@color/black" />
