@@ -89,8 +89,10 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView"
-                        android:layout_width="354dp"
+                        android:layout_width="match_parent"
                         android:layout_height="167dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
                         android:layout_marginBottom="10dp"
                         app:cardBackgroundColor="?colorPrimaryContainer"
                         app:cardCornerRadius="20dp"
@@ -190,8 +192,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="REPS DONE"
-                                    android:textSize="12sp"
                                     android:textColor="?android:textColorSecondary"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
                                 <LinearLayout
@@ -205,8 +207,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="OVERALL FORM"
-                                    android:textSize="12sp"
                                     android:textColor="?android:textColorSecondary"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
