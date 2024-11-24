@@ -101,31 +101,27 @@ class CompletedFragment : Fragment() {
         val workoutResultText: TextView = view.findViewById(R.id.workoutResult_textView)
         val workoutTimerText: TextView = view.findViewById(R.id.workoutTimer_textView)
 
-        // Display workout results and timer
         MainActivity.workoutTimer?.let {
             workoutTimerText.text = getString(R.string.workoutResultDisplay, it)
         }
         MainActivity.workoutResultData?.let {
-            workoutResultText.text = getString(R.string.workoutResultDisplay, it)
-
-            // Generate AI feedback based on workout results
             CoroutineScope(Dispatchers.Main).launch {
                 aiFeedbackText.text = "Generating personalized feedback..."
-                val workoutResult = parseWorkoutResult(it)
-                workoutResultText.text = """
-                    Exercise Name: ${workoutResult.exerciseName}
-                    Repetitions: ${workoutResult.repeatedCount}
-                    Confidence Level: ${String.format("%.1f%%", workoutResult.confidence)}
+                val workoutResults = parseWorkoutResults(it)
+                workoutResultText.text = workoutResults.joinToString("\n") { result ->
+                    """
+                Exercise Name: ${result.exerciseName}
+                Repetitions: ${result.repeatedCount}
+                Confidence Level: ${String.format("%.1f%%", (result.confidence* 100))}
                 """.trimIndent()
-                val feedback = generateWorkoutFeedback(workoutResult)
-                aiFeedbackText.text = feedback
+                }
+                aiFeedbackText.text = generateWorkoutFeedback(workoutResults)
             }
         } ?: run {
             workoutResultText.text = getString(R.string.noWorkoutResultDisplay)
             aiFeedbackText.text = getString(R.string.noWorkoutFeedbackAvailable)
         }
 
-        // Reset workout data in the MainActivity
         MainActivity.apply {
             workoutResultData = null
             workoutTimer = null
@@ -133,63 +129,63 @@ class CompletedFragment : Fragment() {
     }
 
 
-    private suspend fun generateWorkoutFeedback(workoutResult: WorkoutResult): String {
-        val prompt = """
-            Provide personalized feedback for the following workout session:
-            - Posture Type: ${workoutResult.exerciseName}
-            - Repetitions: ${workoutResult.repeatedCount}
-            - Confidence Level: ${workoutResult.confidence}%
-            
-            The sentence should be:
-        - No longer than 100 characters.
-        - Easy to understand with simple vocabulary.
-        - Encouraging and actionable.
-        """.trimIndent()
+
+    private suspend fun generateWorkoutFeedback(workoutResults: List<WorkoutResult>): String {
+        val prompt = buildString {
+            append("Provide personalized feedback for the following workout session:\n")
+            workoutResults.forEach { result ->
+                append("- Posture Type: ${result.exerciseName}, Repetitions: ${result.repeatedCount}, Confidence Level: ${result.confidence * 100}%\n")
+            }
+            append("\nThe feedback should summarize all exercises:\n")
+            append("- Be no longer than 150 characters.\n")
+            append("- Easy to understand and encouraging.\n")
+        }
 
         return try {
             val response = generativeModel.generateContent(prompt)
-            response.text?.trim() ?: fallbackWorkoutMessage(workoutResult)
+            response.text?.trim() ?: fallbackWorkoutMessage(workoutResults)
         } catch (e: Exception) {
-            fallbackWorkoutMessage(workoutResult)
+            fallbackWorkoutMessage(workoutResults)
         }
     }
 
-    private fun fallbackWorkoutMessage(workoutResult: WorkoutResult): String {
-        return "Great job completing your workout! With a confidence level of ${workoutResult.confidence}%, you're improving steadily. Keep up the good work!"
+    private fun fallbackWorkoutMessage(workoutResults: List<WorkoutResult>): String {
+        return "Great job completing ${workoutResults.size} exercises! Keep up the steady improvement."
     }
 
-    private fun parseWorkoutResult(resultString: String): WorkoutResult {
-        println("Parsing workout result: $resultString")
 
-        // Check if the result is in the expected comma-separated format
-        if (resultString.contains(",")) {
-            val data = resultString.split(",")
-            return WorkoutResult(
-                exerciseName = data[0],
-                repeatedCount = data[1].toInt(),
-                confidence = data[2].toFloat(),
-                timestamp = System.currentTimeMillis(),
-                calorie = 0.0,
-                workoutTimeInMin = 0.0
-            )
-        } else {
-            // If the string doesn't contain comma, parse it differently
-            // Assume the format is "Exercise Name: Repetitions"
-            val parts = resultString.split(":")
-            val exerciseName = parts[0].trim()
-            val repeatedCount = parts[1].trim().toIntOrNull() ?: 0
+    private fun parseWorkoutResults(resultString: String): List<WorkoutResult> {
+        println("Parsing workout results: $resultString")
+        val workoutResults = mutableListOf<WorkoutResult>()
 
-            // Use default values for other fields
-            return WorkoutResult(
-                exerciseName = exerciseName,
-                repeatedCount = repeatedCount,
-                confidence = 0.0f,
-                timestamp = System.currentTimeMillis(),
-                calorie = 0.0,
-                workoutTimeInMin = 0.0
-            )
+        resultString.lines().forEach { line ->
+            val parts = line.split(",")
+            if (parts.size >= 3) {
+                try {
+                    val exerciseName = parts[0].trim()
+                    val repeatedCount = parts[1].trim().toInt()
+                    val confidence = parts[2].trim().toFloat()
+
+                    workoutResults.add(
+                        WorkoutResult(
+                            exerciseName = exerciseName,
+                            repeatedCount = repeatedCount,
+                            confidence = confidence,
+                            timestamp = System.currentTimeMillis(),
+                            calorie = 0.0,
+                            workoutTimeInMin = 0.0
+                        )
+                    )
+                } catch (e: Exception) {
+                    println("Error parsing line: $line - ${e.message}")
+                }
+            } else {
+                println("Invalid format for line: $line")
+            }
         }
+        return workoutResults
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

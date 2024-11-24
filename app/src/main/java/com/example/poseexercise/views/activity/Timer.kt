@@ -99,7 +99,6 @@ class Timer : AppCompatActivity() {
 
     private fun setupClickListeners() {
         pauseButton.setOnClickListener {
-
             if (isTimerRunning) {
                 pauseTimer()
             } else {
@@ -114,7 +113,6 @@ class Timer : AppCompatActivity() {
         btnBack.setOnClickListener {
             finish()
         }
-
     }
 
     private fun showDurationDialog() {
@@ -125,8 +123,17 @@ class Timer : AppCompatActivity() {
         dialog.setView(dialogView)
             .setPositiveButton("OK") { _, _ ->
                 val seconds = timeInput.text.toString().toIntOrNull() ?: 20
-                val maxseconds = Math.min(seconds, 3600)
-                originalTime = maxseconds * 1000L
+                if (seconds > 3600) {
+                    // Show error message for exceeding maximum duration
+                    Toast.makeText(
+                        this,
+                        "Duration cannot exceed 3600 seconds (1 hour). Setting to maximum.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    originalTime = 3600 * 1000L
+                } else {
+                    originalTime = seconds * 1000L
+                }
                 timeLeftInMillis = originalTime
                 updateTimerText()
                 pauseButton.isEnabled = true
@@ -168,9 +175,7 @@ class Timer : AppCompatActivity() {
         }
     }
 
-
     private fun startTimer() {
-
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 10) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
@@ -186,7 +191,6 @@ class Timer : AppCompatActivity() {
                 saveWorkoutResult()
                 showCongratsMessage()
             }
-
         }.start()
 
         isTimerRunning = true
@@ -213,14 +217,12 @@ class Timer : AppCompatActivity() {
     }
 
     private fun pauseTimer() {
-
         countDownTimer?.cancel()
         isTimerRunning = false
         pauseButtonText.text = "RESUME"
     }
 
     private fun updateTimerText() {
-
         val minutes = ((timeLeftInMillis / 1000) / 60).toInt()
         val seconds = ((timeLeftInMillis / 1000) % 60).toInt()
         timerText.text = String.format("%02d:%02d", minutes, seconds)
@@ -229,7 +231,6 @@ class Timer : AppCompatActivity() {
     private fun showCongratsMessage() {
         Toast.makeText(this, "Congratulations! You've completed $exerciseName. Great job!", Toast.LENGTH_LONG).show()
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
