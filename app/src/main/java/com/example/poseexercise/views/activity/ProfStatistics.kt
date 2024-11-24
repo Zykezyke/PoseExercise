@@ -82,9 +82,10 @@ class ProfStatistics : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val overallResults = repository.fetchOverallWorkoutResults()
+                val allResult = repository.fetchAllWorkoutResults()
 
                 // Calculate total workouts
-                val totalWorkouts = overallResults.size
+                val totalWorkouts = allResult.size
                 tvWorkouts.text = totalWorkouts.toString()
 
                 // Calculate total reps
@@ -111,7 +112,7 @@ class ProfStatistics : AppCompatActivity() {
     private fun setupWorkoutStatsList() {
         lifecycleScope.launch {
             try {
-                val workoutResults = repository.fetchOverallWorkoutResults()
+                val workoutResults = repository.fetchAllWorkoutResults()
 
                 // Group results by exercise name
                 val groupedStats = workoutResults
