@@ -21,10 +21,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.poseexercise.Home
 import com.example.poseexercise.R
 import com.example.poseexercise.adapters.ExerciseAdapter
+import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.data.plan.Constants
 import com.example.poseexercise.data.plan.Plan
 import com.example.poseexercise.util.MemoryManagement
 import com.example.poseexercise.util.MyUtils
+import com.example.poseexercise.util.MyUtils.Companion.databaseNameToClassification
 import com.example.poseexercise.viewmodels.AddPlanViewModel
 import com.example.poseexercise.views.activity.Exercises
 import com.google.android.material.chip.Chip
@@ -36,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.Locale
 
 class PlanStepOneFragment : Fragment(), MemoryManagement {
     private val exerciseList = Constants.getExerciseList()
@@ -102,11 +105,15 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
         }
     }
 
-    private fun processPlanner() {
+
+
+
+    private suspend fun processPlanner() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val calendar = Calendar.getInstance()
         calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
         val currentDay = when (dayOfWeek) {
             Calendar.SUNDAY -> "SundayPlanner"
             Calendar.MONDAY -> "MondayPlanner"
@@ -117,6 +124,7 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
             Calendar.SATURDAY -> "SaturdayPlanner"
             else -> return
         }
+
         val currentDayName = when (dayOfWeek) {
             Calendar.SUNDAY -> "Sunday"
             Calendar.MONDAY -> "Monday"
@@ -133,6 +141,9 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
             .child(userId)
             .child(currentDay)
 
+        val repository = FirebaseRepository(userId)
+        val workoutResults = repository.fetchAllWorkoutResults()
+
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (!snapshot.exists()) {
@@ -140,29 +151,46 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
                     return
                 }
 
+                val exercisesToDo = mutableListOf<Plan>()
                 for (exerciseSnapshot in snapshot.children) {
                     val exercise = exerciseSnapshot.getValue(Exercises::class.java)
                     exercise?.let {
-                        // Find corresponding exercise in Constants
                         val constExercise = Constants.getExerciseList().find { constEx ->
                             constEx.name == exercise.exName
                         }
+                        val plannedReps = exercise.exReps?.toIntOrNull() ?: 0
+                        val completedReps = workoutResults
+                            .filter {
+                                it.exerciseName == exercise.exName?.let { exName ->
+                                    databaseNameToClassification(exName)
+                                } &&
+                                        isSameDay(it.timestamp, currentDayName) // Filter results for current day
+                            }
+                            .sumOf { it.repeatedCount }
 
-                        // Create and save plan
-                        val plan = Plan(
-                            id = "",  // Will be set by Firebase
-                            exercise = exercise.exName ?: "",
-                            calories = constExercise?.calorie ?: 0.0,
-                            repeatCount = exercise.exReps?.toIntOrNull() ?: 0,
-                            selectedDays = "$currentDayName ",
-                            completed = false
-                        )
-                        addPlanViewModel.insert(plan)
+                        if (completedReps < plannedReps) {
+                            // Only add exercise to plan if not fully completed
+                            val remainingReps = plannedReps - completedReps
+                            val plan = Plan(
+                                id = "", // Will be set by Firebase
+                                exercise = exercise.exName ?: "",
+                                calories = constExercise?.calorie ?: 0.0,
+                                repeatCount = remainingReps,
+                                selectedDays = "$currentDayName ",
+                                completed = false
+                            )
+                            exercisesToDo.add(plan)
+                            addPlanViewModel.insert(plan)
+                        }
                     }
                 }
 
-                // Navigate to WorkOut fragment
-                view?.findNavController()?.navigate(R.id.action_planStepOneFragment_to_WorkOutFragment)
+                if (exercisesToDo.isEmpty()) {
+                    Toast.makeText(context, "Your plan for today is already completed!", Toast.LENGTH_LONG).show()
+                } else {
+                    // Navigate to WorkOut fragment
+                    view?.findNavController()?.navigate(R.id.action_planStepOneFragment_to_WorkOutFragment)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -170,6 +198,15 @@ class PlanStepOneFragment : Fragment(), MemoryManagement {
             }
         })
     }
+
+    private fun isSameDay(timestamp: Long, selectedDay: String): Boolean {
+        val calendar = Calendar.getInstance().apply { timeInMillis = timestamp }
+        calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+        val dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        return dayOfWeek.equals(selectedDay, ignoreCase = true)
+    }
+
+
 
     private fun setupBackPressHandler() {
         requireActivity().onBackPressedDispatcher.addCallback(

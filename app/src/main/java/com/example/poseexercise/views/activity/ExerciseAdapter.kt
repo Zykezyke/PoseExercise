@@ -12,10 +12,13 @@ import com.example.poseexercise.data.results.WorkoutResult
 import com.example.poseexercise.util.MyUtils.Companion.databaseNameToClassification
 import java.time.LocalDate
 import java.time.ZoneId
+import java.util.Calendar
+import java.util.Locale
 
 class ExerciseAdapter(
         private val dataList: ArrayList<Exercises>,
-        private var workoutResults: List<WorkoutResult> = emptyList()
+        private var workoutResults: List<WorkoutResult> = emptyList(),
+        private val selectedDay: String
 ) : RecyclerView.Adapter<ExerciseAdapter.ViewHolder>() {
 
         private lateinit var cListener: onItemClickListener
@@ -46,15 +49,16 @@ class ExerciseAdapter(
                 // Get the planned reps from Exercises
                 val plannedReps = currentItem.exReps?.toIntOrNull() ?: 0
 
-                // Get the start of the day in milliseconds
-                val startOfDay = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                val endOfDay = startOfDay + 24 * 60 * 60 * 1000 - 1 // End of the day in milliseconds
-
-                // Calculate completed reps for this exercise
+                // Calculate completed reps for this exercise and selected day
                 val completedReps = workoutResults
-                        .filter { it.exerciseName == currentItem.exName?.let { it1 ->
-                                databaseNameToClassification(it1)
-                        } && it.timestamp in startOfDay..endOfDay }
+                        .filter {
+                                // Match exercise name with classification
+                                it.exerciseName == currentItem.exName?.let { exName ->
+                                        databaseNameToClassification(exName)
+                                } &&
+                                        // Filter only results for the selected planner day
+                                        isSameDay(it.timestamp, selectedDay)
+                        }
                         .sumOf { it.repeatedCount }
 
                 // Update the reps text to show progress
@@ -70,6 +74,14 @@ class ExerciseAdapter(
                 // Update progress bar
                 holder.progressBar.progress = progress
                 holder.progressText.text = "$progress%"
+        }
+
+
+        private fun isSameDay(timestamp: Long, selectedDay: String): Boolean {
+                val calendar = Calendar.getInstance().apply { timeInMillis = timestamp }
+                calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")
+                val dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+                return dayOfWeek.equals(selectedDay, ignoreCase = true)
         }
 
         override fun getItemCount(): Int {

@@ -61,7 +61,7 @@ class WeeklyPlannerInsert : AppCompatActivity() {
         txtDay.text = selectedDay.uppercase()
 
         dataList = arrayListOf()
-        adapter = ExerciseAdapter(dataList)
+        adapter = ExerciseAdapter(dataList, emptyList(), selectedDay)
         exRecyclerView.adapter = adapter
         exRecyclerView.layoutManager = LinearLayoutManager(this)
 
