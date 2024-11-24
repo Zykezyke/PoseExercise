@@ -75,24 +75,17 @@
                     tools:src="@drawable/push_up" />
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                app:cardMaxElevation="5dp">
 
-                <ImageView
-                    android:id="@+id/muscle_target_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    tools:src="@drawable/push_up_muscle_target" />
-            </androidx.cardview.widget.CardView>
 
             <!-- Muscle Target Image -->
+            <ImageView
+                android:id="@+id/muscle_target_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/push_up_muscle_target" />
 
             <!-- Exercise Details Card -->
             <androidx.cardview.widget.CardView
