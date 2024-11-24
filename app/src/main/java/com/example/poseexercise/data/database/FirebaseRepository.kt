@@ -120,7 +120,7 @@ class FirebaseRepository(private val userId: String) {
             .addOnSuccessListener { snapshot ->
                 val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
                     .filter {
-                        it.timestamp >= startTime && !isZeroResult(it) // Filter out zero results
+                        it.timestamp >= startTime
                     }
                 cont.resume(results)
             }

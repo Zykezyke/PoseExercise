@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/button4"
+            app:layout_constraintBottom_toTopOf="@+id/workOutBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,12 +121,12 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/workOutBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="35dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="WORKOUT"
+            android:text="WORKOUT WITH PLAN"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:backgroundTint="#3C628F"

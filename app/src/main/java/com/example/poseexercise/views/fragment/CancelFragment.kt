@@ -93,6 +93,18 @@ class CancelFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteAllPlans()
+                println("All plans deleted successfully")
+            } catch (e: Exception) {
+                println("Failed to delete plans: $e")
+            }
+        }
+    }
+
     private fun navigateToHome() {
         val intent = Intent(requireActivity(), Home::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK

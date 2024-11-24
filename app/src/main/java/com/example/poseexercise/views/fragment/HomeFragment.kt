@@ -80,7 +80,7 @@ class HomeFragment : Fragment(), PlanAdapter.ItemListener, MemoryManagement {
         // Initialize ViewModel
         resultViewModel = ResultViewModel(MyApplication.getInstance())
         lifecycleScope.launch {
-            val workoutResults = resultViewModel.getRecentWorkout(20)
+            val workoutResults = resultViewModel.getRecentWorkout()
             val totalReps = workoutResults?.sumOf { it.repeatedCount } ?: 0
             totalRepsTextView.text = "Total Reps: ${totalReps.toString()}"
 

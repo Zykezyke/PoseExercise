@@ -176,7 +176,7 @@ class Home : AppCompatActivity() {
                     date.timeInMillis = result.timestamp
                     date.get(Calendar.DAY_OF_YEAR)
                 }.mapValues { (_, dailyResults) ->
-                    dailyResults.sumOf { (it.workoutTimeInMin * 10) }
+                    dailyResults.sumOf { (it.workoutTimeInMin * 100) / 60 }
                 }
 
                 // Create entries for each day of the last week

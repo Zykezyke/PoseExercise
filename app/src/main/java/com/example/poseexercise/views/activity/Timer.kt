@@ -20,6 +20,7 @@ import android.os.Looper
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -183,6 +184,7 @@ class Timer : AppCompatActivity() {
                 updateTimerText()
                 playTimerFinishSound()
                 saveWorkoutResult()
+                showCongratsMessage()
             }
 
         }.start()
@@ -222,6 +224,10 @@ class Timer : AppCompatActivity() {
         val minutes = ((timeLeftInMillis / 1000) / 60).toInt()
         val seconds = ((timeLeftInMillis / 1000) % 60).toInt()
         timerText.text = String.format("%02d:%02d", minutes, seconds)
+    }
+
+    private fun showCongratsMessage() {
+        Toast.makeText(this, "Congratulations! You've completed $exerciseName. Great job!", Toast.LENGTH_LONG).show()
     }
 
 

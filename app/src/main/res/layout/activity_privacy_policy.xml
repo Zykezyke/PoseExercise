@@ -37,6 +37,7 @@
         app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
     <TextView
+        android:id="@+id/lastUpdatedText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Last Updated: October 25, 2024"
@@ -50,169 +51,33 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="0dp"
-        android:layout_height="622dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:scrollbars="none"
         android:requiresFadingEdge="vertical"
         android:fadingEdgeLength="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
+        app:layout_constraintTop_toBottomOf="@+id/lastUpdatedText">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:orientation="vertical">
+            app:cardCornerRadius="5dp">
 
-            <!-- Last Updated Section -->
-
-            <!-- Information We Collect Section -->
-            <androidx.cardview.widget.CardView
+            <TextView
+                android:id="@+id/privacyPolicyContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="5dp">
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:lineSpacingMultiplier="1.2" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:text="1. Information We Collect"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="Personal Information:"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="• Name and contact information\n• Age, height, and weight\n• Fitness goals\n• Account credentials"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="Exercise Data:"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="• Exercise statistics\n• Workout history\n• Performance metrics\n• Progress tracking data"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="2. How We Use Your Information"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="• Analyze your exercise form\n• Track your fitness progress\n• Provide workout recommendations\n• Send important updates\n• Improve app functionality"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="3. Data Security"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="• All personal information is encrypted\n• Secure database storage\n• Regular security updates\n• Controlled access protocols"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="Contact Us"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="For questions about this Privacy Policy:\n\nEmail: privacy@formfix.com\nPhone: 1-800-FORMFIX"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- How We Use Your Information -->
-
-            <!-- Data Security -->
-
-            <!-- Contact Section -->
-
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

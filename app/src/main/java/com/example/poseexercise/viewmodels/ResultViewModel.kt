@@ -33,9 +33,9 @@ class ResultViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     /** Get the most recent workout results */
-    suspend fun getRecentWorkout(limit: Int): List<WorkoutResult>? {
+    suspend fun getRecentWorkout(): List<WorkoutResult>? {
         return withContext(Dispatchers.IO) {
-            firebaseRepository.fetchRecentWorkoutResults(limit)
+            firebaseRepository.fetchLastTwoWeeksWorkoutResults()
         }
     }
 }

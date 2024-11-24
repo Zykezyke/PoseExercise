@@ -51,28 +51,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0">
 
-                <TextView
-                    android:id="@+id/txtSetsC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Sets: 0"
-                    android:textColor="?android:textColorSecondary"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txtRepsC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Reps: 0"
                     android:textColor="?android:textColorSecondary"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/txtSetsC"
-                    app:layout_constraintTop_toTopOf="@+id/txtSetsC" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

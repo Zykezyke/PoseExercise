@@ -3,6 +3,7 @@ package com.example.poseexercise.views.fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +21,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraInfoUnavailableException
 import androidx.camera.core.CameraSelector
@@ -37,9 +39,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.poseexercise.Home
 import com.example.poseexercise.R
 import com.example.poseexercise.adapters.ExerciseGifAdapter
 import com.example.poseexercise.adapters.WorkoutAdapter
+import com.example.poseexercise.data.database.FirebaseRepository
 import com.example.poseexercise.data.plan.ExerciseLog
 import com.example.poseexercise.data.plan.ExercisePlan
 import com.example.poseexercise.data.plan.Plan
@@ -69,6 +73,7 @@ import com.example.poseexercise.views.activity.MainActivity
 import com.example.poseexercise.views.fragment.preference.PreferenceUtils
 import com.example.poseexercise.views.graphic.GraphicOverlay
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.mlkit.common.MlKitException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -137,6 +142,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
     private lateinit var completeAllExercise: TextView
     private lateinit var skipButton: Button
     private lateinit var textToSpeech: TextToSpeech
+    private lateinit var repository: FirebaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -152,6 +158,10 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         resultViewModel = ResultViewModel(MyApplication.getInstance())
         addPlanViewModel = AddPlanViewModel(MyApplication.getInstance())
         homeViewModel = HomeViewModel(MyApplication.getInstance())
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("User not logged in")
+        repository = FirebaseRepository(userId)
     }
 
     override fun onCreateView(
@@ -195,6 +205,23 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         gifContainer.visibility = View.GONE
         skipButton.visibility = View.GONE
 
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        try {
+                            repository.deleteAllPlans()
+                            println("All plans deleted successfully")
+                        } catch (e: Exception) {
+                            println("Failed to delete plans: $e")
+                        } finally {
+                            navigateToHome()
+                        }
+                    }
+                }
+            }
+        )
 
         // start exercise button
         startButton.setOnClickListener {
@@ -944,6 +971,13 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         mMainHandler.sendEmptyMessage(WHAT_STOP_TIMER)
     }
 
+    private fun navigateToHome() {
+        val intent = Intent(requireActivity(), PlanStepOneFragment::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
     /**
      * Calculate the time and return string
      */
@@ -1007,9 +1041,29 @@ class WorkOutFragment : Fragment(), MemoryManagement {
         workoutRecyclerView.adapter = null
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteAllPlans()
+                println("All plans deleted successfully")
+            } catch (e: Exception) {
+                println("Failed to delete plans: $e")
+            }
+        }
+    }
+
     override fun onDestroy() {
         clearMemory()
         super.onDestroy()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteAllPlans()
+                println("All plans deleted successfully")
+            } catch (e: Exception) {
+                println("Failed to delete plans: $e")
+            }
+        }
     }
 
     /**
