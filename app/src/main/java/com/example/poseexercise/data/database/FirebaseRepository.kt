@@ -110,6 +110,20 @@ class FirebaseRepository(private val userId: String) {
             }
     }
 
+
+    suspend fun fetchOverallWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
+        databaseReference.child("workoutResults").get()
+            .addOnSuccessListener { snapshot ->
+                val results = snapshot.children.mapNotNull { it.getValue(WorkoutResult::class.java) }
+                    .filter { !isZeroResult(it) } // Keep only non-zero results
+                cont.resume(results)
+            }
+            .addOnFailureListener { exception ->
+                cont.resumeWithException(exception)
+            }
+    }
+
+
     suspend fun fetchLastTwoWeeksWorkoutResults(): List<WorkoutResult> = suspendCancellableCoroutine { cont ->
         val calendar = Calendar.getInstance()
         calendar.timeZone = java.util.TimeZone.getTimeZone("UTC+8")

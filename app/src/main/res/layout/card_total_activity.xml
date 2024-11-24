@@ -27,12 +27,13 @@ android:paddingVertical="@dimen/padding_small">
 
         <TextView
             android:id="@+id/textViewExerciseType"
-            android:layout_width="131dp"
-            android:layout_height="0dp"
+            android:layout_width="167dp"
+            android:layout_height="42dp"
             android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
             android:text="@string/exercise_type"
             android:textColor="?android:textColorSecondary"
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -55,12 +56,12 @@ android:paddingVertical="@dimen/padding_small">
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textViewDate"
+                    android:id="@+id/textViewReps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="28dp"
-                    android:text="Date"
+                    android:text="Total Reps"
                     android:textColor="?android:textColorSecondary"
                     android:textSize="@dimen/text_normal" />
 
@@ -82,13 +83,13 @@ android:paddingVertical="@dimen/padding_small">
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textViewDura"
+                    android:id="@+id/textViewPerformed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="26dp"
                     android:layout_weight="1"
-                    android:text="Duration"
+                    android:text="Total Performed"
                     android:textColor="?android:textColorSecondary"
                     android:textSize="@dimen/text_normal" />
             </RelativeLayout>
