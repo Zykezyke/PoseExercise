@@ -217,7 +217,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="System Analyst"
+                                android:text="Quality Assurance Officer"
                                 android:textColor="?android:textColorSecondary"
                                 android:textSize="16sp"
                                 android:textStyle="italic" />
@@ -262,7 +262,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Quality Assurance Officer"
+                                android:text="System Analyst"
                                 android:textColor="?android:textColorSecondary"
                                 android:textSize="16sp"
                                 android:textStyle="italic" />
