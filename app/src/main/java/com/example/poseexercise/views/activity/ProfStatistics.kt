@@ -134,16 +134,12 @@ class ProfStatistics : AppCompatActivity() {
                 groupedStats.maxByOrNull { it.timesPerformed }?.let { mostCommon ->
                     favoriteWorkoutText.text = exerciseNameToDisplay(mostCommon.exerciseName)
                     // Set the appropriate image based on the exercise name
-                    val imageResource = when(mostCommon.exerciseName) {
-                        "Push up" -> R.drawable.pushup
+                    val imageResource = when(exerciseNameToDisplay(mostCommon.exerciseName)) {
+                        "Push up" -> R.drawable.push_up
                         "Lunge" -> R.drawable.reverse_lunges
                         "Squat" -> R.drawable.squat
                         "Sit up" -> R.drawable.sit_ups
-                        "Chest press" -> R.drawable.chest_press
-                        "Dead lift" -> R.drawable.dead_lift
-                        "Shoulder press" -> R.drawable.shoulder_press
                         "Jumping jacks" -> R.drawable.jumping_jacks
-                        "Planking" -> R.drawable.planking
                         else -> R.drawable.pushup // default image
                     }
                     favoriteWorkoutImage.setImageResource(imageResource)
