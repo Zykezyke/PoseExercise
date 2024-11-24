@@ -149,6 +149,7 @@ class CompletedFragment : Fragment() {
             }
             append("\nThe feedback should summarize all exercises:\n")
             append("- Be no longer than 150 characters.\n")
+            append("- Have a maximum of 3 sentences\n")
             append("- Easy to understand and encouraging.\n")
         }
 
