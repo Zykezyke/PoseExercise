@@ -129,7 +129,7 @@ To exercise these rights, contact our support team through the app or via email.
             """Questions about your privacy? We're here to help:
 
 Email: formfixteam@gmail.com
-Facebook: https://www.facebook.com/profile.php?id=61569055390121
+Facebook: https://www.facebook.com/profile.php?id=61569363091691
 Twitter: https://x.com/form_fix
 Instagram: https://www.instagram.com/formfixteam/
 
