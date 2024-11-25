@@ -45,7 +45,7 @@
                         android:id="@+id/textViewExerciseType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/roboto_condensed"
                         android:text="@string/exercise_type"
                         android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/text_label"

@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/roboto_condensed"
             android:text="Are you sure you want to deactivate your account?"
             android:textAlignment="center"
             android:textColor="?android:textColorSecondary"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/roboto_condensed"
             android:text="Please enter your password to confirm"
             android:textAlignment="center"
             android:textColor="?android:textColorSecondary" />
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/roboto_condensed"
             android:hint="Password"
             android:background="@drawable/custom_input"
             android:inputType="textPassword"
@@ -58,7 +58,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="#3C628F"
             android:textColor="@android:color/white"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/roboto_condensed"
             android:text="CONFIRM DEACTIVATION"
             android:textStyle="bold" />
 

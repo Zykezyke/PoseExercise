@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="#3C628F"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/roboto_condensed"
                 android:text="EDIT"
                 android:textColor="?textAppearanceButton"
                 android:textStyle="bold" />
@@ -125,7 +125,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#3C628F"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/roboto_condensed"
                 android:text="DELETE"
                 android:textColor="?textAppearanceButton"
                 android:textStyle="bold" />

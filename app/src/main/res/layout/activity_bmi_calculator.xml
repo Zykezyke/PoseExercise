@@ -141,7 +141,7 @@
                         android:id="@+id/ageEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/roboto_condensed"
                         android:inputType="number"
                         android:maxLength="3"
                         android:textColor="?android:textColorSecondary" />
@@ -169,7 +169,7 @@
                         android:id="@+id/weightEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/roboto_condensed"
                         android:inputType="numberDecimal"
                         android:maxLength="3"
                         android:textColor="?android:textColorSecondary" />
@@ -189,7 +189,7 @@
                         android:id="@+id/heightEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/roboto_condensed"
                         android:inputType="numberDecimal"
                         android:maxLength="3"
                         android:textColor="?android:textColorSecondary" />
@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#406096"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/roboto_condensed"
                 android:text="CALCULATE BMI"
                 android:textColor="?textAppearanceButton"
                 android:textStyle="bold" />
