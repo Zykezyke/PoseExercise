@@ -148,8 +148,9 @@ class CompletedFragment : Fragment() {
                 append("- Posture Type: ${result.exerciseName}, Repetitions: ${result.repeatedCount}, Confidence Level: ${result.confidence * 100}%\n")
             }
             append("\nThe feedback should summarize all exercises:\n")
-            append("- Be no longer than 150 characters.\n")
-            append("- Have a maximum of 3 sentences\n")
+            append("- Be no longer than 200 characters.\n")
+            append("- Have a maximum of 5 sentences.\n")
+            append("- Has detailed tips and advices based on the data.\n")
             append("- Easy to understand and encouraging.\n")
         }
 
