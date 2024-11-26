@@ -88,6 +88,7 @@ class SignUp : AppCompatActivity() {
             // Navigate to the login activity
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
+            finish()
         }
 
         ivInfoPassword.setOnClickListener {

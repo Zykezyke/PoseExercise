@@ -86,6 +86,7 @@ class Login : AppCompatActivity() {
         signUpTextView.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
+            finish()
         }
 
         forgotPasswordText.setOnClickListener{
