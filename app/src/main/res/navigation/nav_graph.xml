@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.poseexercise.views.fragment.HomeFragment"
+        android:name="com.formfix.poseexercise.views.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
 
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/planStepOneFragment"
-        android:name="com.example.poseexercise.views.fragment.PlanStepOneFragment"
+        android:name="com.formfix.poseexercise.views.fragment.PlanStepOneFragment"
         android:label="fragment_plan_step_one"
         tools:layout="@layout/fragment_plan_step_one" >
 
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/planStepTwoFragment"
-        android:name="com.example.poseexercise.views.fragment.PlanStepTwoFragment"
+        android:name="com.formfix.poseexercise.views.fragment.PlanStepTwoFragment"
         android:label="fragment_plan_step_two"
         tools:layout="@layout/fragment_plan_step_two">
         <action
@@ -52,7 +52,7 @@
 
     <fragment
         android:id="@+id/workoutFragment"
-        android:name="com.example.poseexercise.views.fragment.WorkOutFragment"
+        android:name="com.formfix.poseexercise.views.fragment.WorkOutFragment"
         android:label="fragment_workout"
         tools:layout="@layout/fragment_workout" >
 
@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/cancelFragment"
-        android:name="com.example.poseexercise.views.fragment.CancelFragment"
+        android:name="com.formfix.poseexercise.views.fragment.CancelFragment"
         android:label="fragment_cancel"
         tools:layout="@layout/fragment_cancel" >
         <action
@@ -74,7 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/completedFragment"
-        android:name="com.example.poseexercise.views.fragment.CompletedFragment"
+        android:name="com.formfix.poseexercise.views.fragment.CompletedFragment"
         android:label="fragment_completed"
         tools:layout="@layout/fragment_completed" >
         <action
@@ -84,7 +84,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.poseexercise.views.fragment.ProfileFragment"
+        android:name="com.formfix.poseexercise.views.fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
 

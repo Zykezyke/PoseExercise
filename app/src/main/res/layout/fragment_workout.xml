@@ -63,7 +63,7 @@
         </androidx.cardview.widget.CardView>
 
         <!-- Graphic Overlay for Pose Detection -->
-        <com.example.poseexercise.views.graphic.GraphicOverlay
+        <com.formfix.poseexercise.views.graphic.GraphicOverlay
             android:id="@+id/graphic_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

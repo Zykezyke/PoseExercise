@@ -13,7 +13,7 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    namespace 'com.example.poseexercise'
+    namespace 'com.formfix.poseexercise'
     compileSdk 34
 
     packagingOptions {
@@ -28,7 +28,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.poseexercise"
+        applicationId "com.formfix.poseexercise"
         minSdk 30
         targetSdk 33
         versionCode 1
