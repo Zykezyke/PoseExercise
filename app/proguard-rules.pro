@@ -19,3 +19,26 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Firebase Realtime Database model classes
+-keepclassmembers class com.formfix.poseexercise.UserAccounts {
+    *;
+}
+
+# Firebase-related classes
+-keepclassmembers class com.google.firebase.** { *; }
+-keep class com.google.firebase.** { *; }
+
+# Prevent removal of no-arg constructors
+-keepclassmembers class * {
+    <init>();
+}
+
+# Keep data model classes
+-keepclassmembers class * implements java.io.Serializable {
+    <fields>;
+    <methods>;
+}
+
+# Preserve all annotations
+-keepattributes *Annotation*
