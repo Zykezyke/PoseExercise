@@ -41,6 +41,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.formfix.poseexercise.Home
 import com.formfix.poseexercise.R
 import com.formfix.poseexercise.adapters.ExerciseGifAdapter
 import com.formfix.poseexercise.adapters.WorkoutAdapter
@@ -968,7 +969,7 @@ class WorkOutFragment : Fragment(), MemoryManagement {
     }
 
     private fun navigateToHome() {
-        val intent = Intent(requireActivity(), PlanStepOneFragment::class.java)
+        val intent = Intent(requireActivity(), Home::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         requireActivity().finish()
