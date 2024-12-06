@@ -355,15 +355,24 @@ class Login : AppCompatActivity() {
         val otp = String.format("%06d", secureRandom.nextInt(1000000))
         otpTimestamp = System.currentTimeMillis()
 
-        EmailSender.sendReactivationEmail(email, otp, name) { success ->
+        try {
+            EmailSender.sendReactivationEmail(email, otp, name) { success ->
+                runOnUiThread {
+                    loadingDialog.dismiss()
+                    if (success) {
+                        showToast(this, "OTP sent successfully!")
+                        showReactivationOTPDialog(email, otp, userId)
+                    } else {
+                        showToast(this, "Failed to send OTP")
+                        Log.e("EmailSender", "Failed to send reactivation email")
+                    }
+                }
+            }
+        } catch (e: Exception) {
             runOnUiThread {
                 loadingDialog.dismiss()
-                if (success) {
-                    showToast(this, "OTP sent successfully!")
-                    showReactivationOTPDialog(email, otp, userId)
-                } else {
-                    showToast(this, "Failed to send OTP")
-                }
+                showToast(this, "Error sending OTP: ${e.message}")
+                Log.e("EmailSender", "Exception in sending reactivation email", e)
             }
         }
     }

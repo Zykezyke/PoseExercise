@@ -25,6 +25,15 @@
     *;
 }
 
+# Sun Mail and Activation libraries
+-keep class com.sun.mail.** { *; }
+-keep class javax.mail.** { *; }
+-keep class javax.activation.** { *; }
+-keep class com.sun.activation.** { *; }
+
+-keep class kotlinx.coroutines.** { *; }
+-dontwarn kotlinx.coroutines.**
+
 # Firebase-related classes
 -keepclassmembers class com.google.firebase.** { *; }
 -keep class com.google.firebase.** { *; }
