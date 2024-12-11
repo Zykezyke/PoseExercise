@@ -77,19 +77,28 @@
 
                 <Button
                     android:id="@+id/metricButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#406096"
+                    android:fontFamily="@font/roboto_condensed"
                     android:text="Metric"
-                    android:textColor="?textAppearanceButton" />
+                    app:strokeWidth="0dp"
+                    android:textColor="?textAppearanceButton"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/imperialButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#406096"
                     android:text="Imperial"
-                    android:textColor="?textAppearanceButton" />
+                    app:strokeWidth="0dp"
+                    android:textColor="?textAppearanceButton"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <LinearLayout
@@ -108,21 +117,35 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/maleButton"
-                        style="@style/Widget.App.Button.OutlinedButton.Pill"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
+                        app:strokeWidth="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:text="Male"
+                        android:fontFamily="@font/roboto_condensed"
+                        android:textSize="10dp"
+                        android:textStyle="bold"
+                        android:textColor="#406096"
+                        app:iconTint="?iconTint"
                         app:icon="@drawable/ic_male"
                         app:iconGravity="textStart"
                         app:iconPadding="8dp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/femaleButton"
-                        style="@style/Widget.App.Button.OutlinedButton.Pill"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
+                        app:strokeWidth="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:text="Female"
+                        android:fontFamily="@font/roboto_condensed"
+                        android:textSize="10dp"
+                        android:textStyle="bold"
+                        android:textColor="#406096"
                         app:icon="@drawable/ic_female"
+                        app:iconTint="?iconTint"
                         app:iconGravity="textStart"
                         app:iconPadding="8dp" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>

@@ -14,5 +14,6 @@
         <item name="logo">@drawable/formfixlogowht</item>
 
         <item name="textInputStyle">@color/nightinput</item>
+        <item name="iconTint">@color/white</item>
     </style>
 </resources>

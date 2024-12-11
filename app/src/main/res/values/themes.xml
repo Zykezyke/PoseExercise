@@ -13,6 +13,9 @@
         <item name="logo">@drawable/formfixlogoblk</item>
 
         <item name="textInputStyle">@color/dayinput</item>
+
+        <item name="iconTint">@color/black</item>
+
     </style>
 
     <style name="Theme.PoseExercise" parent="Base.Theme.PoseExercise" />

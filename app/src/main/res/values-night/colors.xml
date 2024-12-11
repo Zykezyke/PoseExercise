@@ -19,10 +19,10 @@
     <color name="obese">#F44336</color>
     <color name="error">#B00020</color>
 
-    <color name="selected_unit">#406096</color>
-    <color name="unselected_unit">#B3C9E4</color>
-    <color name="selected_gender">#406096</color>
-    <color name="unselected_gender">#B3C9E4</color>
+    <color name="selected_unit">#8DADD3</color>
+    <color name="unselected_unit">#406096</color>
+    <color name="selected_gender">#8DADD3</color>
+    <color name="unselected_gender">#406096</color>
     <color name="text_color">#FFFFFF</color>
 
     <color name="navy_blue">#3C628F</color>

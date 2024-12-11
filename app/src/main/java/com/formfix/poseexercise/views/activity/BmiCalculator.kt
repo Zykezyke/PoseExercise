@@ -52,6 +52,8 @@ class BmiCalculator : AppCompatActivity() {
 
         unitToggle.check(R.id.metricButton)
         genderToggle.check(R.id.maleButton)
+        updateUnitButtonStyles()
+        updateGenderButtonStyles()
         updateUnitHints()
         bmiResultText.background = null
     }
@@ -61,6 +63,13 @@ class BmiCalculator : AppCompatActivity() {
             if (isChecked) {
                 isMetric = checkedId == R.id.metricButton
                 updateUnitHints()
+                updateUnitButtonStyles()
+            }
+        }
+
+        genderToggle.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            if (isChecked) {
+                updateGenderButtonStyles()
             }
         }
 
@@ -146,6 +155,43 @@ class BmiCalculator : AppCompatActivity() {
             heightLayout.hint = "Height (in)"
         }
     }
+
+    private fun updateUnitButtonStyles() {
+        val metricButton = findViewById<Button>(R.id.metricButton)
+        val imperialButton = findViewById<Button>(R.id.imperialButton)
+
+        if (isMetric) {
+            metricButton.setBackgroundColor(ContextCompat.getColor(this, R.color.selected_unit))
+            metricButton.setTextColor(ContextCompat.getColor(this, R.color.white))
+            imperialButton.setBackgroundColor(ContextCompat.getColor(this, R.color.unselected_unit))
+            imperialButton.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        } else {
+            imperialButton.setBackgroundColor(ContextCompat.getColor(this, R.color.selected_unit))
+            imperialButton.setTextColor(ContextCompat.getColor(this, R.color.white))
+            metricButton.setBackgroundColor(ContextCompat.getColor(this, R.color.unselected_unit))
+            metricButton.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        }
+    }
+
+    private fun updateGenderButtonStyles() {
+        val maleButton = findViewById<Button>(R.id.maleButton)
+        val femaleButton = findViewById<Button>(R.id.femaleButton)
+
+        val isMale = genderToggle.checkedButtonId == R.id.maleButton
+
+        if (isMale) {
+            maleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.selected_gender))
+            maleButton.setTextColor(ContextCompat.getColor(this, R.color.white))
+            femaleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.unselected_gender))
+            femaleButton.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        } else {
+            femaleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.selected_gender))
+            femaleButton.setTextColor(ContextCompat.getColor(this, R.color.white))
+            maleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.unselected_gender))
+            maleButton.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        }
+    }
+
 
     private fun calculateBMI() {
         if (!validateInputs()) {
