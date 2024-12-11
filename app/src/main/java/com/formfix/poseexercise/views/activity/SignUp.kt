@@ -38,6 +38,8 @@ class SignUp : AppCompatActivity() {
     private lateinit var passwordRequirements: String
     private lateinit var termsTextView: TextView
     private lateinit var checkboxTerms: CheckBox
+    private lateinit var dataPrivacyTextView: TextView
+    private lateinit var checkboxDataPrivacy: CheckBox
     private var otpTimestamp: Long = 0
     private val OTP_VALIDITY_PERIOD = 5 * 60 * 1000
     private var generatedOTP: String = ""
@@ -56,6 +58,8 @@ class SignUp : AppCompatActivity() {
         passwordEditText = findViewById(R.id.etPassword)
         termsTextView = findViewById(R.id.termsTextView)
         checkboxTerms = findViewById(R.id.checkboxTerms)
+        dataPrivacyTextView = findViewById(R.id.dataPrivacyTextView)
+        checkboxDataPrivacy = findViewById(R.id.checkboxDataPrivacy)
 
         val signUpButton: Button = findViewById(R.id.btnSignUp)
         val loginLink: TextView = findViewById(R.id.LoginHere)
@@ -65,6 +69,8 @@ class SignUp : AppCompatActivity() {
         loginLink.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         termsTextView.paintFlags =  Paint.UNDERLINE_TEXT_FLAG
         checkboxTerms.isEnabled = false
+        dataPrivacyTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        checkboxDataPrivacy.isEnabled = false
 
         updatePasswordRequirements(passwordEditText.text.toString())
 
@@ -78,6 +84,10 @@ class SignUp : AppCompatActivity() {
 
         termsTextView.setOnClickListener {
             showTermsAndConditionsDialog()
+        }
+
+        dataPrivacyTextView.setOnClickListener {
+            showDataPrivacyDialog()
         }
 
         loginLink.setOnClickListener {
@@ -124,7 +134,10 @@ class SignUp : AppCompatActivity() {
                 showToast(this, "Password cannot be empty")
             } else if (!checkboxTerms.isChecked) {
                 showToast(this, "Please accept the terms and conditions")
-            } else {
+            } else if (!checkboxDataPrivacy.isChecked) {
+                showToast(this, "Please review and accept the Data Privacy Policy")
+            }
+            else {
                 if (validateObject.ValidatePassword(password)) {
                     // Check if the email exists before sending OTP
                     checkIfEmailExists(email, name, password)
@@ -292,6 +305,52 @@ class SignUp : AppCompatActivity() {
             }
             .show()
     }
+
+    private fun showDataPrivacyDialog() {
+        val dataPrivacyMessage = """
+        <b>Data Conforme for FormFix</b><br><br>
+        
+        <b>Consent</b><br>
+        By accepting, you consent to the collection, use, and management of your personal data, including its recording, updating, retrieval, and deletion, in accordance with our privacy policies and applicable laws.<br><br>
+        
+        <b>1. Information We Collect</b><br>
+        At FormFix, we believe in minimal data collection. The information we collect includes your email address, which is used for account creation and communications, and your username, which helps personalize your app experience. Additionally, the app collects workout performance data, such as repetition counts and form correction percentages.<br><br>
+        
+        <b>Key Points:</b><br>
+        The BMI calculator does not store or collect any data. We do not collect payment information or location data. Camera access is used solely for workout form analysis.<br><br>
+        
+        <b>2. How We Use Your Information</b><br>
+        Your data is used exclusively to enhance your workout experience. Specifically, we use it to provide real-time form correction, generate workout reports, track performance improvement, and send essential app updates.<br><br>
+        
+        <b>Our Privacy Commitments:</b><br>
+        We will never sell your personal information. Your data remains confidential and is not shared with third parties. We do not use your data for unauthorized marketing.<br><br>
+        
+        <b>3. Data Protection</b><br>
+        All personal data is encrypted. You have secure and private access to your data, which is processed locally for form analysis. We also ensure continuous security updates.<br><br>
+        
+        <b>4. Your Privacy Rights</b><br>
+        You have the right to be informed about how your data is used, to access and update your information, and to request deletion of your data. You may also object to data processing or withdraw your consent at any time. These rights are protected under Republic Act No. 10173, the Data Privacy Act of 2012, and its Implementing Rules and Regulations.<br><br>
+        
+        <b>Contact Us</b><br>
+        If you have any questions, please reach out to us via email at formfixteam@gmail.com. We typically respond within 48 hours.<br><br>
+        
+        By accepting, you understand and agree to our data handling practices.
+    """.trimIndent()
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Data Conforme")
+            .setMessage(Html.fromHtml(dataPrivacyMessage, Html.FROM_HTML_MODE_LEGACY))
+            .setPositiveButton("Accept") { dialog, _ ->
+                checkboxDataPrivacy.isChecked = true
+                dialog.dismiss()
+            }
+            .setNegativeButton("Decline") { dialog, _ ->
+                checkboxDataPrivacy.isChecked = false
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 
     private fun registerUser(name: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
