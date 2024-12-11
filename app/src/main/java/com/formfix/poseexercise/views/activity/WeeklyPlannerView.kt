@@ -2,6 +2,8 @@ package com.formfix.poseexercise
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -93,7 +95,9 @@ class WeeklyPlannerView : AppCompatActivity() {
 
         // Initialize views from dialog
         val spinnerExName = dialogView.findViewById<Spinner>(R.id.edtExNameUpd)
-        val spinnerReps = dialogView.findViewById<Spinner>(R.id.repsSpinUpd)
+        val repsInput = dialogView.findViewById<EditText>(R.id.repsInputUpd)
+        val btnIncrease = dialogView.findViewById<ImageButton>(R.id.increaseButtonUpd)
+        val btnDecrease = dialogView.findViewById<ImageButton>(R.id.decreaseButtonUpd)
         val btnSave = dialogView.findViewById<Button>(R.id.saveBtnUpd)
         val btnBack = dialogView.findViewById<ImageView>(R.id.backBtnUpd)
 
@@ -109,15 +113,39 @@ class WeeklyPlannerView : AppCompatActivity() {
             spinnerExName.setSelection(currentExIndex)
         }
 
-        // Setup reps spinner
-        val repsArray = (1..100).map { it.toString() }
-        val repsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, repsArray)
-        repsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerReps.adapter = repsAdapter
+        // Set current reps
+        repsInput.setText(intent.getStringExtra("exReps") ?: "1")
 
-        // Set current reps selection
-        val currentReps = intent.getStringExtra("exReps")?.toIntOrNull() ?: 1
-        spinnerReps.setSelection(currentReps - 1)
+        repsInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty() || s.toString().toIntOrNull() == 0) {
+                    repsInput.setText("1")
+                    repsInput.setSelection(repsInput.text.length) // Move cursor to the end
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        // Increase Button Logic
+        btnIncrease.setOnClickListener {
+            val currentReps = repsInput.text.toString().toIntOrNull() ?: 1
+            if (currentReps < 100) {
+                repsInput.setText((currentReps + 1).toString())
+            }
+        }
+
+        // Decrease Button Logic
+        btnDecrease.setOnClickListener {
+            val currentReps = repsInput.text.toString().toIntOrNull() ?: 1
+            if (currentReps > 1) {
+                repsInput.setText((currentReps - 1).toString())
+            }
+        }
+
+
 
         dialog.setView(dialogView)
         val alertDialog = dialog.create()
@@ -125,14 +153,22 @@ class WeeklyPlannerView : AppCompatActivity() {
         alertDialog.show()
 
         btnSave.setOnClickListener {
-            val updatedExercise = mapOf(
-                "exId" to exId,
-                "exName" to spinnerExName.selectedItem.toString(),
-                "exReps" to spinnerReps.selectedItem.toString()
-            )
+            val reps = repsInput.text.toString().toIntOrNull() ?: 0
 
-            updateExerciseData(exId, updatedExercise)
-            alertDialog.dismiss()
+            if (reps == 0) {
+                // Delete the exercise if reps is 0
+                deleteRecord(exId)
+                alertDialog.dismiss()
+            } else {
+                val updatedExercise = mapOf(
+                    "exId" to exId,
+                    "exName" to spinnerExName.selectedItem.toString(),
+                    "exReps" to reps.toString()
+                )
+
+                updateExerciseData(exId, updatedExercise)
+                alertDialog.dismiss()
+            }
         }
 
         btnBack.setOnClickListener {
@@ -167,7 +203,7 @@ class WeeklyPlannerView : AppCompatActivity() {
                 if (existingExerciseId != null) {
                     // Combine exercises
                     val newReps = exerciseData["exReps"]?.toIntOrNull() ?: 0
-                    val combinedReps = minOf(existingReps + newReps, 100)
+                    val combinedReps = minOf(existingReps + newReps, 999)
 
                     // Update existing exercise
                     val updatedExercise = mapOf(

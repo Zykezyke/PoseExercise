@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
@@ -19,9 +21,12 @@ class WeeklyPlannerAdd : AppCompatActivity() {
 
     private lateinit var backBtn: ImageView
     private lateinit var exerciseSpinner: Spinner
-    private lateinit var repsSpin: Spinner
+
+    private lateinit var repsInput: EditText
     private lateinit var saveButton: Button
     private lateinit var selectedDay: String
+    private lateinit var increaseButton: ImageButton
+    private lateinit var decreaseButton: ImageButton
     private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +38,14 @@ class WeeklyPlannerAdd : AppCompatActivity() {
         // Initialize views
         backBtn = findViewById(R.id.backBtn3)
         exerciseSpinner = findViewById(R.id.edtExName) // We'll modify the layout to change EditText to Spinner
-        repsSpin = findViewById(R.id.repsSpin)
+        increaseButton = findViewById(R.id.increaseButton)
+        decreaseButton = findViewById(R.id.decreaseButton)
+        repsInput = findViewById(R.id.repsInput)
         saveButton = findViewById(R.id.saveBtn)
 
         Log.d("WeeklyPlanner", "Add - Received selected day: $selectedDay")
 
+        repsInput.setText("1");
         setupDatabaseReference()
         setupSpinners()
         setupClickListeners()
@@ -63,12 +71,6 @@ class WeeklyPlannerAdd : AppCompatActivity() {
         val exerciseAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, exerciseNames)
         exerciseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         exerciseSpinner.adapter = exerciseAdapter
-
-        // Setup reps spinner
-        val numArray = (1..100).toList()
-        val repsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numArray)
-        repsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        repsSpin.adapter = repsAdapter
     }
 
     private fun setupClickListeners() {
@@ -81,11 +83,26 @@ class WeeklyPlannerAdd : AppCompatActivity() {
         saveButton.setOnClickListener {
             saveExercise()
         }
+
+        increaseButton.setOnClickListener {
+            val currentValue = repsInput.text.toString().toIntOrNull() ?: 0
+            if (currentValue < 999) {
+                repsInput.setText((currentValue + 1).toString())
+            }
+        }
+
+        // Decrease button logic
+        decreaseButton.setOnClickListener {
+            val currentValue = repsInput.text.toString().toIntOrNull() ?: 0
+            if (currentValue > 1) {
+                repsInput.setText((currentValue - 1).toString())
+            }
+        }
     }
 
     private fun saveExercise() {
         val exerciseName = exerciseSpinner.selectedItem.toString()
-        val newReps = repsSpin.selectedItemPosition.inc()
+        val newReps = repsInput.text.toString().toIntOrNull() ?: 1
 
         databaseReference.get().addOnSuccessListener { snapshot ->
             var existingExerciseId: String? = null
@@ -103,7 +120,7 @@ class WeeklyPlannerAdd : AppCompatActivity() {
 
             if (existingExerciseId != null) {
                 // Calculate combined reps, capped at 100
-                val combinedReps = minOf(existingReps + newReps, 100)
+                val combinedReps = minOf(existingReps + newReps, 999)
 
                 // Update existing exercise with new reps
                 val updatedExercise = Exercises(existingExerciseId!!, exerciseName, combinedReps.toString())
