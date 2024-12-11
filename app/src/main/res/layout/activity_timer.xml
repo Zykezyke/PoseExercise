@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?background"
+    android:contentDescription="@null"
     tools:context=".Timer">
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,10 +65,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed"
+            android:minHeight="48dp"
             android:padding="12dp"
-            android:text="CHANGE DURATION"
+            android:text="Change duration"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -103,10 +106,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed"
+            android:minHeight="48dp"
             android:padding="12dp"
-            android:text="PAUSE"
+            android:text="Pause"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 

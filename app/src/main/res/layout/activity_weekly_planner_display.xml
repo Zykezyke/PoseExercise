@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?background"
+    android:contentDescription="@null"
     android:elevation="5dp"
     tools:context=".WeeklyPlannerDisplay">
 
@@ -36,7 +37,7 @@
 
         <ImageView
             android:id="@+id/backBtn1"
-            android:layout_width="47dp"
+            android:layout_width="48dp"
             android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +91,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="SUNDAY"
+                        android:text="Sunday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -119,7 +120,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="MONDAY"
+                        android:text="Monday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -158,7 +159,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="TUESDAY"
+                        android:text="Tuesday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -186,7 +187,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="WEDNESDAY"
+                        android:text="Wednesday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -225,7 +226,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="THURSDAY"
+                        android:text="Thursday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -253,7 +254,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="FRIDAY"
+                        android:text="Friday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -291,7 +292,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:elevation="10dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:text="SATURDAY"
+                        android:text="Saturday"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />

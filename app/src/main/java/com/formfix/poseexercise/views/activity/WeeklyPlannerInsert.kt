@@ -51,7 +51,7 @@ class WeeklyPlannerInsert : AppCompatActivity() {
         exRecyclerView = findViewById(R.id.wpRecycler)
         selectedDay = intent.getStringExtra("SELECTED_DAY") ?: "Sunday"
         val txtDay = findViewById<TextView>(R.id.txtDay)
-        txtDay.text = selectedDay.uppercase()
+        txtDay.text = selectedDay
 
         dataList = arrayListOf()
         adapter = ExerciseAdapter(dataList, emptyList(), selectedDay)

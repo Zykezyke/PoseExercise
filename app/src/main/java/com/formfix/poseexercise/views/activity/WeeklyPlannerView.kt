@@ -27,7 +27,7 @@ class WeeklyPlannerView : AppCompatActivity() {
 
         selectedDay = intent.getStringExtra("SELECTED_DAY") ?: "Sunday"
         val txtDay = findViewById<TextView>(R.id.txtDay)
-        txtDay.text = selectedDay.uppercase()
+        txtDay.text = selectedDay
 
         initializeViews()
         setValuesToView()

@@ -10,8 +10,9 @@
 
     <ImageView
         android:id="@+id/backBtn4"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="50dp"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
@@ -35,7 +36,7 @@
             android:fontFamily="@font/antonio"
             android:text="Day"
             android:textColor="?android:titleTextAppearance"
-            android:textSize="34dp"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +64,7 @@
                 android:fontFamily="@font/antonio"
                 android:text="Exercise Name:"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvExName"
@@ -73,7 +74,7 @@
                 android:fontFamily="@font/antonio"
                 android:text="Test"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="40dp" />
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/tvRepsTitle"
@@ -83,7 +84,7 @@
                 android:fontFamily="@font/antonio"
                 android:text="Repetitions:"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvReps"
@@ -93,7 +94,7 @@
                 android:fontFamily="@font/antonio"
                 android:text="Test"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="40dp" />
+                android:textSize="40sp" />
 
 
         </LinearLayout>
@@ -116,7 +117,7 @@
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="#3C628F"
                 android:fontFamily="@font/roboto_condensed"
-                android:text="EDIT"
+                android:text="Edit"
                 android:textColor="?textAppearanceButton"
                 android:textStyle="bold" />
 
@@ -126,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#3C628F"
                 android:fontFamily="@font/roboto_condensed"
-                android:text="DELETE"
+                android:text="Delete"
                 android:textColor="?textAppearanceButton"
                 android:textStyle="bold" />
         </LinearLayout>

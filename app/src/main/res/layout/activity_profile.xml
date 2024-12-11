@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_condensed"
-            android:text="EMAIL"
+            android:text="Email"
             android:textColor="?android:textColorSecondary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_condensed"
-            android:text="NAME"
+            android:text="Name"
             android:textColor="?android:textColorSecondary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -79,7 +79,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_condensed"
-            android:text="PASSWORD"
+            android:text="Password"
             android:textColor="?android:textColorSecondary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -164,7 +164,7 @@
             android:fontFamily="@font/roboto_condensed"
             android:gravity="center"
             android:paddingBottom="6dp"
-            android:text="EDIT"
+            android:text="Edit"
             android:textColor="?textAppearanceButton"
             android:textStyle="bold" />
 
@@ -175,7 +175,7 @@
             android:layout_marginBottom="5dp"
             android:backgroundTint="#3C628F"
             android:fontFamily="@font/roboto_condensed"
-            android:text="VIEW STATISTICS"
+            android:text="View statistics"
             android:textColor="?textAppearanceButton"
             android:textStyle="bold" />
 
@@ -186,7 +186,7 @@
             android:layout_marginBottom="5dp"
             android:backgroundTint="#3C628F"
             android:fontFamily="@font/roboto_condensed"
-            android:text="DEACTIVATE ACCOUNT"
+            android:text="Deactivate account"
             android:textColor="?textAppearanceButton"
             android:textStyle="bold" />
     </LinearLayout>

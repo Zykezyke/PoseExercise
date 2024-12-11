@@ -10,8 +10,9 @@
 
     <ImageView
         android:id="@+id/backBtn2"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="50dp"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
@@ -35,7 +36,7 @@
             android:fontFamily="@font/antonio"
             android:text="Day"
             android:textColor="?android:titleTextAppearance"
-            android:textSize="34dp"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

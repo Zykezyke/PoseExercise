@@ -11,8 +11,9 @@
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="50dp"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
@@ -62,8 +63,10 @@
             android:layout_marginBottom="5dp"
             android:backgroundTint="#3C628F"
             android:fontFamily="@font/roboto_condensed"
-            android:text="PROFILE"
+            android:minHeight="48dp"
+            android:text="Profile"
             android:textColor="?textAppearanceButton"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
@@ -72,11 +75,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_condensed"
             android:backgroundTint="#3C628F"
-            android:text="ABOUT US"
-            android:textStyle="bold"
-            android:textColor="?textAppearanceButton"/>
+            android:fontFamily="@font/roboto_condensed"
+            android:text="About us"
+            android:textColor="?textAppearanceButton"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/privacyPolicyCard"
@@ -84,11 +88,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_condensed"
             android:backgroundTint="#3C628F"
-            android:text="PRIVACY POLICY"
-            android:textStyle="bold"
-            android:textColor="?textAppearanceButton"/>
+            android:fontFamily="@font/roboto_condensed"
+            android:text="Privacy policy"
+            android:textColor="?textAppearanceButton"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="330dp"
@@ -107,10 +112,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:text="TOGGLE DARK MODE"
+                android:height="48dp"
                 android:fontFamily="@font/roboto_condensed"
-                android:textStyle="bold"
-                android:textColor="?textAppearanceButton"/>
+                android:text="Toggle dark mode"
+                android:textColor="?textAppearanceButton"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
         <Button
@@ -121,9 +128,10 @@
             android:layout_marginBottom="5dp"
             android:backgroundTint="#3C628F"
             android:fontFamily="@font/roboto_condensed"
-            android:text="NOTIFICATION SETTINGS"
-            android:textStyle="bold"
-            android:textColor="?textAppearanceButton"/>
+            android:text="Notification settings"
+            android:textColor="?textAppearanceButton"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/cameraPermissionCard"
@@ -133,21 +141,22 @@
             android:layout_marginBottom="5dp"
             android:backgroundTint="#3C628F"
             android:fontFamily="@font/roboto_condensed"
-            android:text="SET CAMERA PERMISSION"
-            android:textStyle="bold"
+            android:text="Set camera permission"
             android:textColor="?textAppearanceButton"
-            />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/logoutCard"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/roboto_condensed"
             android:backgroundTint="#3C628F"
-            android:text="LOGOUT"
-            android:textStyle="bold"
-            android:textColor="?textAppearanceButton"/>
+            android:fontFamily="@font/roboto_condensed"
+            android:text="Logout"
+            android:textColor="?textAppearanceButton"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

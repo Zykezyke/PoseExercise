@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/antonio"
-                    android:text="EXERCISE NAME"
+                    android:text="Exercise name"
                     android:textColor="?android:textColorSecondary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -67,10 +67,11 @@
                 <Spinner
                     android:id="@+id/edtExNameUpd"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="32dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/custom_input"
+                    android:minHeight="48dp"
                     android:textAlignment="center" />
 
                 <TextView
@@ -87,26 +88,28 @@
                 <Spinner
                     android:id="@+id/repsSpinUpd"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/custom_input"
+                    android:minHeight="48dp"
                     android:textAlignment="center"
                     android:textColor="?android:textColorSecondary" />
 
 
                 <Button
                     android:id="@+id/saveBtnUpd"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="10dp"
                     android:backgroundTint="#3C628F"
                     android:fontFamily="@font/roboto_condensed"
-                    android:text="SAVE"
+                    android:minWidth="320dp"
+                    android:text="Save"
                     android:textColor="?textAppearanceButton"
                     android:textStyle="bold" />
             </LinearLayout>

@@ -125,11 +125,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="35dp"
+            android:backgroundTint="#3C628F"
             android:fontFamily="@font/roboto_condensed"
-            android:text="WORKOUT WITH PLAN"
+            android:text="Workout with plan"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:backgroundTint="#3C628F"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

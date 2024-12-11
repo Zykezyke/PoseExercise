@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#3C628F"
                 android:fontFamily="@font/roboto_condensed"
-                android:text="BACK"
+                android:text="Back"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

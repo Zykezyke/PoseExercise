@@ -22,16 +22,17 @@
                 android:id="@+id/backBtnUser"
                 android:layout_width="34dp"
                 android:layout_height="37dp"
+                android:contentDescription="@null"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
             <TextView
                 android:id="@+id/txtChangeUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?android:titleTextAppearance"
                 android:fontFamily="@font/antonio"
-                android:text="EDIT USERNAME"
+                android:text="Edit Username"
                 android:textAlignment="center"
+                android:textColor="?android:titleTextAppearance"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -42,23 +43,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_condensed"
-            android:text="NEW USERNAME"
+            android:text="New username"
             android:textAlignment="center"
             android:textColor="?android:textColorSecondary"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etNewUsername"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/custom_input"
             android:fontFamily="@font/roboto_condensed"
+            android:hint="Username"
             android:inputType="text"
             android:maxLength="20"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textAlignment="center"
-            android:textSize="15dp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/saveBtnUser"
@@ -66,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:backgroundTint="#3C628F"
-            android:text="SAVE"
+            android:text="Save"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
