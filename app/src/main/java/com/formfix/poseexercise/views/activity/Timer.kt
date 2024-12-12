@@ -80,7 +80,7 @@ class Timer : AppCompatActivity() {
 
         updateTimerText()
 
-        pauseButtonText.text = "START"
+        pauseButtonText.text = "Start"
     }
 
     private fun initializeViews() {
@@ -133,7 +133,7 @@ class Timer : AppCompatActivity() {
                 timeLeftInMillis = originalTime
                 updateTimerText()
                 pauseButton.isEnabled = true
-                pauseButtonText.text = "START"
+                pauseButtonText.text = "Start"
                 countDownTimer?.cancel()
                 isTimerRunning = false
             }
@@ -180,7 +180,7 @@ class Timer : AppCompatActivity() {
 
             override fun onFinish() {
                 isTimerRunning = false
-                pauseButtonText.text = "START"
+                pauseButtonText.text = "Start"
                 timeLeftInMillis = originalTime
                 updateTimerText()
                 playTimerFinishSound()
@@ -190,7 +190,7 @@ class Timer : AppCompatActivity() {
         }.start()
 
         isTimerRunning = true
-        pauseButtonText.text = "PAUSE"
+        pauseButtonText.text = "Pause"
     }
 
     private fun saveWorkoutResult() {
@@ -215,7 +215,7 @@ class Timer : AppCompatActivity() {
     private fun pauseTimer() {
         countDownTimer?.cancel()
         isTimerRunning = false
-        pauseButtonText.text = "RESUME"
+        pauseButtonText.text = "Resume"
     }
 
     private fun updateTimerText() {

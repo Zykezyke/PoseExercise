@@ -40,7 +40,7 @@ class AutomatedUITest {
         // Launch the app
         val context = ApplicationProvider.getApplicationContext<Context>()
         val intent =
-            context.packageManager.getLaunchIntentForPackage("com.example.poseexercise")?.apply {
+            context.packageManager.getLaunchIntentForPackage("com.formfix.poseexercise")?.apply {
                 // Clear out any previous instances
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
@@ -48,7 +48,7 @@ class AutomatedUITest {
 
         // wait until the app'sUI displays
         device.wait(
-            Until.hasObject(By.pkg("com.example.poseexercise").depth(0)),
+            Until.hasObject(By.pkg("com.formfix.poseexercise").depth(0)),
             5000
         )
     }
@@ -56,13 +56,13 @@ class AutomatedUITest {
     @Test
     fun onBoardingTest() {
         // Wait until the onboarding fragment displays or time out after 10s
-        device.wait(Until.hasObject(By.res("com.example.poseexercise:id/onboardingLayout")),10000)
+        device.wait(Until.hasObject(By.res("com.formfix.poseexercise:id/onboardingLayout")),10000)
         // Click on the next button
-        device.findObject(By.res("com.example.poseexercise:id/nextButton")).click()
+        device.findObject(By.res("com.formfix.poseexercise:id/nextButton")).click()
         // Wait until the second onboarding fragment displays or time out after 10s
         onView(withText("Elevate Your Workout Experience")).check(matches(isDisplayed()))
         // Click on the next button
-        device.findObject(By.res("com.example.poseexercise:id/nextButton")).click()
+        device.findObject(By.res("com.formfix.poseexercise:id/nextButton")).click()
         // Wait until the third onboarding fragment displays or time out after 10s
         onView(withText("Hassle-Free Repetition Tracking")).check(matches(isDisplayed()))
     }
